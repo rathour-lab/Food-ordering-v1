@@ -9,8 +9,7 @@ function App() {
 
   return (
     <>
-    <div> hello</div>
-    <div className=''> hello world</div>
+   
     </>
   )
 }
