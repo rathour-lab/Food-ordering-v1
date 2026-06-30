@@ -10,7 +10,7 @@ function App() {
   return (
     <>
     <div> hello</div>
-    <div> hello world</div>
+    <div className=''> hello world</div>
     </>
   )
 }
