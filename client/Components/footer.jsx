@@ -1,111 +1,219 @@
-import React from 'react'
+import { Link } from "react-router-dom";
+import {
+    FaFacebookF,
+    FaInstagram,
+    FaWhatsapp,
+    FaMapMarkerAlt,
+    FaPhoneAlt,
+    FaEnvelope,
+    FaArrowRight,
+} from "react-icons/fa";
+import logo from '../src/assets/logo.png'
 
-const Footer = () => {
-  return (
-    <>
-      <div className='bg-[#072b31] px-5 md:px-16 lg:px-26 pt-18  w-full h-screen'>
-        <div className='md:flex  '>
-          <div className='flex-1'>
-            <div className='lg:flex lg:justify-between lg:pr-6 space-x-19 md:border-r border-r-[#ccc] pb-26'>
-              <div className='w-full md:w-60  '>
-                <img src="https://foodu-react.vercel.app/assets/img/logo-3.png" className='h-15 ' alt="" />
+export default function Footer() {
+    return (
+        <footer className="relative overflow-hidden mt-16 -mb-2 bg-[#F5E9D7] text-[#1F1A17] px-5 sm:px-8 md:px-10 lg:px-16 xl:px-20">
+            <div className="max-w-7xl mx-auto py-12 sm:py-14 lg:py-16 relative z-10">
 
-                <p className='py-6  font-medium text-[#ccc]'>Discover culinary delights recipes and  inspiration in our food haven.</p>
+                {/* GRID */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
 
-                <div className='flex justify-between border-b border-b-white/50'>
-                  <p className='font-medium text-white py-4 '>MON - FRI</p><span className='font-medium text-white self-center text-sm'>8:00 AM - 6:00 PM</span>
+                    {/* BRAND */}
+                    <div>
+
+                       <div className="flex items-center gap-3 mb-5 flex-wrap">
+                            {/* LOGO */}
+                            <div className="relative w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-white/20 flex items-center justify-center overflow-hidden">
+
+                                <img
+                                    src={`${logo}`}
+                                    alt="Cake Academy"
+                                    className="w-full h-full object-cover"
+                                />
+
+                            </div>
+
+                            {/* TEXT */}
+                            <div>
+
+                              <h2 className="text-2xl sm:text-3xl font-black text-[#ff8800] leading-none">
+                                Hunger Town</h2>
+
+
+
+                            </div>
+
+                        </div>
+
+                        {/* DESCRIPTION */}
+                        <p className="text-[#1F1A17] text-sm leading-7 max-w-md">
+                        Hunger Town brings your favorite meals from the best local restaurants
+                            straight to your doorstep. Fresh, delicious, and delivered fast whenever
+                            hunger strikes.
+                        </p>
+
+
+
+                    </div>
+
+                    {/* QUICK LINKS */}
+                    <div>
+
+                        <h3 className="text-lg font-bold mb-6 text-[#ff8800]">
+                            Quick Links
+                        </h3>
+
+                       <ul className="space-y-3 text-[#1F1A17]">
+                            {[
+                                ["Home", "/"],
+                                ["About", "/about"],
+                                ["Courses", "/courses"],
+                                ["Gallery", "/gallery"],
+                                ["Contact", "/contact"],
+                            ].map(([name, path]) => (
+
+                                <li key={name}>
+
+                                    <Link
+                                        to={path}
+                                        className="group flex items-center gap-3 hover:text-[#ff8800] transition-all duration-300"
+                                    >
+
+                                        <FaArrowRight className="text-xs group-hover:translate-x-1 transition duration-300" />
+
+                                        {name}
+
+                                    </Link>
+
+                                </li>
+
+                            ))}
+
+                        </ul>
+
+                    </div>
+
+                    
+                    {/* CONTACT */}
+                    <div>
+
+                        <h3 className="text-lg font-bold mb-6 text-[#ff8800]">
+                            Contact Info
+                        </h3>
+
+                        <div className="space-y-5 text-[#1F1A17]">
+
+                            {/* LOCATION */}
+                           
+
+                            {/* PHONE */}
+                           <div className="flex items-start gap-3 sm:gap-4">
+                                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex items-center justify-center flex-shrink-0">
+
+                                    <FaPhoneAlt className="text-[#ff8800]" />
+
+                                </div>
+
+                                <div>
+
+                                    <p className="text-black font-semibold">
+                                        Phone
+                                    </p>
+
+                                    <a
+                                        href="tel:+917087831409"
+                                        className="text-sm mt-1 inline-block hover:text-[#ff8800] transition-all duration-300"
+                                    >
+                                        +91 7087831409
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                            {/* EMAIL */}
+                            <div className="flex items-start gap-4">
+
+                                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex items-center justify-center flex-shrink-0">
+
+                                    <FaEnvelope className="text-[#ff8800]" />
+
+                                </div>
+
+                                <div>
+
+                                    <p className="text-black font-semibold">
+                                        Email
+                                    </p>
+
+                                    <a
+                                        href="mailto:cakeacdofchd@gmail.com"
+                                       className="text-sm mt-1 inline-block break-all hover:text-[#ff8800]"
+                                    >
+                                        HungerTown@gmail.com
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {/* SOCIALS */}
+                        <div className="flex flex-wrap gap-4 mt-8">
+
+                            {/* FACEBOOK */}
+                            <a
+                                href="https://www.facebook.com/share/1EDBCVXLVg/?mibextid=wwXIfr"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-[#1F4E9D] transition-all duration-300 hover:-translate-y-1"
+                            >
+                                <FaFacebookF />
+                            </a>
+
+                            {/* INSTAGRAM */}
+                            <a
+                                href="https://www.instagram.com/cakeacademyofchd?igsh=NGVlMW5hMGY3ejY2&utm_source=qr"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-pink-500 hover:text-[#2B2521] transition-all duration-300 hover:-translate-y-1"
+                            >
+                                <FaInstagram />
+                            </a>
+
+                            {/* WHATSAPP */}
+                            <a
+                                href="https://wa.me/917087831409"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-green-500 transition-all duration-300 hover:-translate-y-1"
+                            >
+                                <FaWhatsapp />
+                            </a>
+
+                        </div>
+
+                    </div>
+
                 </div>
-                <div className='flex justify-between'>
-                  <p className='font-medium text-white py-4 '>SATURDAY</p><span className='font-medium text-white self-center text-sm'>8:00 AM - 6:00 PM</span>
-                </div>
-              </div>
 
-              <div className='block md:hidden lg:block'>
-                <div className='text-white text-xl font-bold pt-6 lg:pt-1 md:pb-5 lg:pb-0'>Explore</div>
-                <ul className='pt-5'>
-                  <li className='text-[#ccc] py-2 hover:text-white'><a href="">Home</a></li>
-                  <li className='text-[#ccc] py-2 hover:text-white'><a href="">Menu</a></li>
-                  <li className='text-[#ccc] py-2 hover:text-white'><a href="">Reservation</a></li>
-                </ul>
-              </div>
+                {/* BOTTOM */}
+                <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#B8ADA3]">
 
-              <div>
-                <div className='text-white text-xl font-bold pt-6 lg:pt-1 pb-8  md:pb-5'>Contect Info</div>
+                    <p className="text-center md:text-left leading-6">
+                        © {new Date().getFullYear()} Cake Academy Of Chandigarh.
+                        All rights reserved.
+                    </p>
 
-                <div className='space-x-3 flex pb-5'>
-                  <svg className='size-6 self-center text-[#ccc]' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                  </svg>
+                    <p className="text-center md:text-right">
+                        Crafted with passion for Cravers
+                    </p>
 
-                  <p className='text-[#ccc] hover:text-white'><a href="">175 10h Street, Office 375 Berlin, De 21562</a></p>
                 </div>
 
-                <div className='space-x-3 flex pb-5'>
-                  <svg className='size-6 self-center text-[#ccc] ' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
-                  </svg>
-
-                  <p className='text-[#ccc] hover:text-white'><a href="">+123 34598768</a></p>
-                </div>
-
-                <div className='space-x-3 flex pb-5'>
-                  <svg className='size-6 self-center text-[#ccc]' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                  </svg>
-
-                  <p className='text-[#bcb9b9] hover:text-white'><a href="">food@gamil.com</a></p>
-                </div>
-
-              </div>
             </div>
 
-          </div>
-
-
-
-        <div className=' md:px-10 lg:ps-5'>
-
-         <div className='hidden md:block lg:hidden'>
-                <div className='text-white text-xl font-bold pt-6 md:pb-5'>Explore</div>
-                <ul className='pt-3'>
-                  <li className='text-[#ccc] py-2 hover:text-white'><a href="">Home</a></li>
-                  <li className='text-[#ccc] py-2 hover:text-white'><a href="">Menu</a></li>
-                  <li className='text-[#ccc] py-2 hover:text-white'><a href="">Reservation</a></li>
-                </ul>
-              </div>
-
-          <div className='text-white text-2xl font-bold pb-5 pt-0 md:pt-7 lg:pt-0'>Newsletter</div>
-          <p className='py-2  font-medium text-[#ccc] w-full lg:w-74'>Join our subscribers list to get the latest  news and special offers.</p>
-          <input className='text-[#ccc] border-b pb-3 outline-0 w-full md:w-66 py-5' required type="text" placeholder='Your Email' /><br />
-          <button className='font-medium text-white bg-red-700 hover:bg-white hover:text-red-700 rounded-lg mt-3 w-full lg:w-66 cursor-pointer md:px-25 py-3'>Subscribr</button>
-          <div className='block md:hidden lg:block flex py-6 md:py-3'>
-            <div className='text-white text-lg font-bold pb-5 py-4'>Social Meida : </div>
-          <div className='flex  self-center px-2 space-x-2'>
-              <a href=""><img className='size-10 rounded-full' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUwTR_35iOPD0jq1ap6s3fRkweQ0WPC8ohyfWN4dgwTFKRUkzBOB43-lE&s=10" alt="" /></a>
-            <a href=""><img className='size-10 rounded-full' src="https://img.magnific.com/free-vector/instagram-logo_1199-122.jpg?semt=ais_hybrid&w=740&q=80" alt="" /></a>
-            <a href=""><img className='size-10 rounded-full' src="https://img.magnific.com/free-psd/social-media-logo-design_23-2151296989.jpg?semt=ais_hybrid&w=740&q=80" alt="" /></a>
-
-          </div>
-          </div>
-
-           <div className='hidden md:block lg:hidden  py-6 md:py-3'>
-            <div className='text-white text-lg font-bold pb-5 py-4'>Social Meida : </div>
-          <div className='flex lg:flex self-center px-2 space-x-2'>
-              <a href=""><img className='size-10 rounded-full' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUwTR_35iOPD0jq1ap6s3fRkweQ0WPC8ohyfWN4dgwTFKRUkzBOB43-lE&s=10" alt="" /></a>
-            <a href=""><img className='size-10 rounded-full' src="https://img.magnific.com/free-vector/instagram-logo_1199-122.jpg?semt=ais_hybrid&w=740&q=80" alt="" /></a>
-            <a href=""><img className='size-10 rounded-full' src="https://img.magnific.com/free-psd/social-media-logo-design_23-2151296989.jpg?semt=ais_hybrid&w=740&q=80" alt="" /></a>
-
-          </div>
-          </div>
-        </div>
-        </div>
-        <div className='py-6 lg:w-[972px] lg:border-r border-t border-[#ccc] ' >
-              <div className='text-center text-[#ccc] font-medium'>© Copyright 2026 Foodu. All Rights Reserved</div>
-            </div>
-      </div>
-    </>
-  )
+        </footer>
+    );
 }
-
-export default Footer
