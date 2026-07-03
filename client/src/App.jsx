@@ -10,6 +10,8 @@ import Menu from '../Components/Menu'
 import Reservation from '../Components/Reservation'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/footer'
+import Admin from '../Components/Admin-menu'
+
 
 
 function App() {
