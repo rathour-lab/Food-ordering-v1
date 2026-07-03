@@ -3,14 +3,17 @@ import Hero from '../src/assets/hero.png'
 import chicken from '../src/assets/chickenicon.png'
 import burger from '../src/assets/burgericon.png'
 import Herochutteny from '../src/assets/herochutteny.png'
+import Menu from '../Components/Menu'
+import About from '../Components/About'
+
 const Home = () => {
   return (
-    
+    <>
       <div className="relative h-full bg-cover bg-center  mx-auto bg-[#fff8dd] "
       >
    <div className='px-5 sm:px-8 md:px-10 lg:px-16 transition-all duration-300'>
 
-          <div className=' w-full flex flex-col md:flex md:flex-row md:items-center md:justify-between mt-10'>
+          <div className=' w-full flex flex-col md:flex md:flex-row md:items-center md:justify-between '>
             <div className='space-y-4 flex-1'>
 
               <div className=' text-5xl font-bold tracking-wide leading-12 '>
@@ -100,6 +103,9 @@ const Home = () => {
 </div>
         </div>
         </div>
+        <Menu />
+              <About/>
+              </>
   )
 }
 
