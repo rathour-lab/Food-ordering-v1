@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Menu" element={<Menupage />} />
-        
+
         <Route path="/Reservations" element={<Reservation />} />
       </Routes>
       
