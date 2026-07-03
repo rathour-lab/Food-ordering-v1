@@ -1,30 +1,50 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Menu = () => {
   const [item, setItem] = useState([])
   const [addedItems, setAddedItems] = useState([]);
-
+  const [showCard,setShowCard]= useState(4)
+  const navigate=useNavigate();
+  
   useEffect(() => {
+const updateCards = ()=>{
+if (window.innerWidth >=1023) {
+  setShowCard(8)
+}
+else if (window.innerWidth >= 640) {
+  setShowCard(6)
+}
+else{
+  setShowCard(4)
+}};
+    
+updateCards();
 
+window.addEventListener("resize", updateCards);
+ 
 
-    async function getMenu() {
-      let response = await fetch('http://localhost:3000/Menu');
-      let data = await response.json();
-      setItem(data);
-      console.log(data);
+async function getMenu() {
+  let response = await fetch('http://localhost:3000/Menu');
+  let data = await response.json();
+  setItem(data);
+  console.log(data);
+  
+}
+getMenu();
 
-    }
-    getMenu();
-  }, [])
+return()=> window.removeEventListener("resize", updateCards);
+}, [])
+  console.log(window.innerWidth);
 
   const handleAddToCart = (id) => {
   setAddedItems((prev) => [...prev, id]);
 };
   return (
     <>
-    <div className='bg-[#e8e8e8] pb-14 transition-all duration-500'>
+    <div className='bg-[#fff8dd]  transition-all duration-500'>
       <div className="text-center py-12  px-6">
   <p className="text-orange-500 font-semibold uppercase tracking-[4px]">
     Our Menu
@@ -43,8 +63,8 @@ const Menu = () => {
   <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full mt-6"></div>
 </div>
       <div className='py-16 pb-10 grid grid-cols-1 grid-rows-4 sm:grid-cols-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-2 gap-18 md:gap-14 md:pb-5 px-6  lg:px-22 lg:pb-15 '>
-        {item.map((food) => {
-          return <div key={food._id} className="bg-[#f3f3f3] rounded-2xl pt-18 md:pt-14 pb-5 md:mb-5 relative px-5 shadow-md hover:shadow-2xl hover:-translate-y-3 hover:rotate-1 transition-all duration-350">
+        {item.slice(0,showCard).map((food) => {
+          return <div key={food._id} className="bg-[#f3f3f3] rounded-2xl pt-18 md:pt-14 pb-8 space-y-5 md:mb-5 relative px-5 shadow-md hover:shadow-2xl hover:-translate-y-3 hover:rotate-1 transition-all duration-350">
             <div className='object-contain'>
 
             <img src={`${food.image}`} alt="" className="px-22 sm:px-16 md:px-10 lg:px-12 h-35 absolute inset-0 -top-12 transition-transform duration-300 hover:scale-105"/>
@@ -63,8 +83,8 @@ const Menu = () => {
           </div>
         })}
       </div>
-      <div className=' flex justify-center items-center '>
-        <button className="bg-[#39364b] hover:cursor-pointer text-white px-8 py-3 rounded-full border-2 border-[#39364b] hover:bg-transparent hover:text-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-105">
+      <div className=' flex justify-center items-center  pt-5 '>
+        <button na className="bg-[#39364b] hover:cursor-pointer text-white px-8 py-3 rounded-full border-2 border-[#39364b] hover:bg-transparent hover:text-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-105" onClick={()=>navigate('/Menu')}>
   🍽️ Explore Full Menu
 </button></div>
 </div>
