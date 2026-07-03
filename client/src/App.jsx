@@ -23,18 +23,17 @@ function App() {
       >
 
         <Navbar />
-       
-      <Home />
-</div>
+
+        <Home />
+      </div>
 
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/Menu" element={<Menupage />} />
-        
+
         <Route path="/Reservations" element={<Reservation />} />
       </Routes>
       <Menu />
-      <About/>
+      <About />
       <Footer />
 
 

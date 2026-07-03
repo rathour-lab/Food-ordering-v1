@@ -31,6 +31,7 @@ function Menupage() {
                     <button className='bg-[#ff8800] px-4 py-2 rounded-xl text-white hover:cursor-pointer hover:bg-[#ff8800]/80 transition-all duration-300 hover:scale-105'>Combo deals</button>
                   </div>
     
+    
                 </div>
     
                 <div className='flex-1'>
