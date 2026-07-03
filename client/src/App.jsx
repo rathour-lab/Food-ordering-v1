@@ -19,11 +19,13 @@ function App() {
 
   return (
     <>
+      <div className="relative h-full bg-cover bg-center  mx-auto bg-[#fff8dd] "
+      >
 
         <Navbar />
        
       <Home />
-
+</div>
 
       <Routes>
         <Route path="/" element={<Home />} />

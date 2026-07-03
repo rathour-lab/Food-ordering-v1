@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../src/assets/logo.png";
 import menu from "../src/assets/menu.png";
 
@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`sticky top-0 z-50 transition-all duration-500 ${
+      className={`bg-[#fff8dd] sticky top-0 z-50 transition-all duration-500 ${
         scrolled ? "px-0" : "px-5 sm:px-8 lg:px-10 pt-4"
       }`}
     >
@@ -42,7 +42,7 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <ul className="hidden md:flex gap-10 text-black font-medium text-xl">
-          <Link to="/">
+          <Link to="/" className={({ isActive }) => isActive ? "text-blue-500" : "text-gray-900"}>
             <li className="hover:text-[#ff8800] transition">Home</li>
           </Link>
 
