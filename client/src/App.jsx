@@ -11,6 +11,7 @@ import Navbar from '../Components/Navbar'
 import Footer from '../Components/footer'
 
 import Menupage from '../Components/Menu-page'
+import Adminpage from '../Components/adminpage'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/Menu" element={<Menupage />} />
 
         <Route path="/Reservations" element={<Reservation />} />
+        <Route path="/Admin" element={<Adminpage />} />
       </Routes>
       
       <Footer />

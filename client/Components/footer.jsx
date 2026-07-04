@@ -1,219 +1,251 @@
 import { Link } from "react-router-dom";
 import {
-    FaFacebookF,
-    FaInstagram,
-    FaWhatsapp,
-    FaMapMarkerAlt,
-    FaPhoneAlt,
-    FaEnvelope,
-    FaArrowRight,
+  FaFacebookF,
+  FaInstagram,
+  FaWhatsapp,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaArrowRight,
 } from "react-icons/fa";
-import logo from '../src/assets/logo.png'
 
+import logo from "../src/assets/logo.png";
+import pizza from '../src/assets/pizza.png'
 export default function Footer() {
-    return (
-        <footer className="relative overflow-hidden mt-16 -mb-2 bg-[#F5E9D7] text-[#1F1A17] px-5 sm:px-8 md:px-10 lg:px-16 xl:px-20">
-            <div className="max-w-7xl mx-auto py-12 sm:py-14 lg:py-16 relative z-10">
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Menu", path: "/Menu" },
+    { name: "Reservations", path: "/Reservations" },
+  ];
 
-                {/* GRID */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
+  return (
+    <footer className="relative bg-[#1B1612] text-white ">
 
-                    {/* BRAND */}
-                    <div>
+      
+      <div className="absolute left-1/2 -top-30 sm:-top-24 -translate-x-1/2 w-[92%] max-w-7xl z-20">
 
-                       <div className="flex items-center gap-3 mb-5 flex-wrap">
-                            {/* LOGO */}
-                            <div className="relative w-14 h-14 rounded-2xl bg-white/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-white/20 flex items-center justify-center overflow-hidden">
+        <div className="bg-linear-to-r from-orange-500 via-[#ff8800] to-amber-500 rounded-[30px] shadow-[0_25px_60px_rgba(0,0,0,.35)] px-8 py-8 lg:px-14 lg:pt-20 lg:pb-10">
 
-                                <img
-                                    src={`${logo}`}
-                                    alt="Cake Academy"
-                                    className="w-full h-full object-cover"
-                                />
-
-                            </div>
-
-                            {/* TEXT */}
-                            <div>
-
-                              <h2 className="text-2xl sm:text-3xl font-black text-[#ff8800] leading-none">
-                                Hunger Town</h2>
-
-
-
-                            </div>
-
-                        </div>
-
-                        {/* DESCRIPTION */}
-                        <p className="text-[#1F1A17] text-sm leading-7 max-w-md">
-                        Hunger Town brings your favorite meals from the best local restaurants
-                            straight to your doorstep. Fresh, delicious, and delivered fast whenever
-                            hunger strikes.
-                        </p>
-
-
-
-                    </div>
-
-                    {/* QUICK LINKS */}
-                    <div>
-
-                        <h3 className="text-lg font-bold mb-6 text-[#ff8800]">
-                            Quick Links
-                        </h3>
-
-                       <ul className="space-y-3 text-[#1F1A17]">
-                            {[
-                                ["Home", "/"],
-                                ["About", "/about"],
-                                ["Courses", "/courses"],
-                                ["Gallery", "/gallery"],
-                                ["Contact", "/contact"],
-                            ].map(([name, path]) => (
-
-                                <li key={name}>
-
-                                    <Link
-                                        to={path}
-                                        className="group flex items-center gap-3 hover:text-[#ff8800] transition-all duration-300"
-                                    >
-
-                                        <FaArrowRight className="text-xs group-hover:translate-x-1 transition duration-300" />
-
-                                        {name}
-
-                                    </Link>
-
-                                </li>
-
-                            ))}
-
-                        </ul>
-
-                    </div>
-
-                    
-                    {/* CONTACT */}
-                    <div>
-
-                        <h3 className="text-lg font-bold mb-6 text-[#ff8800]">
-                            Contact Info
-                        </h3>
-
-                        <div className="space-y-5 text-[#1F1A17]">
-
-                            {/* LOCATION */}
-                           
-
-                            {/* PHONE */}
-                           <div className="flex items-start gap-3 sm:gap-4">
-                                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex items-center justify-center flex-shrink-0">
-
-                                    <FaPhoneAlt className="text-[#ff8800]" />
-
-                                </div>
-
-                                <div>
-
-                                    <p className="text-black font-semibold">
-                                        Phone
-                                    </p>
-
-                                    <a
-                                        href="tel:+917087831409"
-                                        className="text-sm mt-1 inline-block hover:text-[#ff8800] transition-all duration-300"
-                                    >
-                                        +91 7087831409
-                                    </a>
-
-                                </div>
-
-                            </div>
-
-                            {/* EMAIL */}
-                            <div className="flex items-start gap-4">
-
-                                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl flex items-center justify-center flex-shrink-0">
-
-                                    <FaEnvelope className="text-[#ff8800]" />
-
-                                </div>
-
-                                <div>
-
-                                    <p className="text-black font-semibold">
-                                        Email
-                                    </p>
-
-                                    <a
-                                        href="mailto:cakeacdofchd@gmail.com"
-                                       className="text-sm mt-1 inline-block break-all hover:text-[#ff8800]"
-                                    >
-                                        HungerTown@gmail.com
-                                    </a>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        {/* SOCIALS */}
-                        <div className="flex flex-wrap gap-4 mt-8">
-
-                            {/* FACEBOOK */}
-                            <a
-                                href="https://www.facebook.com/share/1EDBCVXLVg/?mibextid=wwXIfr"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-[#1F4E9D] transition-all duration-300 hover:-translate-y-1"
-                            >
-                                <FaFacebookF />
-                            </a>
-
-                            {/* INSTAGRAM */}
-                            <a
-                                href="https://www.instagram.com/cakeacademyofchd?igsh=NGVlMW5hMGY3ejY2&utm_source=qr"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-pink-500 hover:text-[#2B2521] transition-all duration-300 hover:-translate-y-1"
-                            >
-                                <FaInstagram />
-                            </a>
-
-                            {/* WHATSAPP */}
-                            <a
-                                href="https://wa.me/917087831409"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-green-500 transition-all duration-300 hover:-translate-y-1"
-                            >
-                                <FaWhatsapp />
-                            </a>
-
-                        </div>
-
-                    </div>
-
+          <div className="relative flex flex-col lg:flex-row justify-between items-center gap-8">
+                <div className=" absolute -top-42">
+                    <img className="h-52" src={`${pizza}`} alt="" />
                 </div>
+            <div>
 
-                {/* BOTTOM */}
-                <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#B8ADA3]">
+             
 
-                    <p className="text-center md:text-left leading-6">
-                        © {new Date().getFullYear()} Cake Academy Of Chandigarh.
-                        All rights reserved.
-                    </p>
-
-                    <p className="text-center md:text-right">
-                        Crafted with passion for Cravers
-                    </p>
-
-                </div>
+              <p className="text-orange-100 mt-3 max-w-xl leading-7">
+                Fresh meals, amazing taste, and lightning-fast delivery.
+                Order your favourite dishes today and enjoy every bite.
+              </p>
 
             </div>
 
-        </footer>
-    );
+            <div className="flex flex-wrap gap-4">
+
+              <button className="bg-white text-orange-600 px-7 py-3 rounded-full font-semibold shadow-lg hover:scale-105 transition duration-300">
+                Order Now
+              </button>
+
+              <button className="border border-white text-white px-7 py-3 rounded-full hover:bg-white hover:text-orange-600 transition duration-300">
+                View Menu
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-44 pb-12">
+
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-14">
+
+       
+
+          <div>
+
+            <div className="flex items-center gap-4">
+
+              <div className="w-16 h-16 rounded-2xl bg-white overflow-hidden shadow-xl">
+
+                <img
+                  src={logo}
+                  alt="Hunger Town"
+                  className="w-full h-full object-cover"
+                />
+
+              </div>
+
+              <div>
+
+                <h2 className="text-3xl font-black text-orange-400">
+                  Hunger Town
+                </h2>
+
+                <p className="text-sm text-gray-400 mt-1">
+                  Delicious Delivered Fast
+                </p>
+
+              </div>
+
+            </div>
+
+            <p className="mt-7 text-gray-400 leading-8">
+              Hunger Town connects you with the best local restaurants,
+              delivering hot and delicious meals directly to your doorstep.
+              Great food. Fast delivery. Happy moments.
+            </p>
+
+          </div>
+
+          
+
+          <div>
+
+            <h3 className="text-2xl font-bold mb-8">
+              Navigation
+            </h3>
+
+            <ul className="space-y-5">
+
+              {navLinks.map((item) => (
+
+                <li key={item.name}>
+
+                  <Link
+                    to={item.path}
+                    className="group flex items-center gap-3 text-gray-300 hover:text-orange-400 transition"
+                  >
+
+                    <FaArrowRight className="group-hover:translate-x-1 transition duration-300" />
+
+                    {item.name}
+
+                  </Link>
+
+                </li>
+
+              ))}
+
+            </ul>
+
+          </div>
+                    
+
+          <div>
+
+            <h3 className="text-2xl font-bold mb-8">
+              Contact
+            </h3>
+
+            <div className="space-y-6">
+
+              
+
+              <div className="flex items-start gap-4">
+
+                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10">
+                  <FaPhoneAlt className="text-orange-400" />
+                </div>
+
+                <div>
+
+                  <p className="font-semibold">
+                    Phone
+                  </p>
+
+                  <a
+                    href="tel:+917087831409"
+                    className="text-gray-400 hover:text-orange-400 transition"
+                  >
+                    +91 70878 31409
+                  </a>
+
+                </div>
+
+              </div>
+
+             
+
+              <div className="flex items-start gap-4">
+
+                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10">
+                  <FaEnvelope className="text-orange-400" />
+                </div>
+
+                <div>
+
+                  <p className="font-semibold">
+                    Email
+                  </p>
+
+                  <a
+                    href="mailto:hungertown@gmail.com"
+                    className="text-gray-400 hover:text-orange-400 transition break-all"
+                  >
+                    hungertown@gmail.com
+                  </a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+           
+
+            <div className="flex gap-4 mt-10">
+
+              <a
+                href="#"
+                className="group w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-orange-500 hover:-translate-y-1 transition-all duration-300"
+              >
+                <FaFacebookF className="group-hover:scale-110 transition" />
+              </a>
+
+              <a
+                href="#"
+                className="group w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-pink-500 hover:-translate-y-1 transition-all duration-300"
+              >
+                <FaInstagram className="group-hover:scale-110 transition" />
+              </a>
+
+              <a
+                href="#"
+                className="group w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-green-500 hover:-translate-y-1 transition-all duration-300"
+              >
+                <FaWhatsapp className="group-hover:scale-110 transition" />
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div className="border-t border-white/10 mt-16 pt-8">
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5">
+
+            <p className="text-gray-500 text-center md:text-left">
+              © {new Date().getFullYear()} <span className="text-orange-400 font-semibold">Hunger Town</span>. All Rights Reserved.
+            </p>
+
+            <p className="text-gray-500 text-center">
+              Crafted with
+              <span className="text-red-500 mx-2 text-lg">❤</span>
+              for Food Lovers
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </footer>
+  );
 }

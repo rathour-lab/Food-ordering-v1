@@ -1,15 +1,17 @@
 import React from 'react'
+import { FaArrowRight, FaFire } from "react-icons/fa";
+
 import Hero from '../src/assets/hero.png'
 import chicken from '../src/assets/chickenicon.png'
 import burger from '../src/assets/burgericon.png'
 import Herochutteny from '../src/assets/herochutteny.png'
 import Menu from '../Components/Menu'
 import About from '../Components/About'
-
+import pizza from '../src/assets/pizza.png'
 const Home = () => {
   return (
     <>
-      <div className="relative h-full bg-cover bg-center  mx-auto bg-[#fff8dd] "
+      <div className="relative h-full bg-cover bg-center  mx-auto bg-[#fff8dd] pb-10"
       >
    <div className='px-5 sm:px-8 md:px-10 lg:px-16 transition-all duration-300'>
 
@@ -25,32 +27,84 @@ const Home = () => {
                 Crafted with fresh ingredients and packed with unforgettable flavors, every
                 meal at Hunger Town is prepared to satisfy your cravings.
               </p>
-              <div className='flex space-x-4'>
 
-                <button className='bg-black text-white px-4 py-2 rounded-xl hover:cursor-pointer hover:bg-black/90 hover:rounded-2xl transition-all duration-300 hover:scale-105'>Grab your order</button>
-                
-                <button className='bg-[#ff8800] px-4 py-2 rounded-xl text-white hover:cursor-pointer hover:bg-[#ff8800]/80 transition-all duration-300 hover:scale-105'>Combo deals</button>
-              </div>
+<div className=" flex flex-wrap items-center gap-4">
+
+  {/* Primary Button */}
+  <button
+    className="
+      group flex items-center gap-3
+      bg-black text-white
+      px-7 py-3 rounded-full
+      font-semibold tracking-wide
+      shadow-lg shadow-black/20
+      transition-all duration-300
+      hover:bg-neutral-900
+      hover:shadow-2xl hover:-translate-y-1
+      active:scale-95
+      focus:outline-none focus:ring-4 focus:ring-black/20
+      cursor-pointer
+    "
+  >
+    Grab Your Order
+
+    <FaArrowRight
+      className="
+        transition-transform duration-300
+        group-hover:translate-x-1
+      "
+    />
+  </button>
+
+  {/* Secondary Button */}
+  <button
+    className="
+      group flex items-center gap-3
+      bg-gradient-to-r from-orange-500 to-amber-500
+      text-white
+      px-7 py-3 rounded-full
+      font-semibold tracking-wide
+      shadow-lg shadow-orange-400/40
+      transition-all duration-300
+      hover:from-orange-600 hover:to-amber-600
+      hover:shadow-2xl hover:-translate-y-1
+      active:scale-95
+      focus:outline-none focus:ring-4 focus:ring-orange-300
+      cursor-pointer
+    "
+  >
+    <FaFire
+      className="
+        text-lg
+        transition-transform duration-300
+        group-hover:rotate-12 group-hover:scale-125
+      "
+    />
+
+    Combo Deals
+  </button>
+
+</div>
 
             </div>
 
-            <div className='flex-1'>
+            <div className='mt-4 flex-1'>
               <img className='h-100 mt-16 hidden md:inline-block' src={`${Hero}`} alt="" />
             </div>
           </div>
-         <div className="pb-10 mt-4 flex flex-col lg:flex-row items-center justify-between  gap-8 lg:gap-10">
+         <div className="pb-10 mt-4 relative flex flex-col lg:flex-row items-center justify-between  gap-8 lg:gap-10">
 
   
-  <div className="hidden lg:flex justify-center shrink-0">
+  <div className="absolute hidden lg:flex shrink-0">
     <img
-      src={Herochutteny}
+      src={pizza}
       alt="Chutney"
-      className="w-60  h-auto"
+      className=" w-75 xl:w-95  h-auto"
     />
   </div>
 
   
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6  w-full lg:w-fit">
+  <div className="md:mt-4 grid grid-cols-1 sm:grid-cols-2 lg:flex lg:justify-end gap-6  w-full lg:gap-4">
 
    
     <div className="flex items-center bg-white p-5 rounded-2xl shadow-md lg:w-fit hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
