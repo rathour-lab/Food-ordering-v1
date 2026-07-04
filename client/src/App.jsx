@@ -9,6 +9,7 @@ import Reservation from '../Components/Reservation'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/footer'
 import Menupage from '../Pages/MenuPage'
+import Adminpage from '../Components/adminpage'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<HomeSection />} />
         <Route path="/Menu" element={<Menupage />} />
         <Route path="/Reservations" element={<Reservation />} />
+        <Route path="/Admin" element={<Adminpage />} />
       </Routes>
       <Footer />
     </>
