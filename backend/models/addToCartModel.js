@@ -1,6 +1,6 @@
 const mongoose  = require('mongoose')
 
-const foodMenuSchema=mongoose.Schema({
+const addToCartSchema=mongoose.Schema({
     name:{
         type:String
     },
@@ -17,9 +17,9 @@ const foodMenuSchema=mongoose.Schema({
         type:String,
         required:true
     },
-    isAvailable:{
-        type:Boolean
+    quantity:{
+        type:Number,
     }
 });
 
-module.exports=mongoose.model('foodMenuSchema',foodMenuSchema)
+module.exports=mongoose.model('addToCartSchema',addToCartSchema)

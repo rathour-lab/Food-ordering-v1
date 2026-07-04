@@ -62,12 +62,12 @@ return()=> window.removeEventListener("resize", updateCards);
 
   <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full mt-6"></div>
 </div>
-      <div className='py-16 pb-10 grid grid-cols-1 grid-rows-4 sm:grid-cols-2 md:grid-cols-3 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-2 gap-18 md:gap-14 md:pb-5 px-6  lg:px-22 lg:pb-15 '>
+      <div className='py-16 pb-10 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4  gap-18 md:gap-14 md:pb-5 px-6  lg:px-22 lg:pb-15 '>
         {item.slice(0,showCard).map((food) => {
           return <div key={food._id} className="bg-[#f3f3f3] rounded-2xl pt-18 md:pt-14 pb-8 space-y-5 md:mb-5 relative px-5 shadow-md hover:shadow-2xl hover:-translate-y-3 hover:rotate-1 transition-all duration-350">
             <div className='object-contain'>
 
-            <img src={`${food.image}`} alt="" className="px-22 sm:px-16 md:px-10 lg:px-12 h-35 absolute inset-0 -top-12 transition-transform duration-300 hover:scale-105"/>
+            <img src={`${food.image}`} alt="" className="px-26 sm:px-16 md:px-10 lg:px-12 h-38 absolute inset-0 -top-12 transition-transform duration-300 hover:scale-105"/>
             </div>
             <div className='space-y-2'>
               <h1 className='pt-12 md:pt-8 font-extrabold text-xl text-[#39364b]'>{food.name}</h1>
