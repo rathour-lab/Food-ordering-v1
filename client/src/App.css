@@ -190,3 +190,12 @@ p{
    font-family: "Nunito", sans-serif;
   
 }
+@keyframes loading {
+  0%{
+    width:0%;
+  }
+
+  100%{
+    width:100%;
+  }
+}
