@@ -5,15 +5,14 @@ import Hero from '../src/assets/hero.png'
 import chicken from '../src/assets/chickenicon.png'
 import burger from '../src/assets/burgericon.png'
 import Herochutteny from '../src/assets/herochutteny.png'
-import Menu from '../Components/Menu'
-import About from '../Components/About'
+
 import pizza from '../src/assets/pizza.png'
 const Home = () => {
   return (
     <>
       <div className="relative h-full bg-cover bg-center  mx-auto bg-[#fff8dd] pb-10"
       >
-   <div className='px-5 sm:px-8 md:px-10 lg:px-16 transition-all duration-300'>
+   <div className='px-5 sm:px-15 md:px-15 lg:px-26 transition-all duration-300'>
 
           <div className=' w-full flex flex-col md:flex md:flex-row md:items-center md:justify-between '>
             <div className='space-y-4 flex-1'>
@@ -88,8 +87,8 @@ const Home = () => {
 
             </div>
 
-            <div className='mt-4 flex-1'>
-              <img className='h-100 mt-16 hidden md:inline-block' src={`${Hero}`} alt="" />
+            <div className='mt-4  flex-1 lg:flex ms-20'>
+              <img className='h-100 mt-16  hidden md:inline-block' src={`${Hero}`} alt="" />
             </div>
           </div>
          <div className="pb-10 mt-4 relative flex flex-col lg:flex-row items-center justify-between  gap-8 lg:gap-10">
@@ -157,8 +156,7 @@ const Home = () => {
 </div>
         </div>
         </div>
-        <Menu />
-              <About/>
+        
               </>
   )
 }

@@ -1,66 +1,85 @@
 import React, { useState, useEffect } from "react";
-import { FaUserShield } from "react-icons/fa";
+import { FaCar, FaClock, FaUserShield } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
 
 import logo from "../src/assets/logo.png";
 import menu from "../src/assets/menu.png";
+import { FaClipboardCheck, FaUtensils, FaCheckCircle } from "react-icons/fa";
+
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [cartitem, setCartitem] = useState(0);
-  const [cart, setCart] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const [cartitem, setCartitem] = useState(0);
+    const [cart, setCart] = useState(false); 
+    const [status, setStatus] = useState(true);
+    const [sidebar, setSidebar] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
+    const orderStatus = [
+        {
+            title: "Order Placed",
+            icon: <FaClipboardCheck />,
+        },
+        {
+            title: "Preparing",
+            icon: <FaUtensils />,
+        },
+        {
+            title: "Out for Delivery",
+            icon: <FaCar />,
+        },
+        {
+            title: "Delivered",
+            icon: <FaCheckCircle />,
+        },
+    ];
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 30);
+        };
 
-    window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
-  return (
-    <div
-      className={`sticky top-0 z-50 bg-[#fff8dd] transition-all duration-500 ${
-        scrolled
-          ? "px-0"
-          : "px-3 sm:px-5 md:px-8 lg:px-10 pt-3 md:pt-4"
-      }`}
-    >
-      <nav
-        className={`flex items-center justify-between bg-[#F8F1E7] py-2 transition-all duration-500 ${
-          scrolled
-            ? "rounded-none shadow-2xl"
-            : "rounded-2xl shadow-lg"
-        } px-4 sm:px-6 md:px-8 lg:px-16`}
-      >
-        <div className="-ml-2 sm:-ml-4 md:-ml-7">
-          <img
-            className="h-14 sm:h-16 md:h-20 w-auto rounded-full"
-            src={logo}
-            alt="logo"
-          />
-        </div>
+    return (
+        <div
+            className={`sticky top-0 z-50 bg-[#fff8dd] transition-all duration-500 ${scrolled
+                ? "px-0"
+                : "px-3 sm:px-5 md:px-8 lg:px-10 pt-3 md:pt-4"
+                }`}
+        >
+            <nav
+                className={`flex items-center justify-between bg-[#F8F1E7] py-2 transition-all duration-500 ${scrolled
+                    ? "rounded-none shadow-2xl"
+                    : "rounded-2xl shadow-lg"
+                    } px-4 sm:px-6 md:px-8 lg:px-16`}
+            >
+                <div className="-ml-2 sm:-ml-4 md:-ml-7">
+                    <img
+                        className="h-14 sm:h-16 md:h-20 w-auto rounded-full"
+                        src={logo}
+                        alt="logo"
+                    />
+                </div>
 
-        <ul className="hidden md:flex items-center gap-5 lg:gap-8 text-lg font-semibold">
+                <ul className="hidden md:flex items-center gap-5 lg:gap-8 text-lg font-semibold">
 
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `relative group transition-all duration-300 ${
-                isActive ? "text-[#ff8800]" : "text-gray-800"
-              }`
-            }
-          >
-            <li className="py-2 hover:scale-105 transition-transform duration-300">
-              Home
-            </li>
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            `relative group transition-all duration-300 ${isActive ? "text-[#ff8800]" : "text-gray-800"
+                            }`
+                        }
+                    >
+                        <li className="py-2 hover:scale-105 transition-transform duration-300">
+                            Home
+                        </li>
 
-            <span
-              className="
+                        <span
+                            className="
               absolute left-0 -bottom-1
               h-[3px] w-0
               bg-[#ff8800]
@@ -68,23 +87,22 @@ const Navbar = () => {
               transition-all duration-300
               group-hover:w-full
             "
-            ></span>
-          </NavLink>
+                        ></span>
+                    </NavLink>
 
-          <NavLink
-            to="/Menu"
-            className={({ isActive }) =>
-              `relative group transition-all duration-300 ${
-                isActive ? "text-[#ff8800]" : "text-gray-800"
-              }`
-            }
-          >
-            <li className="py-2 hover:scale-105 transition-transform duration-300">
-              Menu
-            </li>
+                    <NavLink
+                        to="/Menu"
+                        className={({ isActive }) =>
+                            `relative group transition-all duration-300 ${isActive ? "text-[#ff8800]" : "text-gray-800"
+                            }`
+                        }
+                    >
+                        <li className="py-2 hover:scale-105 transition-transform duration-300">
+                            Menu
+                        </li>
 
-            <span
-              className="
+                        <span
+                            className="
               absolute left-0 -bottom-1
               h-[3px] w-0
               bg-[#ff8800]
@@ -92,23 +110,22 @@ const Navbar = () => {
               transition-all duration-300
               group-hover:w-full
             "
-            ></span>
-          </NavLink>
+                        ></span>
+                    </NavLink>
 
-          <NavLink
-            to="/Reservations"
-            className={({ isActive }) =>
-              `relative group transition-all duration-300 ${
-                isActive ? "text-[#ff8800]" : "text-gray-800"
-              }`
-            }
-          >
-            <li className="py-2 hover:scale-105 transition-transform duration-300">
-              Reservations
-            </li>
+                    <NavLink
+                        to="/Reservations"
+                        className={({ isActive }) =>
+                            `relative group transition-all duration-300 ${isActive ? "text-[#ff8800]" : "text-gray-800"
+                            }`
+                        }
+                    >
+                        <li className="py-2 hover:scale-105 transition-transform duration-300">
+                            Reservations
+                        </li>
 
-            <span
-              className="
+                        <span
+                            className="
               absolute left-0 -bottom-1
               h-[3px] w-0
               bg-[#ff8800]
@@ -116,122 +133,188 @@ const Navbar = () => {
               transition-all duration-300
               group-hover:w-full
             "
-            ></span>
-          </NavLink>
+                        ></span>
+                    </NavLink>
 
-        </ul>
 
-        <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+                    <button onClick={() => setStatus(!status)}
+                        className="relative
+                        flex items-center
+                        gap-2
+                        px-5
+                        py-2
+                        rounded-full
+                        bg-white
+                        border-2
+                        border-orange-300
+                        text-orange-400
+                         hover:text-orange-600
+                        hover:cursor-pointer
+                        transition  "
+                    >
+                        <FaClipboardCheck />
+                        Status
 
-          <div className="flex items-center gap-3 md:gap-4">
-<div className="relative">
+                        <span className={`absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500 ${cartitem !== 0 ? 'animate-ping' : 'animate-none'}`}></span>
+                        <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500"></span>
+                        <div className={`${status ? 'hidden' : 'block'} absolute w-60   text-black top-15 py-5 px-5 flex flex-col justify-center right-0`}>
+                            <div className="bg-white rounded-2xl shadow-lg p-6 w-70 ">
+                                <h2 className="text-xl font-bold mb-6 text-gray-800">
+                                    Order Status
+                                </h2>
 
-  <div className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold flex items-center justify-center">
-    {cartitem}
-  </div>
+                                {orderStatus.map((item, index) => (
+                                    <div key={index} className="flex items-start gap-4 relative pb-1 last:pb-0">
 
-  <div
-    className={`absolute top-12 right-0 md:-right-12 lg:-right-24
+                                        {/* Timeline */}
+                                        <div className="flex flex-col items-center">
+                                            <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                                {item.icon}
+                                            </div>
+
+                                            {index !== orderStatus.length - 1 && (
+                                                <div className="w-[2px] h-12 bg-orange-300 mt-1"></div>
+                                            )}
+                                        </div>
+
+                                        {/* Text */}
+                                        <div>
+                                            <h3 className="font-semibold text-gray-800">
+                                                {item.title}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </button>
+                </ul>
+
+                <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+
+                    <div className="flex items-center gap-3 md:gap-4">
+                        <div className="relative">
+
+                            <div className="absolute z-10 -top-2 -right-2 h-5 w-5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold flex items-center justify-center">
+                                {cartitem}
+                            </div>
+
+                            <div
+                                className={`absolute top-18.5 right-0 md:-right-12 lg:-right-30
     w-[90vw] sm:w-80 max-w-sm
     bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden
     z-50 transition-all duration-300
     ${cart ? "block" : "hidden"}`}
-  >
-    {cartitem === 0 ? (
-      <>
-        <div className="p-6 flex flex-col items-center">
+                            >
+                                {cartitem === 0 ? (
+                                    <>
+                                        <div className="p-6  flex flex-col items-center">
 
-          <img
-            className="h-24 mb-4 opacity-70"
-            src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
-            alt="Empty Cart"
-          />
+                                            <img
+                                                className="h-24 mb-4 opacity-70"
+                                                src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+                                                alt="Empty Cart"
+                                            />
 
-          <h3 className="text-lg font-semibold text-gray-800">
-            Your Cart is Empty
-          </h3>
+                                            <h3 className="text-lg font-semibold text-gray-800">
+                                                Your Cart is Empty
+                                            </h3>
 
-          <p className="text-sm text-gray-500 text-center mt-2">
-            Looks like you haven't added any delicious food yet.
-          </p>
+                                            <p className="text-sm text-gray-500 text-center mt-2">
+                                                Looks like you haven't added any delicious food yet.
+                                            </p>
 
-        </div>
+                                        </div>
 
-        <div className="border-t p-4">
-          <button
-            className="w-full py-3 rounded-full
+                                        <div className="border-t p-4">
+                                            <button
+                                                className="w-full py-3 rounded-full
             bg-gradient-to-r from-orange-500 to-amber-500
             text-white font-semibold
             hover:from-orange-600 hover:to-amber-600
             transition duration-300"
-          >
-            Browse Menu
-          </button>
-        </div>
-      </>
-    ) : (
-      <div className="p-5">
+                                            >
+                                                Browse Menu
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="p-5">
 
-        <h3 className="text-lg font-semibold mb-4">
-          🛒 Your Cart
-        </h3>
+                                        <h3 className="text-lg font-semibold mb-4">
+                                            🛒 Your Cart
+                                        </h3>
 
-        <div className="flex justify-between items-center border-b pb-3 mb-3">
+                                        <div className="flex justify-between items-center border-b pb-3 mb-3">
 
-          <div>
-            <p className="font-medium">
-              Pizza
-            </p>
+                                            <div>
+                                                <p className="font-medium">
+                                                    Pizza
+                                                </p>
 
-            <p className="text-sm text-gray-500">
-              Qty : 1
-            </p>
-          </div>
+                                                <p className="text-sm text-gray-500">
+                                                    Qty : 1
+                                                </p>
+                                            </div>
 
-          <p className="font-semibold text-orange-500">
-            ₹299
-          </p>
+                                            <p className="font-semibold text-orange-500">
+                                                ₹299
+                                            </p>
 
-        </div>
+                                        </div>
 
-        <div className="flex justify-between font-semibold text-lg mb-4">
-          <span>Total</span>
-          <span>₹299</span>
-        </div>
+                                        <div className="flex justify-between font-semibold text-lg mb-4">
+                                            <span>Total</span>
+                                            <span>₹299</span>
+                                        </div>
 
-        <button
-          className="w-full py-3 rounded-full
+                                        <button
+                                            className="w-full py-3 rounded-full
           bg-gradient-to-r from-orange-500 to-amber-500
           text-white font-semibold
           hover:from-orange-600 hover:to-amber-600
           transition duration-300"
-        >
-          Checkout
-        </button>
+                                        >
+                                            Checkout
+                                        </button>
 
-      </div>
-    )}
-  </div>
+                                    </div>
+                                )}
+                            </div>
 
-  <img
-    onClick={() => setCart(!cart)}
-    className="h-7 sm:h-8 cursor-pointer hover:scale-110 transition duration-300"
-    src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
-    alt="cart"
-  />
+                           <Link to={'/Cart'}>
+                            <img 
+                                onClick={() => setCart(!cart)}
+                                className="h-7 sm:h-8 cursor-pointer hover:scale-110 transition duration-300"
+                                src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
+                                alt="cart"
+                                />
+                                </Link>
 
-</div>
+                        </div>
+                        <div className="relative">
 
-<img
-  className="h-7 sm:h-8 md:hidden cursor-pointer"
-  src={menu}
-  alt="menu"
-/>
+                        <img onClick={()=>setSidebar(!sidebar)}
+                            className="h-7 sm:h-8 md:hidden cursor-pointer"
+                            src={menu}
+                            alt="menu"
+                            />
+                            {!sidebar? (<></>): (<>
+                            
+                            <div className="bg-white absolute top-14 h-screen w-2xs -right-10 transition-all duration-500">
+                                <ul>
+                                    <li>hello</li>
+                                    <li>hello</li>
+                                    <li>hello</li>
+                                    <li>hello</li>
+                                </ul>
+                            </div></>)}
+                            </div>
 
-</div>
-          <Link to="/Admin">
-            <button
-              className="
+                    </div>
+                    <Link to="/Admin">
+                        <button
+                            className="
                 hidden lg:flex items-center gap-2
                 px-6 py-2.5
                 bg-gradient-to-r from-orange-500 to-amber-500
@@ -247,17 +330,17 @@ const Navbar = () => {
                 focus:ring-orange-300
                 cursor-pointer
               "
-            >
-              <FaUserShield className="transition-transform duration-300" />
-              Admin
-            </button>
-          </Link>
-        </div>
-      </nav>
+                        >
+                            <FaUserShield className="transition-transform duration-300" />
+                            Admin
+                        </button>
+                    </Link>
+                </div>
+            </nav>
 
-      
-    </div>
-  );
+
+        </div>
+    );
 };
 
 export default Navbar;

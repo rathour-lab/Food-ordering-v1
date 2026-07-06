@@ -1,5 +1,5 @@
 import React from "react";
-        import { FaArrowRight, FaUtensils } from "react-icons/fa";
+        import { FaArrowRight, FaUtensils,FaCrown } from "react-icons/fa";
 
 import bgimg from "../src/assets/burgerwithonionrings2.jpeg";
 import crown from "../src/assets/icons8-crown-48.png";
@@ -135,37 +135,49 @@ const About = () => {
 
         </div>
       </div>
+      
 
       
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-14">
 
         <div className="border-t border-[#a8a184]/40 pt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          <div className="bg-[#a8a184]/50 rounded-2xl p-6 text-white shadow-md hover:scale-105 duration-300">
-            <img src={crown} alt="" className="w-10 mb-3" />
-            <h3 className="font-bold text-lg mb-2">Premium Quality</h3>
-            <p className="text-sm leading-6">
-              We use only fresh ingredients and carefully selected recipes to
-              create unforgettable dining experiences.
-            </p>
-          </div>
+         <div className="bg-[#FFF8EE] rounded-2xl p-8 border border-orange-100 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+    <FaCrown className="text-4xl text-orange-500 mb-5" />
 
-          <div className="bg-[#a8a184]/50 rounded-2xl p-6 text-white shadow-md hover:scale-105 duration-300">
-            <img src={crown} alt="" className="w-10 mb-3" />
-            <h3 className="font-bold text-lg mb-2">Expert Chefs</h3>
-            <p className="text-sm leading-6">
-              Our chefs bring decades of culinary expertise, blending tradition
+    <h3 className="text-2xl font-bold text-gray-800 mb-3">
+        Premium Quality
+    </h3>
+
+    <p className="text-gray-600 leading-7">
+        We use only fresh ingredients and carefully selected recipes to create unforgettable dining experiences.
+    </p>
+</div>
+
+          <div className="bg-[#FFF8EE] rounded-2xl p-8 border border-orange-100 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+    <FaCrown className="text-4xl text-orange-500 mb-5" />
+   
+    <h3 className="text-2xl font-bold text-gray-800 mb-3">
+       Expert Chefs
+    </h3>
+            <p className="text-gray-600 leading-7">
+       Our chefs bring decades of culinary expertise, blending tradition
               with creativity in every dish.
-            </p>
+    </p>
+            
           </div>
 
-          <div className="bg-[#a8a184]/50 rounded-2xl p-6 text-white shadow-md hover:scale-105 duration-300">
-            <img src={crown} alt="" className="w-10 mb-3" />
-            <h3 className="font-bold text-lg mb-2">Best Dining</h3>
-            <p className="text-sm leading-6">
-              Experience a warm atmosphere, exceptional service, and delicious
+          <div className="bg-[#FFF8EE] rounded-2xl p-8 border border-orange-100 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+    <FaCrown className="text-4xl text-orange-500 mb-5" />
+
+    <h3 className="text-2xl font-bold text-gray-800 mb-3">
+        Best Dinning
+    </h3>
+             <p className="text-gray-600 leading-7">
+       Experience a warm atmosphere, exceptional service, and delicious
               meals that bring family and friends together.
-            </p>
+    </p>
+             
           </div>
 
         </div>

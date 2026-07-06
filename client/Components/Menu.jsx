@@ -2,11 +2,13 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Navbar from './Navbar'
 
 const Menu = () => {
   const [item, setItem] = useState([])
   const [addedItems, setAddedItems] = useState([]);
   const [showCard,setShowCard]= useState(4)
+  const [selectedId,setSelectedId]=useState('')
   const navigate=useNavigate();
   
   useEffect(() => {
@@ -41,6 +43,7 @@ return()=> window.removeEventListener("resize", updateCards);
 
   const handleAddToCart = (id) => {
   setAddedItems((prev) => [...prev, id]);
+  setSelectedId(id)
 };
   return (
     <>
