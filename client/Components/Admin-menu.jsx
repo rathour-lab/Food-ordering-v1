@@ -22,18 +22,17 @@ function Admin() {
         let data= await response.json();
         setFoodDetail(data)
     }
+    
 
 console.log(foodDetail);
     
   return (
     <>
-  <div className="min-h-screen bg-[#e8e8e8] py-12 px-6">
+  <div className="h-screen overflow-y-auto scrollbar-none py-10 px-6 absolute inset-0  backdrop-blur-md mt-12  ">
   <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl p-8">
 
-    <div className="text-center mb-10">
-      <p className="text-orange-500 uppercase tracking-[4px] font-semibold">
-        Admin Panel
-      </p>
+    <div className="text-center mb-8">
+      
 
       <h1 className="text-4xl font-extrabold text-[#39364b] mt-2">
         Add New Food Item
@@ -82,8 +81,8 @@ console.log(foodDetail);
         </label>
 
         <textarea
-          rows="4"
-          className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 resize-none focus:border-orange-500 focus:outline-none"
+          
+          className="w-full border-2 border-gray-200 rounded-xl px-4 py-3  focus:border-orange-500 focus:outline-none"
           value={foodDetail.description}
           onChange={(e)=>setFoodDetail({...foodDetail,description:e.target.value})}
           placeholder="Write food description..."
@@ -95,7 +94,7 @@ console.log(foodDetail);
   onChange={(e) =>
     setFoodDetail({ ...foodDetail, category: e.target.value })
   }
-  className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 focus:border-orange-500 outline-none"
+  className="w-full rounded-xl border-2 border-gray-200 px-4 py-2 focus:border-orange-500 outline-none"
 >
   <option value="">Select Category</option>
   <option>Burger</option>
@@ -107,7 +106,7 @@ console.log(foodDetail);
 </select>
       <div>
         <label className="block mb-2 font-semibold text-[#39364b]">
-          Image URL
+          Image URL ( PNG IMG REQUIRED )
         </label>
 
         <input
@@ -119,19 +118,6 @@ console.log(foodDetail);
         />
       </div>
 
-      <div className="mt-6 flex justify-center">
-  {foodDetail.image ? (
-    <img
-      src={foodDetail.image}
-      alt="Preview"
-      className="w-56 h-56 object-cover rounded-2xl shadow-lg border-4 border-orange-200"
-    />
-  ) : (
-    <div className="w-56 h-56 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center text-gray-400">
-      Image Preview
-    </div>
-  )}
-</div>
 
       <label className="flex items-center cursor-pointer">
   <input

@@ -1,6 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
 import logo from "../src/assets/logo.png";
-import { FaBell, FaUser } from "react-icons/fa";
 
 const Adminpage = () => {
   const navStyle = ({ isActive }) =>
@@ -12,8 +11,9 @@ const Adminpage = () => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-100">
+      
       {/* Top Navbar */}
-      <nav className="h-20 bg-white shadow-md flex items-center justify-between px-8 z-50">
+      <nav className="h-20 bg-white shadow-md flex items-center justify-between px-8 z-50 ">
         <img
           src={logo}
           alt="Logo"
@@ -21,19 +21,27 @@ const Adminpage = () => {
         />
 
         <div className="flex items-center gap-6">
-          <FaBell className="text-2xl cursor-pointer" />
+         <img
+      src="https://img.icons8.com/?size=100&id=11642&format=png&color=FD7E14"
+      alt="Order History"
+      className="w-8 h-8"
+    />
 
           <div className="flex items-center gap-2 cursor-pointer">
-            <FaUser className="text-2xl" />
+            <img
+      src="https://img.icons8.com/?size=100&id=FAYM3LUVoMeE&format=png&color=FD7E14"
+      alt="Order History"
+      className="w-10 h-10"
+    />
             <h3 className="font-medium">Admin Name</h3>
           </div>
         </div>
       </nav>
 
       {/* Main Section */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden px-0">
         {/* Sidebar */}
-        <aside className="w-64 bg-white shadow-md p-5 space-y-3 overflow-y-auto">
+        <aside className="w-50 bg-white shadow-md  space-y-3 p-2 overflow-y-auto">
           <NavLink to="dashboard" className={navStyle}>
             Dashboard
           </NavLink>
@@ -52,7 +60,7 @@ const Adminpage = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>
