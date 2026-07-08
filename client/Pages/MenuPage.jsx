@@ -144,7 +144,7 @@ function Menupage() {
             </div>
           </div>
           <div className=' flex flex-col justify-center items-center space-y-3'>
-            <div className='flex space-x-2 h-20 w-50  items-center'>
+            <div className='flex space-x-2 h-20 w-55  items-center'>
               <div>
 <FaMotorcycle className='h-12 w-12 px-2 py-2 rounded-full bg-gray-100'/>
               </div>

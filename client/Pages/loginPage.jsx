@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import pizza from '../src/assets/pizza.png'
 import logo from "../src/assets/logo.png";
-
-const LoginPage = () => {
+import { FaArrowLeft } from 'react-icons/fa';
+import { redirect, useNavigate } from 'react-router-dom';
+import swal from 'sweetalert2'
+const LoginPage = ({setadminlogin,adminlogin}) => {
+const navigate=useNavigate()
 const [login,setLogin]=useState({
     name:"",
     email:"",
@@ -10,13 +13,58 @@ const [login,setLogin]=useState({
 });
 const [showPassword,setShowPassword]=useState(null)
    
-  const handleSubmit = ()=>{
-    console.log(login);
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+ let response = await fetch('http://localhost:3000/login',{
+  method:'POST',
+  headers:{'Content-Type':'Application/json'},
+  body:JSON.stringify({
+    name:login.name,
+    email:login.email,
+    password:login.password
+  })
+ });
+    let data= await response.json();
+   
+    if (data.token) {
+
+      document.cookie = `token=${data.token}; max-age=60; path=/`;
+       swal.fire({
+    title: "👋 Welcome, Admin!",
+    text: "You have successfully logged in to the Admin Panel.",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+  });
+
+
+ 
+  navigate("/Admin");
+      setadminlogin(!adminlogin)
+    }else{
+      swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: data.message || "Invalid email or password.",
+      confirmButtonColor: "#f97316",
+    });
+    }
+    
+    
     
   }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans antialiased mb-50">
-      <div className="flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-3xl overflow-hidden shadow-2xl m-4 border border-gray-100 min-h-[650px]">
+    <div className="fixed w-full flex items-center justify-center bg-gray-50 font-sans antialiased mb-50">
+      <a
+      title='back to Home'
+   onClick={()=>setadminlogin(!adminlogin)}
+    className=" absolute z-10 top-4 left-6 p-2 bg-gray-200/50 rounded-2xl cursor-pointer font-bold text-orange-400 hover:text-orange-500 transition-colors text-center mt-2"
+  >
+    <FaArrowLeft className='size-8'/>
+  </a>
+
+      <div className=" flex flex-col md:flex-row w-full max-w-6xl bg-white rounded-3xl overflow-hidden shadow-2xl m-4 border border-gray-100 ">
         
         <div className="hidden md:flex md:w-1/2 bg-linear-to-r from-orange-500 via-[#ff8800] to-amber-500 relative flex-col justify-between p-12 text-white overflow-hidden">
           
@@ -134,19 +182,12 @@ const [showPassword,setShowPassword]=useState(null)
   type="submit"
   className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:opacity-95 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-orange-500/20 active:scale-[0.98] transition-all duration-150 text-sm tracking-wide hover:cursor-pointer"
 >
-  Sign In
+  Log In
 </button>
           </form>
 
-        <p className="mt-8 text-center text-sm text-gray-600">
-  New here?{" "}
-  <a
-    href="#signup"
-    className="font-bold text-orange-500 hover:text-orange-600 transition-colors"
-  >
-    Create an Account
-  </a>
-</p>
+        
+  
         </div>
 
       </div>

@@ -1,8 +1,10 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet ,useLocation,Navigate} from "react-router-dom";
 import logo from "../src/assets/logo.png";
 import { FaBell, FaUser } from "react-icons/fa";
 
 const Adminpage = () => {
+
+
   const navStyle = ({ isActive }) =>
     `block px-4 py-3 rounded-lg transition-all duration-200 ${
       isActive
@@ -10,7 +12,16 @@ const Adminpage = () => {
         : "text-gray-700 hover:bg-gray-100 hover:text-orange-500"
     }`;
 
+  const isToken = document.cookie.includes("token=");
+console.log("Cookie:", document.cookie);
+console.log("isToken:", isToken);
+
+  if (!isToken) {
+    return <Navigate to="/" replace />;
+  }
+  
   return (
+
     <div className="h-screen flex flex-col bg-gray-100">
       {/* Top Navbar */}
       <nav className="h-20 bg-white shadow-md flex items-center justify-between px-8 z-50">
@@ -18,7 +29,7 @@ const Adminpage = () => {
           src={logo}
           alt="Logo"
           className="h-14 md:h-16 rounded-full"
-        />
+          />
 
         <div className="flex items-center gap-6">
           <FaBell className="text-2xl cursor-pointer" />
@@ -52,12 +63,14 @@ const Adminpage = () => {
         </aside>
 
         {/* Main Content */}
+
         <main className="flex-1 p-6 overflow-y-auto">
           <Outlet />
         </main>
       </div>
     </div>
   );
+
 };
 
 export default Adminpage;

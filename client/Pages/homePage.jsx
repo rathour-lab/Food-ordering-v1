@@ -3,19 +3,17 @@ import Menu from '../Components/Menu'
 import About from '../Components/About'
 import Home from '../Components/Home'
 import LoginPage from '../Pages/loginPage'
-import CartPage from './cartPage'
+
 import SignUp from '../Pages/SignUp'
+import Admin from '../Components/Admin-menu'
 
-
-function HomeSection() {
+function HomeSection({cartvalue}) {
   return (
     <>
     <Home />
-    <Menu />
+    <Menu cartvalue={cartvalue}/>
     <About/>
-    <CartPage />
-    <SignUp />
-    <LoginPage />
+   <Admin/>
     </>
   )
 }

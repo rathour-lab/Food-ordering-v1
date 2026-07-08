@@ -37,10 +37,10 @@ const About = () => {
         
         <div className="space-y-6 text-center lg:text-left">
 
-          <p className="uppercase tracking-[5px] text-[#ff8800]  font-semibold  ">
+          <div className="uppercase tracking-[5px] text-[#ff8800]  font-semibold  ">
             About Us
            <div className="w-29 h-1 bg-orange-500  rounded-full mt-2 "></div>
-          </p>
+          </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             OUR COMMITMENT TO

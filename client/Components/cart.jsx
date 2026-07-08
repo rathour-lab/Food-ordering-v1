@@ -1,22 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-const Cart = () => {
+const Cart = ({setStatus,statusTrack}) => {
     const [CartItem, setCartItem] = useState([])
     const [itemquantity, setItemquantity] = useState(0)
-
+  const [itemPrice,setItemPrice]=useState()
+let x=[
+  {
+    hello:0
+  }
+]
+  CartItem.map((price)=>{
+    setItemPrice(itemPrice+=price.price)
+  })
+  console.log(CartItem);
+  
     useEffect(() => {
 
         async function getMenu() {
-            let response = await fetch('http://localhost:3000/Menu');
+            let response = await fetch('http://localhost:3000/get-cartItem');
             let data = await response.json();
-            setCartItem(data);
-            console.log(data);
+            setCartItem((prev)=>[...prev,...data]);
+           
 
         }
         getMenu();
 
     }, [])
+    function handelCheckout() {
+      setStatus({
+        ...statusTrack,
+        orderPlaced:true,
+        
+      })
+    }
     return (
        <div className="min-h-screen bg-orange-50 py-10 pb-60 ">
   <div className="max-w-7xl mx-auto px-6 flex flex-col xl:flex-row gap-8">
@@ -47,7 +64,7 @@ const Cart = () => {
             {CartItem.map((item) => (
 
               <tr
-                key={item.id}
+                key={item._id}
                 className="border-b hover:bg-gray-50 transition "
               >
 
@@ -127,7 +144,7 @@ const Cart = () => {
             <span className="text-orange-600">₹999</span>
           </div>
 
-          <button
+          <button onClick={handelCheckout}
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-6"
           >
             Checkout
