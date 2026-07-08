@@ -1,44 +1,57 @@
-const atc=require("../models/addToCartModel");
+const atc = require("../models/addToCartModel");
 
 
 // get atc data
-async function getATC(req,res) {
-    const data=await atc.find();
-    res.json(data)
+let CartData=[];
+async function getATC(req, res) {
+    let data = req.body;
+    CartData.push(data);
+    
+    
+    res.json({
+        data:data,
+        message:'cart item added'
+    })
+    console.log(data);
+    
 };
-
 // post atc data
 
-async function addATC(req,res) {
-   try {
-     const {menuId}=req.body
-    const existingItem = await atc.findOne({ menuId });
-    if (menuId) {
-        res.json(existingItem);
-    }
-    else{
+async function getCartItem(req,res) {
+    
+    res.json(CartData)
+    
+}
+async function addATC(req, res) {
+    try {
+        const { menuId } = req.body
+        const existingItem = await atc.findOne({ menuId });
+        if (menuId) {
+            res.json(existingItem);
+        }
+        else {
+            res.json({
+                message: "ADD "
+            })
+        }
+    } catch (error) {
         res.json({
-            message : "ADD "
-        })
+            message: error.message
+        });
     }
-   } catch (error) {
-    res.json({
-        message:error.message
-    });
-   }
 };
 
 // dlt atc data
 
-async function rejectATC(req,res) {
+async function rejectATC(req, res) {
     try {
         const id = req.params.id;
         await atc.findByIdAndDelete(id)
     } catch (error) {
         res.json({
-        message:error.message
-    });
+            message: error.message
+        });
     }
 };
 
-module.exports={getATC,addATC,rejectATC}
+module.exports = { getATC, addATC, rejectATC,getCartItem }

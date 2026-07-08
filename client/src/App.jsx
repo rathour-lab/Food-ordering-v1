@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -16,13 +16,26 @@ import AdminMenusection from '../Components/AdminMenusection';
 import AdminOrders from '../Components/AdminOrders';
 import AdminReservation from '../Components/AdminReservation';
 import Cart from '../Components/cart'
+import LoginPage from '../Pages/loginPage'
 
 
 function App() {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const [cartitem, setCartitem] = useState(0);
+  const [adminlogin,setAdminlogin]=useState(false)
+  const [statusTrack,setStatus]=useState({
+    orderPlaced:false,
+    Confirmed:false,
+    Preparing:false,
+    ReadyForPickup:false,
+    OutForDilivery:false,
+    Deliverd:false
 
+  });
   const isAdmin = location.pathname.startsWith("/Admin");
+
+  const socket=useRef()
 
   useEffect(() => {
 
@@ -31,7 +44,10 @@ function App() {
       setLoading(false);
 
     }, 2500);
-
+    socket.current = new WebSocket('ws://localhost:3000')
+    socket.current.onopen=()=>{
+        console.log('ws connected');
+    }
     return () => clearTimeout(timer);
 
   }, []);
@@ -40,14 +56,17 @@ function App() {
     return <Loader />
   }
 
+  if (adminlogin) {
+    return <LoginPage setadminlogin={setAdminlogin} adminlogin={adminlogin}/>
+  }
 
-  return (
+  return ( 
     <>
-      {!isAdmin && <Navbar />}
+      {!isAdmin && <Navbar statusTrack={statusTrack} cartitem={cartitem} setadminlogin={setAdminlogin} adminlogin={adminlogin} socket={socket}/>}
       <Routes>
-        <Route path="/" element={<HomeSection />} />
-        <Route path="/Cart" element={<Cart />} />
-        
+        <Route path="/" element={<HomeSection cartvalue={setCartitem} />} />
+        <Route path="/Cart" element={<Cart setStatus={setStatus} statusTrack={statusTrack}/>} />
+          
         <Route path="/Menu" element={<Menupage />} />
         <Route path="/Reservations" element={<Reservation />} />
 
@@ -63,6 +82,7 @@ function App() {
       {!isAdmin && <Footer />}
 
     </>
+    
   )
 }
 

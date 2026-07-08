@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet ,useLocation,Navigate} from "react-router-dom";
 import logo from "../src/assets/logo.png";
 
 const Adminpage = () => {
@@ -9,7 +9,16 @@ const Adminpage = () => {
         : "text-gray-700 hover:bg-gray-100 hover:text-orange-500"
     }`;
 
+  const isToken = document.cookie.includes("token=");
+console.log("Cookie:", document.cookie);
+console.log("isToken:", isToken);
+
+  if (!isToken) {
+    return <Navigate to="/" replace />;
+  }
+  
   return (
+
     <div className="h-screen flex flex-col bg-gray-100">
       
       {/* Top Navbar */}
@@ -18,7 +27,7 @@ const Adminpage = () => {
           src={logo}
           alt="Logo"
           className="h-14 md:h-16 rounded-full"
-        />
+          />
 
         <div className="flex items-center gap-6">
          <img
@@ -66,6 +75,7 @@ const Adminpage = () => {
       </div>
     </div>
   );
+
 };
 
 export default Adminpage;
