@@ -8,7 +8,7 @@ const {EMAIL,PASSWORD}=process.env
     let token=JWT.sign(
         {id:PASSWORD,email:EMAIL},
         process.env.JWT_SECRET,
-        {expiresIn:"1m"}
+        {expiresIn:"10m"}
     )
     if (email==EMAIL && password==PASSWORD) {
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import reservation from "../src/assets/ReservationHero.png";
+import Swal from "sweetalert2";
 
 const Reservation = () => {
   const [form, setForm] = useState({
@@ -14,15 +15,32 @@ const Reservation = () => {
 
   const submit = async (e) => {
     e.preventDefault()
-    let res = await fetch('http://localhost:3000/reservationInfo', {
+    try {
+      let res = await fetch('http://localhost:3000/add-Reservation', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        form
-      })
-    })
+      body: JSON.stringify(form)
+    });
+
+     if (res.ok) {
+      Swal.fire({
+  icon: "success",
+  title: "🍽️ Table Reserved!",
+  html: `
+    <p>Thank you for your reservation.</p>
+    <p>We look forward to serving you!</p>
+  `,
+  confirmButtonText: "Awesome!",
+  confirmButtonColor: "#ff8800",
+  timer:"3000"
+});
+}
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
   return (
     <>

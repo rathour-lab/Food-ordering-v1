@@ -5,7 +5,8 @@ const Reservation=require("../models/reservationModel");
 
 async function getReservation(req,res) {
     const data = await Reservation.find();
-    res.json(data);
+    let count =await Reservation.countDocuments()
+    res.json({data,count});
 };
 
 // post Reservation data

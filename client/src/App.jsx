@@ -43,7 +43,7 @@ function App() {
 
       setLoading(false);
 
-    }, 2500);
+    }, 1000);
     socket.current = new WebSocket('ws://localhost:3000')
     socket.current.onopen=()=>{
         console.log('ws connected');

@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Admin from './Admin-menu';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
 const AdminMenusection = ({form,setForm}) => {
- 
+
+  const[menu,setMenu]=useState([]);
+  const[menuCount,setMenuCount]=useState(0);
+
+  useEffect(()=>{
+    const getMenu = async() =>{
+    try {
+        let res = await fetch('http://localhost:3000/menu');
+        let data = await res.json();
+        setMenu(data);
+        setMenuCount(data.count)
+
+      }
+      catch (error) {
+        console.log(error);
+      } 
+        getMenu()
+      
+    }
+  },[])
 
   if (form) {
     return <Admin />
@@ -49,7 +68,7 @@ const AdminMenusection = ({form,setForm}) => {
         <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=24555&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
           <h1 className="font-bold text-sm text-gray-700">  Total Menu Item</h1>
-<p className="text-2xl font-extrabold"> 128</p>
+<p className="text-2xl font-extrabold"> {menuCount}</p>
 <p className="font-bold text-sm text-gray-700"> Available on Menu</p>
         </div>
       </div>
@@ -81,12 +100,13 @@ const AdminMenusection = ({form,setForm}) => {
     </div>
 
     <div className='grid grid-cols-4 gap-5 py-5 '>
-      <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
+      {menu.map((food)=>{
+        return <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
 
   {/* Food Image */}
   <div className="relative">
     <img
-      src={`https://www.liveeatlearn.com/wp-content/uploads/2025/09/Veggie-Pizza-12.jpg`}
+      src={`${food.image}`}
       alt="Pizza"
       className="w-full h-52 object-cover"
     />
@@ -100,18 +120,17 @@ const AdminMenusection = ({form,setForm}) => {
     {/* Title */}
 <div className='flex justify-between'>
       <h2 className="text-2xl font-bold text-gray-800">
-      Cheese Pizza
+     {food.name}
     </h2>
     <span className="self-center bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-      Pizza
+      {food.category}
     </span>
 </div>
 
     {/* Description */}
-    <p className="text-gray-500 text-sm mt-2 leading-6">
-      Fresh mozzarella cheese, tomato sauce and
-      crispy crust baked to perfection.
-    </p>
+    <p className="text-gray-500 text-sm mt-2 leading-6 overflow-hidden h-18  ">
+  {food.description}
+</p>
 
     {/* Price */}
     <div className="flex justify-between items-center mt-5">
@@ -121,10 +140,25 @@ const AdminMenusection = ({form,setForm}) => {
       </span>
 
       <span className="text-2xl font-bold text-orange-500">
-        ₹500
+        ₹{food.price}
       </span>
 
     </div>
+
+  <div className="flex justify-between items-center mt-5">
+     <span className="text-gray-600 font-bold text-xl text-gray-800">
+        Stock :
+      </span>
+     <div
+  className={`px-3 py-1 rounded-full text-xs font-bold ${
+    food.isAvailable
+      ? "bg-green-600 text-white"
+      : "bg-orange-400 text-white"
+  }`}
+>
+  {food.isAvailable ? "Available" : "Unavailable"}
+</div>
+  </div>
 
     {/* Divider */}
     <div className="border-t border-gray-200 my-5"></div>
@@ -145,6 +179,7 @@ const AdminMenusection = ({form,setForm}) => {
   </div>
 
 </div>
+      })}
     </div>
     </section>
     </>

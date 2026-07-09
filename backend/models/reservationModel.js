@@ -1,30 +1,34 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 
-const resevationSchema=mongoose.Schema({
-    user_name:{
-        type:String,
-        required:true
+const resevationSchema = mongoose.Schema({
+    fullName: {
+        type: String,
+        required: true
     },
-    phone_no:{
-        type:Number,
-        required:true
+    email: {
+        type: String,
+        required: true
     },
-     gnail:{
-        type:String,
-        required:true
+    phone: {
+        type: Number,
+        required: true
     },
-    total_person:{
-        type:Number,
-        required:true
+    guests: {
+        type: Number,
+        required: true
     },
-    entry_time:{
-        type:Number,
-        required:true
+    date: {
+        type: Date,
+        required: true
     },
-    exit_time:{
-        type:Number,
-        required:true
+    time: {
+        type: String,
+        required: true
+    },
+    occasion: {
+        type: String,
+        required: true
     }
 });
 
-module.exports=mongoose.model('resevationSchema',resevationSchema);
+module.exports = mongoose.model('resevationSchema', resevationSchema);
