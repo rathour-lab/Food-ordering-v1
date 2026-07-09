@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import bag from '../src/assets/shopping-bag.gif'
 
 const AdminOrders = () => {
+
+const [symbol,setSymbol]=useState('Order Placed');
+
 
   const statusOptions = [
     {
@@ -54,7 +57,21 @@ const statusStyle = (status)=>{
   }
 }
 
-const [symbol,setSymbol]=useState('Order Placed')
+const [order,setOrder]=useState([]);
+
+useEffect(()=>{
+  try {
+    const foodOrder = async() =>{
+  let res = await fetch('http://localhost:3000/get-cartItem');
+  let data = await res.json();
+  setOrder(data);
+}
+foodOrder();
+  } catch (error) {
+    console.log(error);
+    
+  }
+})
 
   return (
     <>
