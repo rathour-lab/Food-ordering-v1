@@ -8,7 +8,7 @@ app.use(cors())
 require('dotenv').config();
 const foodCardDB =require('./config/db')
 foodCardDB()
-const foodMenuSchema=require('./models/foodModel')
+const foodMenuSchema=require('./models/MenuModel')
 
 const route=require('./routes/menuRoutes');
 const ATC_Route=require('./routes/addToCartRoutes');

@@ -18,7 +18,10 @@ async function getATC(req, res) {
 // post atc data
 
 async function getCartItem(req,res) {
-    
+    CartData.map((id)=>{
+        console.log(id._id);
+        
+    })
     res.json(CartData)
     
 }

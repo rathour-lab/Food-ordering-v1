@@ -1,44 +1,10 @@
-const Menu = require("../models/foodModel");
+const Menu = require("../models/MenuModel");
 
 // get Menu items (for frontend to show all cards)
 async function getMenu(req,res) {
     const data = await Menu.find();
     res.json(data);
 };
-
-// get menu item by id (for add spacific food item to cart by food id)
-
-// async function getItemId(req, res) {
-//   try {
-//     const { id } = req.params;
-//     const item = await Menu.findById(id);
-//     if (!item) {
-//       return res.status(404).json({
-//         message: "Item not found",
-//       });
-//     }
-//     res.status(200).json(item);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       message: error.message,
-//     });
-//   }
-// }
-
-// async function addItemId(req, res) {
-//   try {
-//     const { menuId } = req.body;
-//     const item = await Menu.findById(menuId);
-//     res.json(item);
-//   } catch (error) {
-//     res.status(500).json({
-//       message: error.message,
-//     });
-//   }
-// }
-
-// post Menu items (for post new food item  )
 
 async function addItem(req,res) {
     try {

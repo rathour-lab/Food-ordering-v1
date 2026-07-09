@@ -4,16 +4,13 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const Cart = ({setStatus,statusTrack}) => {
     const [CartItem, setCartItem] = useState([])
     const [itemquantity, setItemquantity] = useState(0)
-  const [itemPrice,setItemPrice]=useState()
-let x=[
-  {
-    hello:0
-  }
-]
-  CartItem.map((price)=>{
-    setItemPrice(itemPrice+=price.price)
-  })
-  console.log(CartItem);
+  const [itemPrice,setItemPrice]=useState(0)
+
+ const grandTotal=CartItem.reduce((total,item)=>{
+  return total+item.price;
+ },0)
+
+
   
     useEffect(() => {
 
@@ -107,6 +104,7 @@ let x=[
                 </td>
 
                 <td className="text-center font-bold text-orange-600">
+                  
                   ₹{item.price}
                 </td>
 
@@ -136,12 +134,12 @@ let x=[
 
           <div className="flex justify-between">
             <span>Subtotal</span>
-            <span>₹999</span>
+            <span>{grandTotal}</span>
           </div>
 
           <div className="border-t pt-4 flex justify-between text-xl font-bold">
             <span>Total</span>
-            <span className="text-orange-600">₹999</span>
+            <span className="text-orange-600">{'₹'+grandTotal}</span>
           </div>
 
           <button onClick={handelCheckout}
