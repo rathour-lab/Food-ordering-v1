@@ -24,7 +24,7 @@ const Menu = ({cartvalue}) => {
       else {
         setShowCard(4)
       }
-    };
+    };  
 
     updateCards();
 
@@ -32,9 +32,9 @@ const Menu = ({cartvalue}) => {
 
 
     async function getMenu() {
-      let response = await fetch('http://localhost:3000/Menu');
+      let response = await fetch('http://localhost:3000/menu');
       let data = await response.json();
-      setItem(data);
+      setItem(data.data);
 
     }
     getMenu();
@@ -51,10 +51,7 @@ let res=await fetch('http://localhost:3000/get-order',{
             headers:{
                 'Content-type':'application/json'
             },
-            body:JSON.stringify(
-
-              cartdata
-            )
+            body:JSON.stringify(cartdata)
 })
 
   };
@@ -79,7 +76,7 @@ let res=await fetch('http://localhost:3000/get-order',{
           <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full mt-6"></div>
         </div>
         <div className='py-16 pb-10 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4  gap-18 md:gap-14 md:pb-5 px-6  lg:px-22 lg:pb-15 '>
-          {item.slice(0, showCard).map((food) => {
+          {item.slice(0,showCard).map((food) => {
             return <div key={food._id} className="bg-[#f3f3f3] rounded-2xl pt-18 md:pt-14 pb-8 space-y-5 md:mb-5 relative px-5 shadow-md hover:shadow-2xl hover:-translate-y-3 hover:rotate-1 transition-all duration-350">
               <div className='object-contain'>
 

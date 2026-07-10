@@ -1,33 +1,65 @@
-import React, { useEffect } from 'react'
-import Admin from './Admin-menu';
+import React, { useEffect, useRef } from 'react'
+import Admin from './AdminMenuForm';
 import { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaHeart, FaPlus } from 'react-icons/fa';
 
 const AdminMenusection = ({form,setForm}) => {
 
   const[menu,setMenu]=useState([]);
   const[menuCount,setMenuCount]=useState(0);
+  const[like,setLike]=useState(false)
+  const ref = useRef()
+  const[editData,setEditData]=useState(null)
 
   useEffect(()=>{
     const getMenu = async() =>{
+      console.log("hloooo");
+      
     try {
         let res = await fetch('http://localhost:3000/menu');
         let data = await res.json();
-        setMenu(data);
+        setMenu(data.data);
+       
+        
         setMenuCount(data.count)
 
       }
       catch (error) {
         console.log(error);
       } 
-        getMenu()
-      
     }
+    getMenu()
+
+    
   },[])
+  
+  const deleteItem = async(id)=>{
+      setMenu(prev =>{
+        return prev.filter(item=>item._id !== id)
+      })
+   try {
+     let res = await fetch(`http://localhost:3000/removerMenu/${id}`,{
+      method:'DELETE'
+    });
+
+   } catch (error) {
+    console.log(error);
+   }
+  }
+  
+   const edit = async(food)=>{
+      setForm(true)
+   setEditData(food)
+  }
 
   if (form) {
-    return <Admin />
+    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} />
   }
+
+  const likeItem = ()=>{
+    setLike(!like)
+  }
+
   return (
     <>
     <section className='bg-[#fff8dd] px-6 py-6 '>
@@ -111,7 +143,9 @@ const AdminMenusection = ({form,setForm}) => {
       className="w-full h-52 object-cover"
     />
 
-   
+<div className='absolute right-4 top-2' onClick={likeItem}>
+   <FaHeart className={`w-8 h-8   ${like ? 'text-red-600 ':'text-gray-500'}`} /> 
+</div>
   </div>
 
   {/* Card Content */}
@@ -166,11 +200,15 @@ const AdminMenusection = ({form,setForm}) => {
     {/* Buttons */}
     <div className="flex gap-3">
 
-      <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+      <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+      onClick={()=>edit(food)}
+      >
         ✏️ Edit
       </button>
 
-      <button className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition">
+      <button className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
+       onClick={()=>deleteItem(food._id)}
+       >
         🗑 Delete
       </button>
 

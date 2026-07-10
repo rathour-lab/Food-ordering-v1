@@ -33,6 +33,8 @@ function App() {
     Deliverd:false
 
   });
+  const [form,setForm]=useState(false)
+  const [bell,setBell]=useState(false)
   const isAdmin = location.pathname.startsWith("/Admin");
 
   const socket=useRef()
@@ -67,16 +69,16 @@ function App() {
         <Route path="/" element={<HomeSection cartvalue={setCartitem} />} />
         <Route path="/Cart" element={<Cart setStatus={setStatus} statusTrack={statusTrack}/>} />
           
-        <Route path="/Menu" element={<Menupage />} />
-        <Route path="/Reservations" element={<Reservation />} />
+        <Route path="/Menu" element={<Menupage cartvalue={setCartitem} />} />
+        <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />
 
 
-        <Route path="/Admin" element={<Adminpage />}>
+        <Route path="/Admin" element={<Adminpage bell={bell} setBell={setBell} />}>
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="menu" element={<AdminMenusection />} />
+          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm}/>} />
           <Route path="orders" element={<AdminOrders />} />
-          <Route path="reservation" element={<AdminReservation />} />
+          <Route path="reservation" element={<AdminReservation  />} />
         </Route>
       </Routes>
       {!isAdmin && <Footer />}

@@ -8,7 +8,7 @@ import Home from '../Components/Home'
 import { useNavigate } from 'react-router-dom'
 
 import { FaArrowRight, FaCcDinersClub, FaFire, FaMotorcycle, FaTruck, FaUtensils, FaUtensilSpoon } from 'react-icons/fa'
-function Menupage() {
+function Menupage({cartvalue}) {
 
   const [item, setItem] = useState([])
   const [addedItems, setAddedItems] = useState([]);
@@ -20,34 +20,25 @@ function Menupage() {
     async function getItems() {
     let res = await fetch("http://localhost:3000/Menu");
     let data = await res.json();
-    setItem(data)
+    setItem(data.data)
     
   }
   getItems();
   },[]);
 
-   const handleAddToCart = async (id) => {
-  setAddedItems((prev) => [...prev, id]);
-    navigate(`/cart/${id}`);
-  try {
-    const res = await fetch("http://localhost:3000/menuid", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        menuId: id,
-      }),
-    });
+ const  handleAddToCart =async (cartdata) => {
+    cartvalue(prev=> prev+1)
+    console.log('working',cartdata);
+    
+let res=await fetch('http://localhost:3000/get-order',{
+  method:'POST',
+            headers:{
+                'Content-type':'application/json'
+            },
+            body:JSON.stringify(cartdata)
+})
 
-    const data = await res.json();
-
-    console.log(data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-   
+}
   return (
     <>
       <div className='px-5 sm:px-15 md:px-15 lg:px-26 transition-all duration-300 '>
@@ -209,7 +200,9 @@ function Menupage() {
                   <p className={`font-bold py-1 px-2 rounded-2xl text-white ${food.isAvailable ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>
                     {food.isAvailable ? 'Available' : 'notAvailable'}</p>
 
-                  <button onClick={() => handleAddToCart(food._id)} disabled={addedItems.includes(food._id)} className={`absolute -bottom-7 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full border-2 transition-all duration-300 font-semibold whitespace-nowrap ${addedItems.includes(food._id) ? "bg-green-500 border-green-500 text-white cursor-default" : "bg-[#39364b] border-[#39364b] text-white hover:bg-white hover:text-orange-500 hover:border-orange-500"}`}>{addedItems.includes(food._id) ? "✓ Added" : "Add to Cart"}</button>
+                  <button onClick={() => {handleAddToCart(food)
+                  }}
+                    disabled={addedItems.includes(food._id)} className={`absolute -bottom-7 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full border-2 transition-all duration-300 font-semibold whitespace-nowrap ${addedItems.includes(food._id) ? "bg-green-500 border-green-500 text-white cursor-default" : "bg-[#39364b] border-[#39364b] text-white hover:bg-white hover:text-orange-500 hover:border-orange-500"}`}>{addedItems.includes(food._id) ? "✓ Added" : "Add to Cart"}</button>
                 </div>
               </div>
             </div>
