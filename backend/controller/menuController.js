@@ -3,7 +3,8 @@ const Menu = require("../models/MenuModel");
 // get Menu items (for frontend to show all cards)
 async function getMenu(req,res) {
     const data = await Menu.find();
-    res.json(data);
+    let count = await Menu.countDocuments()
+    res.json({data,count});
 };
 
 async function addItem(req,res) {
@@ -39,9 +40,12 @@ async function editItem(req,res) {
 
 async function dltItem(req,res) {
   try {
+    
       const id=req.params.id;
-    const data= await Menu.findByIdAndDelete(id);
-    res.json(data);
+    console.log(id);
+    
+      await Menu.findByIdAndDelete(id);
+    
   } catch (error) {
     res.json({message:error.message})
   }

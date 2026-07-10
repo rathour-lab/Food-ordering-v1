@@ -1,7 +1,7 @@
 import { NavLink, Outlet ,useLocation,Navigate} from "react-router-dom";
 import logo from "../src/assets/logo.png";
 
-const Adminpage = () => {
+const Adminpage = ({bell,setBell}) => {
   const navStyle = ({ isActive }) =>
     `block px-4 py-3 rounded-lg transition-all duration-200 ${
       isActive
@@ -13,10 +13,11 @@ const Adminpage = () => {
 console.log("Cookie:", document.cookie);
 console.log("isToken:", isToken);
 
-  if (!isToken) {
-    return <Navigate to="/" replace />;
-  }
+  // if (!isToken) {
+  //   return <Navigate to="/" replace />;
+  // }
   
+
   return (
 
     <div className="h-screen flex flex-col bg-gray-100">
@@ -30,11 +31,15 @@ console.log("isToken:", isToken);
           />
 
         <div className="flex items-center gap-6">
-         <img
+       <div className="relative" onClick={()=>setBell(!bell)}>
+          <img
       src="https://img.icons8.com/?size=100&id=11642&format=png&color=FD7E14"
       alt="Order History"
       className="w-8 h-8"
     />
+  <p className={` rounded-full  absolute top-0 right-0 ${bell ? "w-2 h-2 animate-ping bg-red-700" : "w-0 h-0 animate-none"}`} ></p>
+     
+       </div>
 
           <div className="flex items-center gap-2 cursor-pointer">
             <img

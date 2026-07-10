@@ -94,7 +94,7 @@ const Cancel = () =>{
       
     </div>
 
-    <div className="grid grid-cols-4 py-6">
+    <div className="grid grid-cols-4 py-6 gap-3">
 {reservationData.map((customer)=>{
   return <div key={customer._id} className='bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6'>
   {/* Header */}

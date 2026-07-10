@@ -5,7 +5,7 @@ import Home from '../Components/Home'
 import LoginPage from '../Pages/loginPage'
 
 import SignUp from '../Pages/SignUp'
-import Admin from '../Components/Admin-menu'
+import Admin from '../Components/AdminMenuForm'
 
 function HomeSection({cartvalue}) {
   return (

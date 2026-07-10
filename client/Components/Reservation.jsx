@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import reservation from "../src/assets/ReservationHero.png";
 import Swal from "sweetalert2";
 
-const Reservation = () => {
+const Reservation = ({bell,setBell}) => {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -36,7 +36,17 @@ const Reservation = () => {
   confirmButtonColor: "#ff8800",
   timer:"3000"
 });
+setForm({
+  fullName: '',
+    email: '',
+    phone: '',
+    guests: '',
+    date: '',
+    time: '',
+    occasion: ''
+})
 }
+setBell(true)
     } catch (error) {
       console.log(error);
       
