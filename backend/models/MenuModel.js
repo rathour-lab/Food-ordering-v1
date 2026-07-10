@@ -17,6 +17,9 @@ const foodMenuSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    quantity:{
+type:Number
+    },
     isAvailable:{
         type:Boolean
     }

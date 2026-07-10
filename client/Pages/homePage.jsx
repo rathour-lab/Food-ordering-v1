@@ -13,7 +13,7 @@ function HomeSection({cartvalue}) {
     <Home />
     <Menu cartvalue={cartvalue}/>
     <About/>
-   <Admin/>
+   
     </>
   )
 }

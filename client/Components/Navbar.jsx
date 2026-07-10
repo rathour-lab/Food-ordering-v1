@@ -50,6 +50,35 @@ const Navbar = ({ cartitem,setadminlogin,adminlogin,socket,statusTrack }) => {
             icon: <FaCheckCircle />,
         },
     ];
+    
+  function increaseItem(id) {
+      
+          setAtC_data((prev)=>{
+            
+              
+            return  prev.map((item)=>{
+                if (item._id===id) {
+                  
+                  return {...item,quantity:item.quantity+1}
+                }else{
+                  return item;
+                }
+              })
+              
+            }
+          )
+  }
+  function decreseItem(id) {
+    setAtC_data((prev)=>{
+      return prev.map((item)=>{
+        if (item._id===id) {
+          return {...item,quantity:item.quantity-1}
+        }else{
+          return item;
+        }
+      })
+    })
+  }
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 30);
@@ -301,17 +330,17 @@ const Navbar = ({ cartitem,setadminlogin,adminlogin,socket,statusTrack }) => {
           {/* Quantity */}
           <div className="flex items-center gap-3 mt-3">
 
-            <button
+            <button onClick={()=>decreseItem(cartdata._id)}
               className="h-8 w-8 rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition"
             >
               −
             </button>
 
             <span className="font-semibold">
-              1
+              {cartdata.quantity}
             </span>
 
-            <button
+            <button onClick={()=>increaseItem(cartdata._id)}
               className="h-8 w-8 rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition"
             >
               +

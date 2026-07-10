@@ -1,10 +1,14 @@
 const express=require("express");
 const ATC_Route=express.Router();
 
-const {getATC,addATC,rejectATC,getCartItem}=require('../controller/atcController')
+const {getATC,getCartItem,deleteCartItem,AdminCartdata,getAdminCartdata}=require('../controller/atcController')
 
 ATC_Route.post('/get-order',getATC);
 ATC_Route.get('/get-cartItem',getCartItem);
-ATC_Route.post('/add-order',addATC);
+ATC_Route.delete('/delete-cartItem/:id',deleteCartItem);
+
+ATC_Route.get('/getAdminCartData',getAdminCartdata); // 
+ATC_Route.post('/postAdminCartdata',AdminCartdata);
+
 
 module.exports=ATC_Route

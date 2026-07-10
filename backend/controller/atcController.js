@@ -3,9 +3,11 @@ const atc = require("../models/addToCartModel");
 
 // get atc data
 let CartData=[];
+let AdminCartData=[];
 async function getATC(req, res) {
     let data = req.body;
     CartData.push(data);
+    console.log(data.quantity);
     
     
     res.json({
@@ -19,42 +21,39 @@ async function getATC(req, res) {
 
 async function getCartItem(req,res) {
     CartData.map((id)=>{
-        console.log(id._id);
+       
         
     })
     res.json(CartData)
     
 }
-async function addATC(req, res) {
-    try {
-        const { menuId } = req.body
-        const existingItem = await atc.findOne({ menuId });
-        if (menuId) {
-            res.json(existingItem);
-        }
-        else {
-            res.json({
-                message: "ADD "
-            })
-        }
-    } catch (error) {
-        res.json({
-            message: error.message
-        });
-    }
-};
 
 // dlt atc data
+async function deleteCartItem(req,res) {
+    
+    let dltitemId=req.params.id;
+   
+    CartData= CartData.filter((item)=>{
+        return item._id!=dltitemId
+    })
+    console.log(CartData);
+    res.json(
+        {
+            data:CartData,
+            message:'item Deleted Succesfully'
+        }
+    )
+    
+    
+}
+async function getAdminCartdata(req,res) {
+    res.json(AdminCartData)
+}
+async function AdminCartdata(req,res) {
+    AdminCartData =req.body
+  
+    
+}
 
-async function rejectATC(req, res) {
-    try {
-        const id = req.params.id;
-        await atc.findByIdAndDelete(id)
-    } catch (error) {
-        res.json({
-            message: error.message
-        });
-    }
-};
 
-module.exports = { getATC, addATC, rejectATC,getCartItem }
+module.exports = { getATC,getCartItem,deleteCartItem,AdminCartdata,getAdminCartdata }

@@ -1,30 +1,89 @@
 import React, { useState, useEffect } from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaTrash } from 'react-icons/fa';
 
 const Cart = ({setStatus,statusTrack}) => {
     const [CartItem, setCartItem] = useState([])
     const [itemquantity, setItemquantity] = useState(0)
-  const [itemPrice,setItemPrice]=useState(0)
-
- const grandTotal=CartItem.reduce((total,item)=>{
-  return total+item.price;
- },0)
-
-
+    const [itemPrice,setItemPrice]=useState(0)
   
+const totalItems = CartItem.length;
+
+const totalQuantity = CartItem.reduce((total, item) => {
+  return total + item.quantity;
+}, 0);
+
+const grandTotal = CartItem.reduce((total, item) => {
+  return total + item.price * item.quantity;
+}, 0);
+
+const deliveryFee = grandTotal > 500 ? 0 : 40;
+
+const finalTotal = grandTotal + deliveryFee;
+
+
+  function increaseItem(id) {
+      
+          setCartItem((prev)=>{
+            
+              
+            return  prev.map((item)=>{
+                if (item._id===id) {
+                  
+                  return {...item,quantity:item.quantity+1}
+                }else{
+                  return item;
+                }
+              })
+              
+            }
+          )
+  }
+  function decreseItem(id) {
+    setCartItem((prev)=>{
+      return prev.map((item)=>{
+        if (item._id===id) {
+          return {...item,quantity:item.quantity-1}
+        }else{
+          return item;
+        }
+      })
+    })
+  }
     useEffect(() => {
 
         async function getMenu() {
             let response = await fetch('http://localhost:3000/get-cartItem');
             let data = await response.json();
-            setCartItem((prev)=>[...prev,...data]);
+         setCartItem(data);
            
 
         }
         getMenu();
 
     }, [])
-    function handelCheckout() {
+
+         
+    
+
+      async function deleteItem(id) {
+        console.log(id);
+        
+        let response=await fetch(`http://localhost:3000/delete-cartItem/${id}`,{
+          method:'DELETE'
+        })
+        let data =await response.json();
+        setCartItem(data.data)
+        console.log(data.message);
+        
+        }
+     
+    
+   async function handelCheckout() {
+      let res=await fetch('http://localhost:3000/AdminCartData',{
+        method:'POST',
+        headers:{'Content-Type':'Application/json'},
+        body:JSON.stringify(CartItem)
+      })
       setStatus({
         ...statusTrack,
         orderPlaced:true,
@@ -53,6 +112,7 @@ const Cart = ({setStatus,statusTrack}) => {
 <th className="min-w-[200px] hidden lg:table-cell">Description</th>
 <th className="min-w-[150px]">Quantity</th>
 <th className="min-w-[120px]">Price</th>
+<th className="min-w-[120px]">Delete</th>
             </tr>
           </thead>
 
@@ -87,17 +147,17 @@ const Cart = ({setStatus,statusTrack}) => {
                     <button
                       className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition"
                     >
-                      <FaChevronLeft />
+                      <FaChevronLeft onClick={()=>decreseItem(item._id)}/>
                     </button>
 
                     <span className="font-semibold">
-                      {itemquantity}
+                      {item.quantity}
                     </span>
 
                     <button
                       className="w-8 h-8 rounded-full bg-orange-500 text-white hover:bg-orange-600 flex items-center justify-center transition"
                     >
-                      <FaChevronRight />
+                      <FaChevronRight onClick={()=>increaseItem(item._id)}/>
                     </button>
 
                   </div>
@@ -107,7 +167,10 @@ const Cart = ({setStatus,statusTrack}) => {
                   
                   ₹{item.price}
                 </td>
-
+                <td className="  font-bold text-orange-600">
+                  
+                 <FaTrash className=' w-full text-red-500' onClick={()=>deleteItem(item._id)}/>
+                </td>
               </tr>
 
             ))}
@@ -122,37 +185,65 @@ const Cart = ({setStatus,statusTrack}) => {
 
     {/* Summary */}
 
-    <div className="w-full ">
+    <div className="w-full xl:w-[380px]">
 
-      <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
+  <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
 
-        <h2 className="text-2xl font-bold mb-6">
-          Order Summary
-        </h2>
+    <h2 className="text-2xl font-bold mb-6">
+      Order Summary
+    </h2>
 
-        <div className="space-y-4">
+    <div className="space-y-4">
 
-          <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>{grandTotal}</span>
-          </div>
-
-          <div className="border-t pt-4 flex justify-between text-xl font-bold">
-            <span>Total</span>
-            <span className="text-orange-600">{'₹'+grandTotal}</span>
-          </div>
-
-          <button onClick={handelCheckout}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-6"
-          >
-            Checkout
-          </button>
-
-        </div>
-
+      <div className="flex justify-between text-gray-600">
+        <span>Items</span>
+        <span>{totalItems}</span>
       </div>
 
+      <div className="flex justify-between text-gray-600">
+        <span>Total Quantity</span>
+        <span>{totalQuantity}</span>
+      </div>
+
+      <div className="flex justify-between text-gray-600">
+        <span>Subtotal</span>
+        <span>₹{grandTotal}</span>
+      </div>
+
+      <div className="flex justify-between text-gray-600">
+        <span>Delivery Fee</span>
+        <span>
+          {deliveryFee === 0 ? (
+            <span className="text-green-600 font-semibold">FREE</span>
+          ) : (
+            `₹${deliveryFee}`
+          )}
+        </span>
+      </div>
+
+      <div className="border-t pt-4 flex justify-between text-2xl font-bold">
+        <span>Total</span>
+        <span className="text-orange-600">₹{finalTotal}</span>
+      </div>
+
+      {deliveryFee !== 0 && (
+        <p className="text-sm text-gray-500">
+          Add ₹{500 - grandTotal} more for free delivery.
+        </p>
+      )}
+
+      <button
+        onClick={handelCheckout}
+        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-4"
+      >
+        Checkout • ₹{finalTotal}
+      </button>
+
     </div>
+
+  </div>
+
+</div>
 
   </div>
 </div>

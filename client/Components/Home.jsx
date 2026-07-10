@@ -53,7 +53,7 @@ const Home = () => {
             </div>
 
             <div className='mt-4 flex-1 lg:flex ms-20'>
-              <img className='h-100 mt-16 hidden md:inline-block' src={Hero} alt="" />
+              <img className='h-100 mt-16 hidden md:inline-block hover:scale-105 cursor-pointer duration-400' src={Hero} alt="" />
             </div>
           </div>
 
@@ -88,81 +88,7 @@ const Home = () => {
             </div>
           </div>
 
-          {/* --- NEW: RESERVATION SECTION --- */}
-          <hr className="border-t border-orange-200/50 my-10" />
-
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-10 bg-gradient-to-br from-amber-100 to-orange-100 p-8 md:p-12 rounded-3xl shadow-inner">
-            <div className="space-y-3 flex-1">
-              <span className="text-xs font-bold text-[#ff8800] uppercase tracking-widest bg-orange-200/60 px-3 py-1 rounded-full">
-                Book A Table
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-neutral-950">
-                Want to Skip the Line? <br />
-                <span className="text-[#ff8800]">Reserve Your Spot</span>
-              </h2>
-              <p className="text-gray-600 text-sm max-w-md">
-                Planning a dinner or a burger party with friends? Book your table in advance and we’ll make sure your vibe is sorted.
-              </p>
-            </div>
-
-            {/* Inline Booking Form */}
-            <form onSubmit={handleReservation} className="w-full lg:w-auto flex-1 bg-white p-6 rounded-2xl shadow-lg grid grid-cols-1 sm:grid-cols-3 lg:flex lg:items-end gap-4">
-              
-              {/* Date Input */}
-              <div className="flex flex-col gap-1.5 flex-1">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1">
-                  <FaCalendarAlt className="text-[#ff8800]" /> Date
-                </label>
-                <input 
-                  type="date" 
-                  required
-                  value={resData.date}
-                  onChange={(e) => setResData({...resData, date: e.target.value})}
-                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff8800] bg-gray-50 cursor-pointer w-full" 
-                />
-              </div>
-
-              {/* Time Input */}
-              <div className="flex flex-col gap-1.5 flex-1">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1">
-                  <FaClock className="text-[#ff8800]" /> Time
-                </label>
-                <input 
-                  type="time" 
-                  required
-                  value={resData.time}
-                  onChange={(e) => setResData({...resData, time: e.target.value})}
-                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff8800] bg-gray-50 cursor-pointer w-full" 
-                />
-              </div>
-
-              {/* Guests Dropdown */}
-              <div className="flex flex-col gap-1.5 flex-1">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1">
-                  <FaUserFriends className="text-[#ff8800]" /> Guests
-                </label>
-                <select 
-                  value={resData.guests}
-                  onChange={(e) => setResData({...resData, guests: e.target.value})}
-                  className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff8800] bg-gray-50 cursor-pointer w-full"
-                >
-                  <option className=''>1 Guest</option>
-                  <option>2 Guests</option>
-                  <option>4 Guests</option>
-                  <option>6+ Guests</option>
-                </select>
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full sm:col-span-3 lg:w-auto bg-[#ff8800] text-white px-6 py-2.5 h-[42px] rounded-xl font-semibold text-sm shadow-md shadow-orange-500/20 transition-all duration-300 hover:bg-orange-600 active:scale-95 cursor-pointer flex items-center justify-center gap-2 whitespace-nowrap"
-              >
-                Book Now
-                <FaCheckCircle />
-              </button>
-            </form>
-          </div>
+          
 
         </div>
       </div>

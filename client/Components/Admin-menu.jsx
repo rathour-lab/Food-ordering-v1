@@ -8,6 +8,7 @@ function Admin() {
         price:'',
         category:'',
         image:'',
+        quantity:1,
         isAvailable:''
     });
 
