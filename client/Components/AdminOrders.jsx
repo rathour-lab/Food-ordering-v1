@@ -58,13 +58,17 @@ const statusStyle = (status)=>{
 }
 
 const [order,setOrder]=useState([]);
+const [cost,setCost]=useState([])
+const [time,setTime]=useState([])
 
 useEffect(()=>{
   try {
     const foodOrder = async() =>{
-  let res = await fetch('http://localhost:3000/get-cartItem');
+  let res = await fetch('http://localhost:3000/getAdminCartData');
   let data = await res.json();
-  setOrder(data);
+  setOrder(data.CartItem);
+  setCost(data.grandTotal)
+  setTime(data.date)
 }
 foodOrder();
   } catch (error) {
@@ -131,12 +135,13 @@ foodOrder();
     </div>
 
 <div className='grid grid-cols-4 py-6'>
-    <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5">
+    {order.map((food)=>{
+      return <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5">
 
   {/* Header */}
   <div className="flex justify-between items-center pb-4 border-b border-gray-200">
     <h2 className="text-lg font-bold text-gray-800">
-      📦 Order #87841
+      📦 Order #{food._id.slice(-6)}
     </h2>
 
     <span className={`${statusStyle(symbol)} text-xs font-semibold px-3 py-1 rounded-full`} >
@@ -145,15 +150,25 @@ foodOrder();
   </div>
 
   {/* Items */}
-  <div className="py-4 space-y-3 border-b border-gray-200">
+  <div className="py-4 space-y-3 border-b border-gray-200 h-32 overflow-y-scroll scrollbar-thin">
 
     <div className="flex justify-between">
-      <p>🍕 Pizza</p>
-      <span className="font-semibold">×2</span>
+      <p className='flex gap-2 '
+      ><img src={food.image} className='w-6' alt="" /> {food.name}</p>
+      <span className="font-semibold">×{food.quantity}</span>
     </div>
 
     <div className="flex justify-between">
-      <p>🍔 Burger</p>
+      <p> Burger</p>
+      <span className="font-semibold">×1</span>
+    </div>
+
+    <div className="flex justify-between">
+      <p>🥤 Coke</p>
+      <span className="font-semibold">×1</span>
+    </div>
+    <div className="flex justify-between">
+      <p> Burger</p>
       <span className="font-semibold">×1</span>
     </div>
 
@@ -191,7 +206,7 @@ foodOrder();
       </span>
 
       <span className="text-2xl font-bold text-orange-500">
-        ₹500
+        ₹{cost}
       </span>
     </div>
 
@@ -199,8 +214,8 @@ foodOrder();
 
   {/* Date */}
   <div className="flex justify-between py-4 text-sm text-gray-500 font-medium">
-    <span>📅 08 Jul 2026</span>
-    <span>🕒 05:55 PM</span>
+    <span>📅 {new Date(time).toLocaleDateString("en-IN")}</span>
+    <span>🕒 {new Date(time).toLocaleTimeString("en-IN")}</span>
   </div>
 
   {/* Status */}
@@ -214,6 +229,7 @@ foodOrder();
   </select>
 
 </div>
+    })}
 </div>
     </section>
     </>

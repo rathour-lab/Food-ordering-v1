@@ -6,6 +6,7 @@ const AdminReservation = () => {
     const [reservationCount,setReservationCount]=useState(0)
     const [reservationConfirm,setReservationConfirm]=useState(0)
     const [reservationCancel,setReservationCancel]=useState(0)
+    const [statusCancel,setStatusCancel]=useState(false)
 
  useEffect(()=>{
    const showReservation = async() =>{
@@ -23,11 +24,24 @@ setReservationCount(data.count);
 }
 showReservation()
 },[])
-const confirm = () =>{
- setReservationConfirm(prev=> prev + 1);
+const confirm = (id) =>{
+//  setReservationConfirm(prev=> prev + 1);
+//  setStatusComfirm(true)
+  setReservationData((prev)=>{
+    return prev.map((item)=>{
+     if (item._id === id) {
+      return {...item, state:item.state='confirm'}
+    } else{
+      return item;
+    } 
+    })
+  })
+  console.log(reservationData);
+  
 }
 const Cancel = () =>{
  setReservationCancel(prev=> prev + 1);
+ setStatusCancel(true)
 }
 
 
@@ -173,11 +187,11 @@ const Cancel = () =>{
   {/* Buttons */}
   <div className="flex gap-3 pt-4 border-t border-gray-200">
 
-    <button className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition" onClick={confirm}>
+    <button className={`flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition ${!statusCancel ? "block" : "hidden"}`} onClick={()=>confirm(customer._id)}>
       ✓ Confirm
     </button>
 
-    <button className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition" onClick={Cancel}>
+    <button className={`flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition`} onClick={Cancel}>
       ✕ Cancel
     </button>
 

@@ -28,6 +28,9 @@ const resevationSchema = mongoose.Schema({
     occasion: {
         type: String,
         required: true
+    },
+    state:{
+        type:String
     }
 });
 
