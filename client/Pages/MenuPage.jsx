@@ -41,7 +41,7 @@ let res=await fetch('http://localhost:3000/get-order',{
 }
   return (
     <>
-      <div className='px-5 sm:px-15 md:px-15 lg:px-26 transition-all duration-300 '>
+      <div className='bg-[#fff8dd]   px-5 sm:px-15 md:px-15 lg:px-26 transition-all duration-300 '>
         <div className='flex justify-between gap-10 max-w-6xl'>
 
           <div className='space-y-4 flex-1 py-25'>
@@ -166,7 +166,7 @@ let res=await fetch('http://localhost:3000/get-order',{
         </div>
       </div>
 
-      <div className='bg-[#fff8dd]  transition-all duration-500'>
+      <div className='bg-[#fff8dd]  transition-all duration-500 pb-30'>
         <div className="text-center mb-14">
           <p className="text-orange-500 uppercase tracking-[4px] font-semibold">
             Our Menu

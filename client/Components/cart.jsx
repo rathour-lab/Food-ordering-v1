@@ -79,10 +79,17 @@ const finalTotal = grandTotal + deliveryFee;
      
     
    async function handelCheckout() {
-      let res=await fetch('http://localhost:3000/AdminCartData',{
+    let date=new Date
+   
+    
+      let res=await fetch('http://localhost:3000/postAdminCartData',{
         method:'POST',
         headers:{'Content-Type':'Application/json'},
-        body:JSON.stringify(CartItem)
+        body:JSON.stringify({CartItem,
+          grandTotal,
+          date
+
+        })
       })
       setStatus({
         ...statusTrack,
