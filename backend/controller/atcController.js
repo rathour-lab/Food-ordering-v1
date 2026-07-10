@@ -1,5 +1,5 @@
 const atc = require("../models/addToCartModel");
-
+const OrderModel=require('../models/addToCartModel')
 
 // get atc data
 let CartData=[];
@@ -49,6 +49,9 @@ async function deleteCartItem(req,res) {
 
 async function AdminCartdata(req,res) {
     AdminCartData =req.body
+    console.log(AdminCartData);
+    await OrderModel.create(req.body)
+    
     res.json({
         message:'cartitem added ',
         AdminCartData
