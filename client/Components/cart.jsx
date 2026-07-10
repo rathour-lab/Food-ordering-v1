@@ -5,8 +5,7 @@ const Cart = ({setStatus,statusTrack}) => {
     const [CartItem, setCartItem] = useState([])
     const [itemquantity, setItemquantity] = useState(0)
     const [itemPrice,setItemPrice]=useState(0)
-  const [showPayment, setShowPayment] = useState(false);
-const [paymentMethod, setPaymentMethod] = useState("");
+  
 const totalItems = CartItem.length;
 
 const totalQuantity = CartItem.reduce((total, item) => {
@@ -99,60 +98,6 @@ const finalTotal = grandTotal + deliveryFee;
         
       })
     }
-    {showPayment && (
-<div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-
-    <div className="bg-white rounded-xl p-6 w-96">
-
-        <h2 className="text-xl font-bold mb-5">
-            Select Payment Method
-        </h2>
-
-        <div className="space-y-3">
-
-            <label className="flex gap-3">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="Cash on Delivery"
-                    onChange={(e)=>setPaymentMethod(e.target.value)}
-                />
-                Cash on Delivery
-            </label>
-
-            <label className="flex gap-3">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="UPI"
-                    onChange={(e)=>setPaymentMethod(e.target.value)}
-                />
-                UPI
-            </label>
-
-            <label className="flex gap-3">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="Card"
-                    onChange={(e)=>setPaymentMethod(e.target.value)}
-                />
-                Credit / Debit Card
-            </label>
-
-        </div>
-
-        <button
-            onClick={handelCheckout}
-            className="mt-6 w-full bg-orange-500 text-white py-3 rounded-lg"
-        >
-            Confirm Order
-        </button>
-
-    </div>
-
-</div>
-)}
     return (
        <div className="min-h-screen bg-orange-50 py-10 pb-60 ">
   <div className="max-w-7xl mx-auto px-6 flex flex-col xl:flex-row gap-8">
@@ -294,13 +239,14 @@ const finalTotal = grandTotal + deliveryFee;
           Add ₹{500 - grandTotal} more for free delivery.
         </p>
       )}
-<button
-    onClick={() => setShowPayment(true)}
-    className="w-full bg-orange-500 text-white py-3 rounded-xl"
->
-     Checkout • ₹{finalTotal}
-</button>
-     
+
+      <button
+        onClick={handelCheckout}
+        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-4"
+      >
+        Checkout • ₹{finalTotal}
+      </button>
+
     </div>
 
   </div>
@@ -309,7 +255,6 @@ const finalTotal = grandTotal + deliveryFee;
 
   </div>
 </div>
-
     );
 }
 
