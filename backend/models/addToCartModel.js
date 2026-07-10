@@ -1,15 +1,33 @@
-const mongoose  = require('mongoose')
+const mongoose =require( 'mongoose');
 
-const addToCartSchema = new mongoose.Schema({
-  menuId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Menu",
+const OrderSchema = new mongoose.Schema({
+  cartItems: [
+    {
+      _id: String,
+      name: String,
+      description: String,
+      price: Number,
+      quantity: Number,
+      image: String,
+      category: String,
+    },
+  ],
+
+  grandTotal: {
+    type: Number,
     required: true,
   },
-  quantity: {
-    type: Number,
-    default: 1,
+
+  orderStatus: {
+    type: String,
+    default: "Pending",
+    enum: ["Pending", "Preparing", "Out for Delivery", "Delivered"],
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
-module.exports=mongoose.model('addToCartSchema',addToCartSchema)
+module.exports= mongoose.model("Order", OrderSchema);
