@@ -40,23 +40,23 @@ async function deleteCartItem(req,res) {
     res.json(
         {
             data:CartData,
-            message:'item Deleted Succesfully'
+            message:'item Deleted Succesfull'
         }
     )
     
     
 }
+
 async function AdminCartdata(req,res) {
     AdminCartData =req.body
     res.json({
         message:'cartitem added ',
         AdminCartData
     })
-    console.log(AdminCartData);
-    
-  
     
 }
+async function getAdminCartdata(req,res) {
+    res.json(AdminCartData)
+}
 
-
-module.exports = { getATC,getCartItem,deleteCartItem,AdminCartdata }
+module.exports = { getATC,getCartItem,deleteCartItem,AdminCartdata,getAdminCartdata }
