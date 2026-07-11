@@ -9,7 +9,7 @@ function Admin({ form, setForm, editData,setEditData }) {
     price: '',
     category: '',
     image: '',
-    quantitiy:1,
+    quantity:1,
     isAvailable: ''
   });
 
@@ -21,7 +21,7 @@ function Admin({ form, setForm, editData,setEditData }) {
         price: editData.price,
         category: editData.category,
         image: editData.image,
-        quantitiy:editData.quantitiy,
+        quantity:editData.quantitiy,
         isAvailable: editData.isAvailable
       })
       setEditData(false )

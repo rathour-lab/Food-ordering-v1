@@ -1,4 +1,3 @@
-const atc = require("../models/addToCartModel");
 const OrderModel=require('../models/addToCartModel')
 
 // get atc data
@@ -7,23 +6,20 @@ let AdminCartData=[];
 async function getATC(req, res) {
     let data = req.body;
     CartData.push(data);
-    console.log(data.quantity);
+
     
     
     res.json({
         data:data,
         message:'cart item added'
     })
-    console.log(data);
+  
     
 };
 // post atc data
 
 async function getCartItem(req,res) {
-    CartData.map((id)=>{
-       
-        
-    })
+    
     res.json(CartData)
     
 }
@@ -36,7 +32,7 @@ async function deleteCartItem(req,res) {
     CartData= CartData.filter((item)=>{
         return item._id!=dltitemId
     })
-    console.log(CartData);
+    
     res.json(
         {
             data:CartData,
@@ -49,9 +45,9 @@ async function deleteCartItem(req,res) {
 
 async function AdminCartdata(req,res) {
     AdminCartData =req.body
-    console.log(AdminCartData);
-    await OrderModel.create(req.body)
     
+    await OrderModel.create(req.body)
+    CartData = [];
     res.json({
         message:'cartitem added ',
         AdminCartData

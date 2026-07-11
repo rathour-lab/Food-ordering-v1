@@ -12,6 +12,7 @@ async function addItem(req,res) {
         const data = await Menu.create(req.body);
         res.json(data)
         
+        
     } catch (error) {
         res.json({message:error.message})
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FaChevronLeft, FaChevronRight, FaTrash } from 'react-icons/fa';
+import swal from 'sweetalert2';
 
 const Cart = ({setStatus,statusTrack}) => {
     const [CartItem, setCartItem] = useState([])
@@ -38,11 +39,16 @@ const finalTotal = grandTotal + deliveryFee;
             }
           )
   }
+
   function decreseItem(id) {
+  
     setCartItem((prev)=>{
       return prev.map((item)=>{
         if (item._id===id) {
-          return {...item,quantity:item.quantity-1}
+            
+              
+              return {...item,quantity:item.quantity-1}
+            
         }else{
           return item;
         }
@@ -77,9 +83,10 @@ const finalTotal = grandTotal + deliveryFee;
         
         }
      
-    
-   async function handelCheckout() {
-    
+        
+        async function handelCheckout() {
+          
+          if (CartItem.length>0) {
    
     
       let res=await fetch('http://localhost:3000/postAdminCartData',{
@@ -92,12 +99,32 @@ const finalTotal = grandTotal + deliveryFee;
 
         })
       })
+      swal.fire({
+  title: "🍽️ Order Placed!",
+  text: "Thanks for your order! We're preparing it now. You'll be notified once it's confirmed.",
+  icon: "success",
+  showConfirmButton: false,
+  timer: 3500,
+  timerProgressBar: true,
+});
       setStatus({
         ...statusTrack,
         orderPlaced:true,
         
       })
-    }
+      setCartItem([])
+    }else{
+      swal.fire({
+  title: "Your Cart is empty",
+  text: "please add something in the cart",
+  icon: "warning",
+  showConfirmButton: false,
+  timer: 3500,
+  timerProgressBar: true,
+});
+}
+}
+
     return (
        <div className="min-h-screen bg-orange-50 py-10 pb-60 ">
   <div className="max-w-7xl mx-auto px-6 flex flex-col xl:flex-row gap-8">
@@ -155,7 +182,11 @@ const finalTotal = grandTotal + deliveryFee;
                     <button
                       className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition"
                     >
-                      <FaChevronLeft onClick={()=>decreseItem(item._id)}/>
+                      <FaChevronLeft  onClick={()=>{if (item.quantity>0) {
+                        
+                        decreseItem(item._id)}
+                      } 
+                      }/>
                     </button>
 
                     <span className="font-semibold">
@@ -177,7 +208,7 @@ const finalTotal = grandTotal + deliveryFee;
                 </td>
                 <td className="  font-bold text-orange-600">
                   
-                 <FaTrash className=' w-full text-red-500' onClick={()=>deleteItem(item._id)}/>
+                 <FaTrash className=' w-full text-red-500 cursor-pointer hover:text-red-500/70 ' onClick={()=>deleteItem(item._id)}/>
                 </td>
               </tr>
 

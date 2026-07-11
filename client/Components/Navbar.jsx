@@ -330,7 +330,9 @@ const Navbar = ({ cartitem,setadminlogin,adminlogin,socket,statusTrack }) => {
           {/* Quantity */}
           <div className="flex items-center gap-3 mt-3">
 
-            <button onClick={()=>decreseItem(cartdata._id)}
+            <button onClick={()=>{if (cartdata.quantity>0) {
+                
+             decreseItem(cartdata._id)}}}
               className="h-8 w-8 rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition"
             >
               −
