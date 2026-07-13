@@ -48,8 +48,7 @@ const Menu = ({socket}) => {
    setTimeout(()=>{
     setAddedItems([]);
    },3000)
-    cartvalue(prev=> prev+1)
-    console.log('working',cartdata);
+   
     
 let res=await fetch('http://localhost:3000/get-order',{
   method:'POST',

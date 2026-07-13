@@ -14,6 +14,10 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
     const [cart, setCart] = useState(false);
     const [status, setStatus] = useState(true);
     const [sidebar, setSidebar] = useState(false);
+    const [ATC_data, setATC_data] = useState([]);
+    const totalPrice = ATC_data.reduce((total, item) => {
+        return total + item.price * item.quantity;
+    }, 0);
     console.log('nav render');
     const orderStatus = [
         {
@@ -47,6 +51,9 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
             icon: <FaCheckCircle />,
         },
     ];
+    const totalQuantity = ATC_data.reduce((total, item) => {
+    return total + item.quantity;
+}, 0);
 async function increaseItem(id) {
 
     const item = ATC_data.find(i => i._id === id);
