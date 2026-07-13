@@ -7,11 +7,11 @@ import LoginPage from '../Pages/loginPage'
 import SignUp from '../Pages/SignUp'
 import Admin from '../Components/AdminMenuForm'
 
-function HomeSection({cartvalue}) {
+function HomeSection({socket}) {
   return (
     <>
     <Home />
-    <Menu cartvalue={cartvalue}/>
+    <Menu cartvalue={socket}/>
     <About/>
    
     </>

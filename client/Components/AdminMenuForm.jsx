@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FaCross, FaTimes } from 'react-icons/fa';
 
-function Admin({ form, setForm, editData,setEditData }) {
+function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
+
   const [foodDetail, setFoodDetail] = useState({
     name: '',
     description: '',
@@ -39,16 +40,27 @@ function Admin({ form, setForm, editData,setEditData }) {
     });
     let data = await response.json();
     setFoodDetail(data)
+   
     setForm(!form)
+  }
+   const editFoodItem = async()=>{
+    let res= await fetch(`http://localhost:3000/updateMenu/${updateId}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(foodDetail)
+    })
+     
+      setForm(!form)
+  
   }
 
   const cross = () => {
     setForm(!form)
+    setUpdateId(null)
   }
 
 
-  console.log(foodDetail);
-
+  
   return (
     <>
       <div className="h-screen overflow-y-auto scrollbar-none py-10 px-6 absolute inset-0  backdrop-blur-md mt-12  ">
@@ -62,7 +74,7 @@ function Admin({ form, setForm, editData,setEditData }) {
 
 
             <h1 className="text-4xl font-extrabold text-[#39364b] mt-2">
-              Add New Food Item
+              {updateId === null ?'Add New Item' :'Edit Item Data'}
             </h1>
 
             <p className="text-gray-500 mt-3">
@@ -177,10 +189,11 @@ function Admin({ form, setForm, editData,setEditData }) {
             </label>    </div>
 
           <button
-            onClick={addFoodItem}
+            onClick={()=>{updateId===null ?addFoodItem(): editFoodItem()}}
             className="w-full mt-8 bg-[#39364b] text-white py-4 rounded-xl text-lg font-semibold border-2 border-[#39364b] hover:bg-white hover:text-orange-500 hover:border-orange-500 transition-all duration-300"
           >
-            🍔 Add Food Item
+            {updateId===null ?'🍔 Add Food Item ': '📝 edit Food Item'}
+            
           </button>
 
         </form>

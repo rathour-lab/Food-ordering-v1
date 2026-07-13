@@ -22,7 +22,6 @@ import LoginPage from '../Pages/loginPage'
 function App() {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const [cartitem, setCartitem] = useState(0);
   const [adminlogin,setAdminlogin]=useState(false)
   const [statusTrack,setStatus]=useState({
     orderPlaced:false,
@@ -64,12 +63,17 @@ function App() {
 
   return ( 
     <>
-      {!isAdmin && <Navbar statusTrack={statusTrack} cartitem={cartitem} setadminlogin={setAdminlogin} adminlogin={adminlogin} socket={socket}/>}
+      {!isAdmin && <Navbar
+    statusTrack={statusTrack}
+    setadminlogin={setAdminlogin}
+    adminlogin={adminlogin}
+    socket={socket}
+/>}
       <Routes>
-        <Route path="/" element={<HomeSection cartvalue={setCartitem} />} />
+        <Route path="/" element={<HomeSection socket={socket}/>} />
         <Route path="/Cart" element={<Cart setStatus={setStatus} statusTrack={statusTrack}/>} />
           
-        <Route path="/Menu" element={<Menupage cartvalue={setCartitem} />} />
+        <Route path="/Menu" element={<Menupage />} />
         <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />
 
 

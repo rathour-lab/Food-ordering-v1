@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from './Navbar'
 
-const Menu = ({cartvalue}) => {
+const Menu = ({socket}) => {
   console.log('menu render');
   
   const [item, setItem] = useState([])
@@ -41,20 +41,17 @@ const Menu = ({cartvalue}) => {
 
     return () => window.removeEventListener("resize", updateCards);
   }, [])
+const handleAddToCart = async (cartdata) => {
 
-  const  handleAddToCart =async (cartdata) => {
-    cartvalue(prev=> prev+1)
-    console.log('working',cartdata);
-    
-let res=await fetch('http://localhost:3000/get-order',{
-  method:'POST',
-            headers:{
-                'Content-type':'application/json'
-            },
-            body:JSON.stringify(cartdata)
-})
+    await fetch("http://localhost:3000/get-order", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartdata),
+    });
 
-  };
+};
   return (
     <>
       <div className='bg-[#fff8dd]  transition-all duration-500'>

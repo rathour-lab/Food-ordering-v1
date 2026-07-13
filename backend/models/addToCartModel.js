@@ -1,6 +1,7 @@
 const mongoose =require( 'mongoose');
 
-const OrderSchema = new mongoose.Schema({
+const OrderSchema = new mongoose.Schema(
+  {
   cartItems: [
     {
       _id: String,

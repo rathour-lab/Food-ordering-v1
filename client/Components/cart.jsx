@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaChevronLeft, FaChevronRight, FaTrash } from 'react-icons/fa';
+import {Navigate} from "react-router-dom";
+
 import swal from 'sweetalert2';
 
 const Cart = ({setStatus,statusTrack}) => {
@@ -22,45 +24,69 @@ const deliveryFee = grandTotal > 500 ? 0 : 40;
 const finalTotal = grandTotal + deliveryFee;
 
 
-  function increaseItem(id) {
-      
-          setCartItem((prev)=>{
-            
-              
-            return  prev.map((item)=>{
-                if (item._id===id) {
-                  
-                  return {...item,quantity:item.quantity+1}
-                }else{
-                  return item;
-                }
-              })
-              
-            }
-          )
-  }
+ async function increaseItem(id) {
 
-  function decreseItem(id) {
-  
-    setCartItem((prev)=>{
-      return prev.map((item)=>{
-        if (item._id===id) {
-            
-              
-              return {...item,quantity:item.quantity-1}
-            
-        }else{
-          return item;
-        }
-      })
-    })
-  }
+    const item = CartItem.find(i => i._id === id);
+
+    const res = await fetch(`http://localhost:3000/cart/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            quantity: item.quantity + 1,
+        }),
+    });
+
+    if (res.ok) {
+
+        setCartItem(prev =>
+            prev.map(item =>
+                item._id === id
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+            )
+        );
+
+    }
+
+}
+async function decreaseItem(id) {
+
+    const item = CartItem.find(i => i._id === id);
+
+    if (item.quantity === 1) return;
+
+    const res = await fetch(`http://localhost:3000/cart/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            quantity: item.quantity - 1,
+        }),
+    });
+
+    if (res.ok) {
+
+        setCartItem(prev =>
+            prev.map(item =>
+                item._id === id
+                    ? { ...item, quantity: item.quantity - 1 }
+                    : item
+            )
+        );
+
+    }
+
+}
     useEffect(() => {
 
         async function getMenu() {
-            let response = await fetch('http://localhost:3000/get-cartItem');
-            let data = await response.json();
-         setCartItem(data);
+          const response = await fetch("http://localhost:3000/get-cartItem");
+const data = await response.json();
+
+setCartItem(data);
            
 
         }
@@ -89,16 +115,12 @@ const finalTotal = grandTotal + deliveryFee;
           if (CartItem.length>0) {
    
     
-      let res=await fetch('http://localhost:3000/postAdminCartData',{
-        method:'POST',
-        headers:{'Content-Type':'Application/json'},
-        body:JSON.stringify({
-          cartItems: CartItem,
-          grandTotal,
-          date:new Date()
-
-        })
-      })
+      let res = await fetch(
+    "http://localhost:3000/postAdminCartData",
+    {
+        method: "POST",
+    }
+);
       swal.fire({
   title: "🍽️ Order Placed!",
   text: "Thanks for your order! We're preparing it now. You'll be notified once it's confirmed.",
@@ -123,6 +145,7 @@ const finalTotal = grandTotal + deliveryFee;
   timerProgressBar: true,
 });
 }
+<Navigate to="/" replace />;
 }
 
     return (
@@ -182,9 +205,9 @@ const finalTotal = grandTotal + deliveryFee;
                     <button
                       className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition"
                     >
-                      <FaChevronLeft  onClick={()=>{if (item.quantity>0) {
+                      <FaChevronLeft  onClick={()=>{if (item.quantity>1) {
                         
-                        decreseItem(item._id)}
+                        decreaseItem(item._id)}
                       } 
                       }/>
                     </button>

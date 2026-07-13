@@ -8,6 +8,7 @@ const AdminMenusection = ({form,setForm}) => {
   const[menu,setMenu]=useState([]);
   const[menuCount,setMenuCount]=useState(0);
   const[like,setLike]=useState(false)
+  const[updateId,setUpdateId]=useState(null)
   const ref = useRef()
   const[editData,setEditData]=useState(null)
 
@@ -47,13 +48,18 @@ const AdminMenusection = ({form,setForm}) => {
    }
   }
   
+  
    const edit = async(food)=>{
+    
+    
+   setUpdateId(food._id)
+
       setForm(true)
    setEditData(food)
   }
 
   if (form) {
-    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} />
+    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} updateId={updateId} setUpdateId={setUpdateId}/>
   }
 
   const likeItem = ()=>{
