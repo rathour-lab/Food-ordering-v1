@@ -11,7 +11,7 @@ const Reservation = ({bell,setBell}) => {
     date: '',
     time: '',
     occasion: '',
-    state:'pending'
+    state:'Pending'
   });
 
   const submit = async (e) => {

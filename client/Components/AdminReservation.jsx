@@ -4,10 +4,7 @@ const AdminReservation = () => {
 
     const [reservationData,setReservationData]=useState([])
     const [reservationCount,setReservationCount]=useState(0)
-    const [reservationConfirm,setReservationConfirm]=useState(0)
-    const [reservationCancel,setReservationCancel]=useState(0)
-    const [statusCancel,setStatusCancel]=useState(false)
-
+    
  useEffect(()=>{
    const showReservation = async() =>{
   try {
@@ -24,27 +21,68 @@ setReservationCount(data.count);
 }
 showReservation()
 },[])
-const confirm = (id) =>{
-//  setReservationConfirm(prev=> prev + 1);
-//  setStatusComfirm(true)
-  setReservationData((prev)=>{
-    return prev.map((item)=>{
-     if (item._id === id) {
-      return {...item, state:item.state='confirm'}
-    } else{
-      return item;
-    } 
-    })
-  })
-  console.log(reservationData);
+
+const confirm = async(id) => {
+try {
+  let res = await fetch(`http://localhost:3000/Reservation/${id}`,
+    {
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        state:"Confirmed"
+      })
+    }
+  )
+  let data = await res.json()
   
+ if (res.ok) {
+   setReservationData(prev =>
+    prev.map(item =>
+      item._id === id
+        ? { ...item, state: "Confirmed" }
+        : item
+    )
+  );
+ }
+} catch (error) {
+  console.log(err);
 }
-const Cancel = () =>{
- setReservationCancel(prev=> prev + 1);
- setStatusCancel(true)
-}
+};
 
+const Cancel = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:3000/Reservation/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          state: "Cancelled",
+        }),
+      }
+    );
 
+    if (res.ok) {
+      setReservationData((prev) =>
+        prev.map((item) =>
+          item._id === id
+            ? { ...item, state: "Cancelled" }
+            : item
+        )
+      );
+
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const confirmedCount = reservationData.filter(item=>item.state === "Confirmed").length
+const canceledCount = reservationData.filter(item=>item.state === "Cancelled").length
+const pendingCount = reservationData.filter(item=>item.state === "Pending").length
   return (
     <>
     <section className='bg-[#fff8dd] px-6 py-6'>
@@ -85,7 +123,7 @@ const Cancel = () =>{
         <div  className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/?size=100&id=15849&format=png&color=FD7E14" alt="data-pending"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'>Pending Requests</h1>
-          <p className='text-2xl font-extrabold'>18</p>
+          <p className='text-2xl font-extrabold'>{pendingCount}</p>
           <p className='font-bold text-sm text-gray-700'>Awaiting confirmation</p>
         </div>
       </div>
@@ -93,7 +131,7 @@ const Cancel = () =>{
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/dotty/80/FD7E14/ticket-confirmed.png" alt="ticket-confirmed"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'> Confirmed Bookings</h1>
-          <p className='text-2xl font-extrabold'>{reservationConfirm}</p>
+          <p className='text-2xl font-extrabold'>{confirmedCount}</p>
           <p className='font-bold text-sm text-gray-700'>Ready for guests</p>
         </div>
       </div>
@@ -101,7 +139,7 @@ const Cancel = () =>{
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=42223&format=png&color=FD7E14" alt="checked-truck"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'>Cancelled Reservations</h1>
-          <p className='text-2xl font-extrabold'>{reservationCancel}</p>
+          <p className='text-2xl font-extrabold'>{canceledCount}</p>
           <p className='font-bold text-sm text-gray-700'>Cancelled bookings</p>
         </div>
       </div>
@@ -110,7 +148,9 @@ const Cancel = () =>{
 
     <div className="grid grid-cols-4 py-6 gap-3">
 {reservationData.map((customer)=>{
-  return <div key={customer._id} className='bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6'>
+  console.log(customer.state);
+console.log(typeof customer.state);
+  return   <div  key={customer._id} className='bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6'>
   {/* Header */}
   <div className="flex justify-between items-center border-b border-gray-200 pb-4">
     <div>
@@ -123,7 +163,7 @@ const Cancel = () =>{
     </div>
 
     <span className=" bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-      Confirmed
+        {customer.state || "Pending"}
     </span>
   </div>
 
@@ -187,14 +227,27 @@ const Cancel = () =>{
   {/* Buttons */}
   <div className="flex gap-3 pt-4 border-t border-gray-200">
 
-    <button className={`flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition ${!statusCancel ? "block" : "hidden"}`} onClick={()=>confirm(customer._id)}>
+  {( customer.state === "Pending")  ? (
+  <>
+    <button
+      className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold"
+      onClick={() => confirm(customer._id)}
+    >
       ✓ Confirm
     </button>
 
-    <button className={`flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition`} onClick={Cancel}>
+    <button
+      className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold"
+      onClick={() => Cancel(customer._id)}
+    >
       ✕ Cancel
     </button>
-
+  </>
+) : (
+  <div className="w-full text-center font-semibold text-gray-500">
+    Reservation {customer.state}
+  </div>
+)}
   </div>
 </div>
 })}

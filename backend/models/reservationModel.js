@@ -29,8 +29,9 @@ const resevationSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    state:{
-        type:String
+    state: {
+        type: String,
+        default: "Pending"
     }
 });
 

@@ -20,15 +20,25 @@ async function addReservation(req,res) {
     }
 };
 
-// dlt Reservation data
 
-async function rejectReservation(res,req) {
+
+async function updateReservation(req, res) {
   try {
-      const id=req.params.id;
-    await Reservation.findByIdAndDelete(id)
+    let {id} = req.params;
+    let {state} = req.body;
+    
+    const reservation = await Reservation.findByIdAndUpdate(
+        id,
+        {state},
+        {new:true}
+    );
+    res.json({
+  message: "Reservation Updated",
+  reservation
+});
   } catch (error) {
-       res.json({message:error.message})
+    res.json({message:error.message})
   }
 };
 
-module.exports={getReservation,addReservation,rejectReservation}
+module.exports={getReservation,addReservation,updateReservation}

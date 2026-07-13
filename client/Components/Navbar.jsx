@@ -14,14 +14,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
     const [cart, setCart] = useState(false);
     const [status, setStatus] = useState(true);
     const [sidebar, setSidebar] = useState(false);
-    const [ATC_data, setATC_data] = useState([]);
-    const totalPrice = ATC_data.reduce((total, item) => {
-        return total + item.price * item.quantity;
-    }, 0);
     console.log('nav render');
-   const totalQuantity = ATC_data.reduce((total, item) => {
-    return total + item.quantity;
-}, 0);
     const orderStatus = [
         {
             title: "Order Placed",
@@ -411,14 +404,89 @@ useEffect(() => {
                             />
                             {!sidebar ? (<></>) : (<>
 
-                                <div className="bg-white absolute top-14 h-screen w-2xs -right-10 transition-all duration-500">
-                                    <ul>
-                                        <li>hello</li>
-                                        <li>hello</li>
-                                        <li>hello</li>
-                                        <li>hello</li>
+                                <div className="bg-white absolute top-14 h-145 w-2xs -right-4  transition-all  duration-300 rounded-s-3xl px-3 py-2  flex flex-col  ">
+                                    <div className="flex justify-between items-center border-b-2 border-gray-600 ">
+                                    <p className="py-3 font-bold text-xl text-center ">HUNGER TOWN </p>
+                                        <img className="size-8 cursor-pointer" src="https://img.icons8.com/?size=100&id=gykZ2Zai2dlQ&format=png&color=FD7E14" alt="" onClick={() => setSidebar(!sidebar)} />
+                                    </div>
+                                    <ul className="  text-lg font-semibold pt-5   *:space-y-4 flex-1">
+
+                                        <NavLink
+                                            to="/"
+                                            className={({ isActive }) =>
+                                                `relative group transition-all duration-300 ${isActive ? "text-[#ff8800]" : "text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            <li className="py-2  transition-transform duration-300">
+                                                Home
+                                            </li>
+
+                                            <span
+                                                className="
+              absolute left-0 -bottom-1
+              h-[3px] w-0
+              bg-[#ff8800]
+              rounded-full
+              transition-all duration-300
+              group-hover:w-full
+            "
+                                            ></span>
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/Menu"
+                                            className={({ isActive }) =>
+                                                `relative group transition-all duration-300 ${isActive ? "text-[#ff8800]" : "text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            <li className="py-2  transition-transform duration-300">
+                                                Menu
+                                            </li>
+
+                                            <span
+                                                className="
+              absolute left-0 -bottom-1
+              h-[3px] w-0
+              bg-[#ff8800]
+              rounded-full
+              transition-all duration-300
+              group-hover:w-full
+            "
+                                            ></span>
+                                        </NavLink>
+
+                                        <NavLink
+                                            to="/Reservations"
+                                            className={({ isActive }) =>
+                                                `relative group transition-all duration-300  ${isActive ? "text-[#ff8800]" : "text-gray-800"
+                                                }`
+                                            }
+                                        >
+                                            <li className="py-2 transition-transform duration-300  ">
+                                                Reservations
+                                            </li>
+
+                                            <span
+                                                className="
+              absolute left-0 -bottom-1
+              h-[3px] w-0
+              bg-[#ff8800]
+              rounded-full
+              transition-all duration-300
+              group-hover:w-full
+            "
+                                            ></span>
+                                        </NavLink>
                                     </ul>
-                                </div></>)}
+                                        <Link to='/menu'>
+                                    <div className="  rounded-2xl py-2 text-white font-bold bg-linear-to-r from-orange-500 to-amber-500  flex justify-center items-center hover:cursor-pointer shadow-lg shadow-orange-400/30 transition-all duration-300 hover:shadow-xl ">
+                                            <button className="hover:cursor-pointer">Order Now</button>
+                                    </div>
+                                        </Link>
+                                </div>
+                            </>)}
                         </div>
 
                     </div>

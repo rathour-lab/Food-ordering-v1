@@ -16,7 +16,6 @@ const OrderSchema = new mongoose.Schema(
 
   grandTotal: {
     type: Number,
-    required: true,
   },
 
   orderStatus: {
