@@ -1,8 +1,43 @@
 import React, { useState } from 'react'
 import Admin from './AdminMenuForm'
+import { useEffect } from 'react';
+import RevenueChart from "./RevenueChart";
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   
+  const [dashboard,setDashboard]=useState({});
+  const [order,setOrder]=useState([]);
+  const [reservation,setReservation]=useState([]);
+
+  useEffect(() => {
+  getDashboard(); 
+  getOrder();
+  getReservation(); 
+}, []);
+
+  const getDashboard = async() =>{
+    let res = await fetch("http://localhost:3000/dashboard");
+    let data = await res.json();
+    setDashboard(data)
+  }
+
+  const getOrder = async() =>{
+    let res = await fetch('http://localhost:3000/getAdminCartData');
+    let data = await res.json();
+    setOrder(data.data)
+  }
+
+  const getReservation = async() =>{
+    let res = await fetch('http://localhost:3000/get-Reservation');
+    let data = await res.json();
+    setReservation(data.data)
+  }
+
+  const pieData = dashboard.orderStatusChart?.map(item => ({
+  name: item._id,
+  value: item.count
+}));
   return (
     <>
     <section className='bg-[#fff8dd] px-6 py-6'>
@@ -37,7 +72,7 @@ const AdminDashboard = () => {
         <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=ySRi3OLgoOJX&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
           <h1 className="font-bold text-sm text-gray-700"> Total Orders</h1>
-<p className="text-2xl font-extrabold"> 128</p>
+<p className="text-2xl font-extrabold"> {dashboard.totalOrders}</p>
 <p className="font-bold text-sm text-gray-700"> All customer orders received</p>
         </div>
       </div>
@@ -45,7 +80,7 @@ const AdminDashboard = () => {
         <div  className='self-center'><img width="52" height="52" className='' src="https://img.icons8.com/?size=100&id=68426&format=png&color=FD7E14" alt="data-pending"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'>Total Revenue</h1>
-          <p className='text-2xl font-extrabold'>₹52,840</p>
+          <p className='text-2xl font-extrabold'>₹ {dashboard.totalRevenue}</p>
           <p className='font-bold text-sm text-gray-700'>Total earnings from  orders.</p>
         </div>
       </div>
@@ -53,7 +88,7 @@ const AdminDashboard = () => {
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=QiAIVvJZ1woO&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'> Menu Items</h1>
-          <p className='text-2xl font-extrabold'>45</p>
+          <p className='text-2xl font-extrabold'>{dashboard.totalMenuItems}</p>
           <p className='font-bold text-sm text-gray-700'>Currently available dishes</p>
         </div>
       </div>
@@ -61,14 +96,120 @@ const AdminDashboard = () => {
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=qXfHicSrtSY4&format=png&color=FD7E14" alt="checked-truck"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'> Reservations</h1>
-          <p className='text-2xl font-extrabold'>14</p>
+          <p className='text-2xl font-extrabold'>{dashboard.totalReservations}</p>
           <p className='font-bold text-sm text-gray-700'>Total table bookings</p>
         </div>
       </div>
       
     </div>
 
-   
+   <div className="mt-7">
+    <RevenueChart
+    data={dashboard.revenueChart}
+    pieData={pieData}
+/>
+</div>
+
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+
+  {/* Recent Orders */}
+  <div className="bg-white rounded-2xl shadow-md border border-orange-100 overflow-hidden">
+    <div className="flex items-center justify-between px-6 py-4 border-b border-orange-100">
+      <div>
+        <h2 className="text-xl font-bold text-gray-800">
+          Recent Orders
+        </h2>
+        <p className="text-sm text-gray-500">
+          Latest customer orders
+        </p>
+      </div>
+
+      <button className="text-orange-500 font-semibold hover:text-orange-600 transition" >
+        View All
+      </button>
+    </div>
+
+    <table className="w-full">
+      <thead className="bg-orange-50">
+        <tr className="text-gray-700">
+          <th className="px-5 py-3 text-left">Order ID</th>
+          <th className="px-5 py-3 text-left">Name</th>
+          <th className="px-5 py-3 text-left">Amount</th>
+          <th className="px-5 py-3 text-center">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {order.slice(0,4).map((item)=>{
+          return <tr className="border-b hover:bg-gray-50 transition">
+          <td className="px-5 py-4 font-medium">#{item._id.slice(-6)}</td>
+          {item.cartItems.map((data) => (
+      <span
+        key={data._id}
+        className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs"
+      >
+        {data.name}
+      </span>
+    ))}
+          <td className="px-5 py-4 font-semibold text-green-600">₹{item.grandTotal}</td>
+          <td className="px-5 py-4 text-center">
+            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+              {item.orderStatus}
+            </span>
+          </td>
+        </tr>
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  {/* Recent Reservations */}
+  <div className="bg-white rounded-2xl shadow-md border border-orange-100 overflow-hidden">
+    <div className="flex items-center justify-between px-6 py-4 border-b border-orange-100">
+      <div>
+        <h2 className="text-xl font-bold text-gray-800">
+          Recent Reservations
+        </h2>
+        <p className="text-sm text-gray-500">
+          Latest table bookings
+        </p>
+      </div>
+
+      <button className="text-orange-500 font-semibold hover:text-orange-600 transition" >
+        View All
+      </button>
+    </div>
+
+    <table className="w-full">
+      <thead className="bg-orange-50">
+        <tr className="text-gray-700">
+          <th className="px-5 py-3 text-left">ID</th>
+          <th className="px-5 py-3 text-left">Guests</th>
+          <th className="px-5 py-3 text-left">Date</th>
+          <th className="px-5 py-3 text-left">Time</th>
+          <th className="px-5 py-3 text-center">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+       {reservation.slice(0,4).map((info)=>{
+        return  <tr className="border-b hover:bg-gray-50 transition">
+          <td className="px-5 py-4 font-medium">#{info._id.slice(-6)}</td>
+          <td className="px-5 py-4">{info.guests}</td>
+          <td className="px-5 py-4">{new Date(info.date).toLocaleDateString("en-IN")}</td>
+          <td className="px-5 py-4">{info.time}</td>
+          <td className="px-5 py-4 text-center">
+            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+              {info.state}
+            </span>
+          </td>
+        </tr>
+       })}
+      </tbody>
+    </table>
+  </div>
+
+</div>
     </section>
     </>
   )

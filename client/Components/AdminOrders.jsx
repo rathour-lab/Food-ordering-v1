@@ -32,50 +32,47 @@ const [symbol,setSymbol]=useState('Order Placed');
 
 const statusStyle = (status)=>{
   switch (status) {
-    case "Order Planced":
-      return "bg-blue-100 text-blue-700"
-      break;
-    case "Confirmed":
-      return "bg-indigo-100 text-indigo-700"
-      break;
-    case "Preparing":
-      return "bg-yellow-100 text-yellow-700"
-      break;
-    case "Ready for Pickup":
-      return "bg-purple-100 text-purple-700"
-      break;
-    case "Out for Delivery":
-      return "bg-cyan-100 text-cyan-700"
-      break;
-    case "Delivered":
-      return "bg-green-100 text-green-700"
-      break;
+      case "Order Placed":
+      return "bg-blue-100 text-blue-700";
+
+      case "Confirmed":
+      return "bg-indigo-100 text-indigo-700";
+
+      case "Preparing":
+      return "bg-yellow-100 text-yellow-700";
+
+      case "Ready for Pickup":
+      return "bg-purple-100 text-purple-700";
+
+      case "Out for Delivery":
+      return "bg-cyan-100 text-cyan-700";
+
+      case "Delivered":
+      return "bg-green-100 text-green-700";
 
     default:
-      return "bg-gray-100 text-gray-700"
-      break;
+      return "bg-gray-100 text-gray-700";
   }
 }
 
-const [order,setOrder]=useState([]);
-const [cost,setCost]=useState([])
-const [time,setTime]=useState([])
+const [order,setOrder]=useState(null);
+const [orderCount,setOrderCount]=useState(0)
+
 
 useEffect(()=>{
   try {
     const foodOrder = async() =>{
   let res = await fetch('http://localhost:3000/getAdminCartData');
   let data = await res.json();
-  setOrder(data.CartItem);
-  setCost(data.grandTotal)
-  setTime(data.date)
+  setOrder(data.data);
+  setOrderCount(data.count)
 }
 foodOrder();
   } catch (error) {
     console.log(error);
     
   }
-})
+},[])
 
   return (
     <>
@@ -111,7 +108,7 @@ foodOrder();
         <div>
           <h1 className='font-bold
            text-sm text-gray-700'>Total Orders</h1>
-          <p  className='text-2xl font-extrabold'>1212</p>
+          <p  className='text-2xl font-extrabold'>{orderCount}</p>
           <p className='font-bold text-sm text-gray-700'>All time orders</p>
         </div>
       </div>
@@ -134,8 +131,8 @@ foodOrder();
       
     </div>
 
-<div className='grid grid-cols-4 py-6'>
-    {order.map((food)=>{
+<div className='grid grid-cols-4 py-6 gap-4'>
+    {order && order.map((food)=>{
       return <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5">
 
   {/* Header */}
@@ -152,30 +149,13 @@ foodOrder();
   {/* Items */}
   <div className="py-4 space-y-3 border-b border-gray-200 h-32 overflow-y-scroll scrollbar-thin">
 
-    <div className="flex justify-between">
+    {food.cartItems.map((item)=>{
+      return <div className="flex justify-between">
       <p className='flex gap-2 '
-      ><img src={food.image} className='w-6' alt="" /> {food.name}</p>
-      <span className="font-semibold">×{food.quantity}</span>
+      ><img src={item.image} className='w-6' alt="" /> {item.name}</p>
+      <span className="font-semibold">×{item.quantity}</span>
     </div>
-
-    <div className="flex justify-between">
-      <p> Burger</p>
-      <span className="font-semibold">×1</span>
-    </div>
-
-    <div className="flex justify-between">
-      <p>🥤 Coke</p>
-      <span className="font-semibold">×1</span>
-    </div>
-    <div className="flex justify-between">
-      <p> Burger</p>
-      <span className="font-semibold">×1</span>
-    </div>
-
-    <div className="flex justify-between">
-      <p>🥤 Coke</p>
-      <span className="font-semibold">×1</span>
-    </div>
+    })}
 
   </div>
 
@@ -206,7 +186,7 @@ foodOrder();
       </span>
 
       <span className="text-2xl font-bold text-orange-500">
-        ₹{cost}
+        ₹{food.grandTotal}
       </span>
     </div>
 
@@ -214,8 +194,8 @@ foodOrder();
 
   {/* Date */}
   <div className="flex justify-between py-4 text-sm text-gray-500 font-medium">
-    <span>📅 {new Date(time).toLocaleDateString("en-IN")}</span>
-    <span>🕒 {new Date(time).toLocaleTimeString("en-IN")}</span>
+    <span>📅 {new Date(food.createdAt).toLocaleDateString("en-IN")}</span>
+    <span>🕒 {new Date(food.createdAt).toLocaleTimeString("en-IN")}</span>
   </div>
 
   {/* Status */}

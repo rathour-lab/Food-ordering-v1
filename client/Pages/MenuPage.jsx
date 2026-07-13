@@ -27,6 +27,10 @@ function Menupage({cartvalue}) {
   },[]);
 
  const  handleAddToCart =async (cartdata) => {
+  setAddedItems(prev => [...prev, cartdata._id]);
+   setTimeout(()=>{
+    setAddedItems([]);
+   },3000)
     cartvalue(prev=> prev+1)
     console.log('working',cartdata);
     
@@ -185,28 +189,89 @@ let res=await fetch('http://localhost:3000/get-order',{
 
           <div className="w-24 h-1 bg-orange-500 rounded-full mx-auto mt-6"></div>
         </div>
-        <div className='py-16 pb-10 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4  gap-18 md:gap-14 md:pb-5 px-6  lg:px-22 lg:pb-15 '>
-          {item.map((food) => {
-            return <div key={food._id} className="bg-[#f3f3f3] rounded-2xl pt-18 md:pt-14 pb-8 space-y-5 md:mb-5 relative px-5 shadow-md hover:shadow-2xl hover:-translate-y-3 hover:rotate-1 transition-all duration-350">
-              <div className='object-contain'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-6 lg:px-20 py-16">
+         {item.map((food) => {
+  return (
+    <div
+      key={food._id}
+      className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 overflow-hidden group"
+    >
+      {/* Category */}
+      <div className="absolute top-5 right-5 z-20">
+        <span className="bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+          {food.category}
+        </span>
+      </div>
 
-                <img src={`${food.image}`} alt="" className="px-26 sm:px-16 md:px-10 lg:px-12 h-28 absolute inset-0 -top-12 transition-transform duration-300 hover:scale-105 rounded-2xl w-full  " />
-              </div>
-              <div className='space-y-2'>
-                <h1 className='pt-12 md:pt-8 font-extrabold text-xl text-[#39364b]'>{food.name}</h1>
-                <p className='text-sm h-15 overflow-hidden'>{food.description}</p>
-                <div className='flex justify-between pb-3'>
-                  <p className='text-orange-500 font-extrabold self-center'>$ {food.price}</p>
-                  <p className={`font-bold py-1 px-2 rounded-2xl text-white ${food.isAvailable ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>
-                    {food.isAvailable ? 'Available' : 'notAvailable'}</p>
+      {/* Image */}
+      <div className="flex justify-center mt-8">
+        <div className="w-40 h-40 rounded-full bg-orange-50 flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-500">
+          <img
+            src={food.image}
+            alt={food.name}
+            className="w-36 h-36 object-contain rounded-full"
+          />
+        </div>
+      </div>
 
-                  <button onClick={() => {handleAddToCart(food)
-                  }}
-                    disabled={addedItems.includes(food._id)} className={`absolute -bottom-7 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full border-2 transition-all duration-300 font-semibold whitespace-nowrap ${addedItems.includes(food._id) ? "bg-green-500 border-green-500 text-white cursor-default" : "bg-[#39364b] border-[#39364b] text-white hover:bg-white hover:text-orange-500 hover:border-orange-500"}`}>{addedItems.includes(food._id) ? "✓ Added" : "Add to Cart"}</button>
-                </div>
-              </div>
-            </div>
-          })}
+      {/* Content */}
+      <div className="px-6 pb-6 pt-4">
+
+       
+
+        {/* Name */}
+        <h2 className="text-2xl font-bold text-center text-[#39364b] mt-3 h-14 flex items-center justify-center">
+          {food.name}
+        </h2>
+
+        {/* Description */}
+        <p className="text-gray-500 text-sm text-center h-16 overflow-hidden leading-6 mt-2">
+          {food.description}
+        </p>
+
+        {/* Price + Stock */}
+        <div className="flex justify-between items-center mt-5">
+
+          <div>
+            <p className="text-xs text-gray-400">
+              Starting From
+            </p>
+
+            <h2 className="text-3xl font-extrabold text-orange-500">
+              ₹{food.price}
+            </h2>
+          </div>
+
+          <span
+            className={`px-4 py-2 rounded-full text-xs font-bold ${
+              food.isAvailable
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {food.isAvailable ? "🟢 Available" : "🔴 Unavailable"}
+          </span>
+
+        </div>
+
+        {/* Button */}
+        <button
+          onClick={() => handleAddToCart(food)}
+          disabled={addedItems.includes(food._id)}
+          className={`w-full mt-6 py-3 rounded-full font-bold transition-all duration-300 ${
+            addedItems.includes(food._id)
+              ? "bg-green-500 text-white"
+              : "bg-gradient-to-r from-orange-500 to-red-500 text-white hover:scale-105 hover:shadow-xl"
+          }`}
+        >
+          {addedItems.includes(food._id)
+            ? "✓ Added to Cart"
+            : "🛒 Add to Cart"}
+        </button>
+      </div>
+    </div>
+  );
+})}
         </div>
 
 

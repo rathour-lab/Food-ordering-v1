@@ -1,8 +1,8 @@
-const express = require('express');
-const db_route=express.Router();
+const express = require("express");
+const router = express.Router();
 
-const {getDashboard} = require("../controllers/dashboardController");
+const { getDashboard } = require("../controller/dashboardController");
 
-db_route.get("/", getDashboard);
+router.get("/dashboard", getDashboard);
 
-module.exports=db_route
+module.exports = router;
