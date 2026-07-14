@@ -62,9 +62,9 @@ const AdminMenusection = ({form,setForm}) => {
     return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} updateId={updateId} setUpdateId={setUpdateId}/>
   }
 
-  const likeItem = ()=>{
-    setLike(!like)
-  }
+  const Available = menu.filter(item=>item.isAvailable === true).length
+  const unavailable = menu.filter(item=>item.isAvailable === false).length
+
 
   return (
     <>
@@ -114,7 +114,7 @@ const AdminMenusection = ({form,setForm}) => {
         <div  className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/?size=100&id=bmIB2pcxPHgU&format=png&color=FD7E14" alt="data-pending"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'>Available Items</h1>
-          <p className='text-2xl font-extrabold'>18</p>
+          <p className='text-2xl font-extrabold'>{Available}</p>
           <p className='font-bold text-sm text-gray-700'>Ready to order</p>
         </div>
       </div>
@@ -127,11 +127,11 @@ const AdminMenusection = ({form,setForm}) => {
         </div>
       </div>
        <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
-        <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=ADiAqImPmRwi&format=png&color=FD7E14" alt="checked-truck"/></div>
+        <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=Zg39Op7xYb6E&format=png&color=FD7E14" alt="checked-truck"/></div>
         <div>
-          <h1 className='font-bold text-sm text-gray-700'>Featured Items</h1>
-          <p className='text-2xl font-extrabold'>14</p>
-          <p className='font-bold text-sm text-gray-700'>Customer favorites</p>
+          <h1 className='font-bold text-sm text-gray-700'>Out of Stock</h1>
+          <p className='text-2xl font-extrabold'>{unavailable}</p>
+          <p className='font-bold text-sm text-gray-700'>Currently unavailable</p>
         </div>
       </div>
       
@@ -148,10 +148,6 @@ const AdminMenusection = ({form,setForm}) => {
       alt="Pizza"
       className="w-full h-52 object-cover"
     />
-
-<div className='absolute right-4 top-2' onClick={likeItem}>
-   <FaHeart className={`w-8 h-8   ${like ? 'text-red-600 ':'text-gray-500'}`} /> 
-</div>
   </div>
 
   {/* Card Content */}

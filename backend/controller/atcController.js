@@ -144,11 +144,31 @@ async function getAdminCartdata(req, res) {
     }
 }
 
+// update oreder status
+
+async function updateOrderStatus(req,res) {
+    try {
+        const {id} = req.params;
+        const {orderStatus} = req.body
+        
+        const data = await OrderModel.findByIdAndUpdate(
+            id,
+            {orderStatus},
+            {new : true}
+        );
+        res.json(data)
+        
+    } catch (error) {
+        res.json({message:error.message})
+    }
+}
+
 module.exports = {
     getATC,
     getCartItem,
     deleteCartItem,
     AdminCartdata,
     getAdminCartdata,
-    updateCartQuantity
+    updateCartQuantity,
+    updateOrderStatus
 };
