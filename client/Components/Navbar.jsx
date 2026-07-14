@@ -7,6 +7,8 @@ import menu from "../src/assets/menu.png";
 import { FaClipboardCheck, FaUtensils, FaCheckCircle } from "react-icons/fa";
 import Menu from "./Menu";
 import LoginPage from "../Pages/loginPage";
+import { useLocation,useNavigate } from "react-router-dom";
+
 
 
 const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
@@ -19,6 +21,12 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
         return total + item.price * item.quantity;
     }, 0);
     console.log('nav render');
+    const location = useLocation();
+let navigator=useNavigate()
+useEffect(() => {
+  setCart(false);
+  setStatus(true);
+}, [location.pathname]);
     const orderStatus = [
         {
             title: "Order Placed",
@@ -108,7 +116,6 @@ async function increaseItem(id) {
     setATC_data(data);
 }
 useEffect(() => {
-
     getCartItem();
     let interval=setInterval(() => {
         getCartItem();
@@ -304,7 +311,7 @@ useEffect(() => {
                                         </div>
 
                                         <div className="border-t p-4">
-                                            <button
+                                            <button onClick={()=>navigator('/Menu')}
                                                 className="w-full py-3 rounded-full
             bg-gradient-to-r from-orange-500 to-amber-500
             text-white font-semibold
@@ -382,7 +389,9 @@ useEffect(() => {
 
                                         <Link to="/Cart">
                                             <button
-                                                onClick={() => setCart(false)}
+                                                onClick={() => setCart(false)
+
+                                                 }
                                                 className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300"
                                             >
                                                 Go to Cart →
