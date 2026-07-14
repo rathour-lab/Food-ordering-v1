@@ -1,10 +1,12 @@
 import React from "react";
         import { FaArrowRight, FaUtensils,FaCrown } from "react-icons/fa";
+        import { useNavigate } from "react-router-dom";
 
 import bgimg from "../src/assets/burgerwithonionrings2.jpeg";
 import crown from "../src/assets/icons8-crown-48.png";
 
 const About = () => {
+  let navigator=useNavigate()
   return (
     <div className="bg-[#fff8dd] py-20 pb-50">
 
@@ -88,7 +90,7 @@ const About = () => {
 <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
 
   {/* Primary Button */}
-  <button
+  <button onClick={()=>navigator('/Menu')}
     className="
       group flex items-center justify-center gap-3
       px-7 py-3
@@ -109,27 +111,7 @@ const About = () => {
   </button>
 
   {/* Secondary Button */}
-  <button
-    className="
-      group flex items-center justify-center gap-3
-      px-7 py-3
-      bg-white
-      text-gray-900 font-semibold
-      border-2 border-gray-200
-      rounded-full
-      shadow-md
-      transition-all duration-300
-      hover:border-orange-500
-      hover:text-orange-500
-      hover:-translate-y-1
-      hover:shadow-xl
-      active:scale-95
-      cursor-pointer
-    "
-  >
-    Explore More
-    <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-  </button>
+ 
 
 </div>
 

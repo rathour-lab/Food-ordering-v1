@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import reservation from "../src/assets/ReservationHero.png";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Reservation = ({bell,setBell}) => {
+  let navigator=useNavigate()
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -83,11 +85,11 @@ setBell(true)
             {/* Buttons */}
             <div className="flex gap-5 mt-10">
 
-              <button className="bg-[#ff8800] hover:bg-orange-600 duration-300 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-orange-300">
+              <button onClick={()=>window.scroll(0,640)} className="bg-[#ff8800] hover:bg-orange-600 duration-300 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-orange-300">
                 🍽️ Book Now
               </button>
 
-              <button className="border-2 border-[#ff8800] text-[#ff8800] hover:bg-[#ff8800] hover:text-white duration-300 px-8 py-4 rounded-full font-semibold">
+              <button onClick={()=>navigator('/Menu')} className="border-2 border-[#ff8800] text-[#ff8800] hover:bg-[#ff8800] hover:text-white duration-300 px-8 py-4 rounded-full font-semibold">
                 📖 View Menu
               </button>
 

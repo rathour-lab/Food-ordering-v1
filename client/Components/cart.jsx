@@ -1,315 +1,336 @@
 import React, { useState, useEffect } from 'react'
 import { FaChevronLeft, FaChevronRight, FaTrash } from 'react-icons/fa';
-import {Navigate} from "react-router-dom";
-
+import {useNavigate} from "react-router-dom";
 import swal from 'sweetalert2';
 
-const Cart = ({setStatus,statusTrack}) => {
-    const [CartItem, setCartItem] = useState([])
-    const [itemquantity, setItemquantity] = useState(0)
-    const [itemPrice,setItemPrice]=useState(0)
+const Cart = ({ setStatus, statusTrack }) => {
+  const [CartItem, setCartItem] = useState([])
+  const [itemquantity, setItemquantity] = useState(0)
+  const [itemPrice, setItemPrice] = useState(0)
   
-const totalItems = CartItem.length;
+  let navigator=useNavigate()
+  const totalItems = CartItem.length;
 
-const totalQuantity = CartItem.reduce((total, item) => {
-  return total + item.quantity;
-}, 0);
+  const totalQuantity = CartItem.reduce((total, item) => {
+    return total + item.quantity;
+  }, 0);
 
-const grandTotal = CartItem.reduce((total, item) => {
-  return total + item.price * item.quantity;
-}, 0);
+  const grandTotal = CartItem.reduce((total, item) => {
+    return total + item.price * item.quantity;
+  }, 0);
 
-const deliveryFee = grandTotal > 500 ? 0 : 40;
+  const deliveryFee = grandTotal > 500 ? 0 : 40;
 
-const finalTotal = grandTotal + deliveryFee;
+  const finalTotal = grandTotal + deliveryFee;
 
 
- async function increaseItem(id) {
+  async function increaseItem(id) {
 
     const item = CartItem.find(i => i._id === id);
 
     const res = await fetch(`http://localhost:3000/cart/${id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            quantity: item.quantity + 1,
-        }),
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        quantity: item.quantity + 1,
+      }),
     });
 
     if (res.ok) {
 
-        setCartItem(prev =>
-            prev.map(item =>
-                item._id === id
-                    ? { ...item, quantity: item.quantity + 1 }
-                    : item
-            )
-        );
+      setCartItem(prev =>
+        prev.map(item =>
+          item._id === id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
 
     }
 
-}
-async function decreaseItem(id) {
+  }
+  async function decreaseItem(id) {
 
     const item = CartItem.find(i => i._id === id);
 
     if (item.quantity === 1) return;
 
     const res = await fetch(`http://localhost:3000/cart/${id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            quantity: item.quantity - 1,
-        }),
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        quantity: item.quantity - 1,
+      }),
     });
 
     if (res.ok) {
 
-        setCartItem(prev =>
-            prev.map(item =>
-                item._id === id
-                    ? { ...item, quantity: item.quantity - 1 }
-                    : item
-            )
-        );
+      setCartItem(prev =>
+        prev.map(item =>
+          item._id === id
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+      );
 
     }
 
-}
-    useEffect(() => {
+  }
+  useEffect(() => {
 
-        async function getMenu() {
-          const response = await fetch("http://localhost:3000/get-cartItem");
-const data = await response.json();
 
-setCartItem(data);
-           
+    async function getMenu() {
+      const response = await fetch("http://localhost:3000/get-cartItem");
+      const data = await response.json();
 
-        }
-        getMenu();
+      setCartItem(data);
 
-    }, [])
 
-         
-    
+    }
+    getMenu();
 
-      async function deleteItem(id) {
-        console.log(id);
-        
-        let response=await fetch(`http://localhost:3000/delete-cartItem/${id}`,{
-          method:'DELETE'
-        })
-        let data =await response.json();
-        setCartItem(data.data)
-        console.log(data.message);
-        
-        }
-     
-        
-        async function handelCheckout() {
-          
-          if (CartItem.length>0) {
-   
-    
+  }, [])
+
+
+
+
+  async function deleteItem(id) {
+    console.log(id);
+
+    let response = await fetch(`http://localhost:3000/delete-cartItem/${id}`, {
+      method: 'DELETE'
+    })
+    let data = await response.json();
+    setCartItem(data.data)
+    console.log(data.message);
+
+  }
+
+
+  async function handelCheckout() {
+
+    if (CartItem.length > 0) {
+
+
       let res = await fetch(
-    "http://localhost:3000/postAdminCartData",
-    {
-        method: "POST",
-    }
-);
+        "http://localhost:3000/postAdminCartData",
+        {
+          method: "POST",
+        }
+      );
       swal.fire({
-  title: "🍽️ Order Placed!",
-  text: "Thanks for your order! We're preparing it now. You'll be notified once it's confirmed.",
-  icon: "success",
-  showConfirmButton: false,
-  timer: 3500,
-  timerProgressBar: true,
-});
+        title: "🍽️ Order Placed!",
+        text: "Thanks for your order! We're preparing it now. You'll be notified once it's confirmed.",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true,
+      });
       setStatus({
         ...statusTrack,
-        orderPlaced:true,
-        
+        orderPlaced: true,
+
       })
       setCartItem([])
-    }else{
-      swal.fire({
-  title: "Your Cart is empty",
-  text: "please add something in the cart",
-  icon: "warning",
-  showConfirmButton: false,
-  timer: 3500,
-  timerProgressBar: true,
-});
-}
-<Navigate to="/" replace />;
-}
+      const timer = setTimeout(() => {
+      navigator("/");
+    }, 3500);
 
-    return (
-       <div className="min-h-screen bg-orange-50 py-10 pb-60 ">
-  <div className="max-w-7xl mx-auto px-6 flex flex-col xl:flex-row gap-8">
+    return () => clearTimeout(timer);
+    }
+   
+  }
+useEffect(() => {
+  if (CartItem.length === 0) {
+    const timer = setTimeout(() => {
+      navigator("/");
+    }, 1500);
 
-    {/* Cart */}
-    <div className="flex-1 bg-white rounded-2xl shadow-lg p-6">
+    return () => clearTimeout(timer);
+  }
+}, [CartItem]);
 
-      <h2 className="text-2xl font-bold mb-6">
-        Cart Items
-      </h2>
+  return (
+    <div className="min-h-screen bg-orange-50 pt-10 pb-60 ">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col xl:flex-row gap-8">
 
-      <div className="overflow-y-scroll max-h-[600px] rounded-xl ">
+        {/* Cart */}
+        <div className="flex-1 bg-white rounded-2xl shadow-lg p-6">
 
-        <table className="w-full ">
+          <h2 className="text-2xl font-bold mb-6">
+            Cart Items
+          </h2>
 
-          <thead className="bg-gray-100 sticky top-0">
-            <tr className="text-gray-700 *:py-2">
-             <th className="min-w-[120px]">Item</th>
-<th className="min-w-[180px]">Name</th>
-<th className="min-w-[200px] hidden lg:table-cell">Description</th>
-<th className="min-w-[150px]">Quantity</th>
-<th className="min-w-[120px]">Price</th>
-<th className="min-w-[120px]">Delete</th>
-            </tr>
-          </thead>
+          <div className="overflow-y-scroll max-h-[600px] rounded-xl ">
+            {CartItem.length !== 0 ?
+              (<table className="w-full ">
 
-          <tbody className=''>
+                <thead className="bg-gray-100 sticky top-0">
+                  <tr className="text-gray-700 *:py-2">
+                    <th className="min-w-[120px]">Item</th>
+                    <th className="min-w-[180px]">Name</th>
+                    <th className="min-w-[200px] hidden lg:table-cell">Description</th>
+                    <th className="min-w-[150px]">Quantity</th>
+                    <th className="min-w-[120px]">Price</th>
+                    <th className="min-w-[120px]">Delete</th>
+                  </tr>
+                </thead>
 
-            {CartItem.map((item) => (
+                <tbody className=''>
 
-              <tr
-                key={item._id}
-                className="border-b hover:bg-gray-50 transition "
-              >
+                  {CartItem.map((item) => (
 
-                <td className="p-4 flex justify-center">
-                  <img
-                    src={item.image}
-                    className="w-16 h-16 rounded-lg object-cover"
-                    alt=""
-                  />
-                </td>
-
-                <td className="font-semibold px-8">
-                  {item.name}
-                </td>
-
-                <td className="text-gray-500 text-sm max-w-xs truncate ">
-                  {item.description}
-                </td>
-
-                <td>
-                  <div className="flex justify-center items-center gap-3">
-
-                    <button
-                      className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition"
+                    <tr
+                      key={item._id}
+                      className="border-b hover:bg-gray-50 transition "
                     >
-                      <FaChevronLeft  onClick={()=>{if (item.quantity>1) {
-                        
-                        decreaseItem(item._id)}
-                      } 
-                      }/>
-                    </button>
 
-                    <span className="font-semibold">
-                      {item.quantity}
-                    </span>
+                      <td className="p-4 flex justify-center">
+                        <img
+                          src={item.image}
+                          className="w-16 h-16 rounded-lg object-cover"
+                          alt=""
+                        />
+                      </td>
 
-                    <button
-                      className="w-8 h-8 rounded-full bg-orange-500 text-white hover:bg-orange-600 flex items-center justify-center transition"
-                    >
-                      <FaChevronRight onClick={()=>increaseItem(item._id)}/>
-                    </button>
+                      <td className="font-semibold px-8">
+                        {item.name}
+                      </td>
 
-                  </div>
-                </td>
+                      <td className="text-gray-500 text-sm  ">
+                        {item.description}
+                      </td>
 
-                <td className="text-center font-bold text-orange-600">
-                  
-                  ₹{item.price}
-                </td>
-                <td className="  font-bold text-orange-600">
-                  
-                 <FaTrash className=' w-full text-red-500 cursor-pointer hover:text-red-500/70 ' onClick={()=>deleteItem(item._id)}/>
-                </td>
-              </tr>
+                      <td>
+                        <div className="flex justify-center items-center gap-3">
 
-            ))}
+                          <button
+                            className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition"
+                          >
+                            <FaChevronLeft onClick={() => {
+                              if (item.quantity > 1) {
 
-          </tbody>
+                                decreaseItem(item._id)
+                              }
+                            }
+                            } />
+                          </button>
 
-        </table>
+                          <span className="font-semibold">
+                            {item.quantity}
+                          </span>
 
+                          <button
+                            className="w-8 h-8 rounded-full bg-orange-500 text-white hover:bg-orange-600 flex items-center justify-center transition"
+                          >
+                            <FaChevronRight onClick={() => increaseItem(item._id)} />
+                          </button>
+
+                        </div>
+                      </td>
+
+                      <td className="text-center font-bold text-orange-600">
+
+                        ₹{item.price}
+                      </td>
+                      <td className="  font-bold text-orange-600">
+
+                        <FaTrash className=' w-full text-red-500 cursor-pointer hover:text-red-500/70 ' onClick={() => deleteItem(item._id)} />
+                      </td>
+                    </tr>
+
+                  ))}
+
+                </tbody>
+              </table>
+              ) :
+              (<>
+                <div className=' text-center flex w-full h-50 justify-center items-center '>
+                  <div className=''>cart is empty
+                    </div>
+                    <div className=' h-6 w-6 border-t-4 border-t-orange-500 rounded-t-full animate-spin'>
+                    </div>
+                    Redirecting to Home page
+                </div>
+              </>
+              )
+            }
+
+
+          </div>
+
+        </div>
+
+        {/* Summary */}
+        {CartItem.length !== 0 &&
+
+          (<div className="w-full xl:w-[380px]">
+
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
+
+              <h2 className="text-2xl font-bold mb-6">
+                Order Summary
+              </h2>
+
+              <div className="space-y-4">
+
+                <div className="flex justify-between text-gray-600">
+                  <span>Items</span>
+                  <span>{totalItems}</span>
+                </div>
+
+                <div className="flex justify-between text-gray-600">
+                  <span>Total Quantity</span>
+                  <span>{totalQuantity}</span>
+                </div>
+
+                <div className="flex justify-between text-gray-600">
+                  <span>Subtotal</span>
+                  <span>₹{grandTotal}</span>
+                </div>
+
+                <div className="flex justify-between text-gray-600">
+                  <span>Delivery Fee</span>
+                  <span>
+                    {deliveryFee === 0 ? (
+                      <span className="text-green-600 font-semibold">FREE</span>
+                    ) : (
+                      `₹${deliveryFee}`
+                    )}
+                  </span>
+                </div>
+
+                <div className="border-t pt-4 flex justify-between text-2xl font-bold">
+                  <span>Total</span>
+                  <span className="text-orange-600">₹{finalTotal}</span>
+                </div>
+
+                {deliveryFee !== 0 && (
+                  <p className="text-sm text-gray-500">
+                    Add ₹{500 - grandTotal} more for free delivery.
+                  </p>
+                )}
+
+                <button
+                  onClick={handelCheckout}
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-4"
+                >
+                  Checkout • ₹{finalTotal}
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>)
+        }
       </div>
-
     </div>
-
-    {/* Summary */}
-
-    <div className="w-full xl:w-[380px]">
-
-  <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
-
-    <h2 className="text-2xl font-bold mb-6">
-      Order Summary
-    </h2>
-
-    <div className="space-y-4">
-
-      <div className="flex justify-between text-gray-600">
-        <span>Items</span>
-        <span>{totalItems}</span>
-      </div>
-
-      <div className="flex justify-between text-gray-600">
-        <span>Total Quantity</span>
-        <span>{totalQuantity}</span>
-      </div>
-
-      <div className="flex justify-between text-gray-600">
-        <span>Subtotal</span>
-        <span>₹{grandTotal}</span>
-      </div>
-
-      <div className="flex justify-between text-gray-600">
-        <span>Delivery Fee</span>
-        <span>
-          {deliveryFee === 0 ? (
-            <span className="text-green-600 font-semibold">FREE</span>
-          ) : (
-            `₹${deliveryFee}`
-          )}
-        </span>
-      </div>
-
-      <div className="border-t pt-4 flex justify-between text-2xl font-bold">
-        <span>Total</span>
-        <span className="text-orange-600">₹{finalTotal}</span>
-      </div>
-
-      {deliveryFee !== 0 && (
-        <p className="text-sm text-gray-500">
-          Add ₹{500 - grandTotal} more for free delivery.
-        </p>
-      )}
-
-      <button
-        onClick={handelCheckout}
-        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-4"
-      >
-        Checkout • ₹{finalTotal}
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-  </div>
-</div>
-    );
+  );
 }
 
 export default Cart

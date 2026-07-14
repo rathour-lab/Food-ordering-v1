@@ -20,6 +20,7 @@ import LoginPage from '../Pages/loginPage'
 
 
 function App() {
+  window.scrollTo(0, 0);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [adminlogin,setAdminlogin]=useState(false)

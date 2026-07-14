@@ -8,41 +8,9 @@ import Home from '../Components/Home'
 import { useNavigate } from 'react-router-dom'
 
 import { FaArrowRight, FaCcDinersClub, FaFire, FaMotorcycle, FaTruck, FaUtensils, FaUtensilSpoon } from 'react-icons/fa'
+import Menu from '../Components/Menu'
 function Menupage({cartvalue}) {
 
-  const [item, setItem] = useState([])
-  const [addedItems, setAddedItems] = useState([]);
-  const [idItem,setIdItem]=useState(null)
-  const navigate= useNavigate()
-
-  useEffect(() => {
-
-    async function getItems() {
-    let res = await fetch("http://localhost:3000/Menu");
-    let data = await res.json();
-    setItem(data.data)
-    
-  }
-  getItems();
-  },[]);
-
- const  handleAddToCart =async (cartdata) => {
-  setAddedItems(prev => [...prev, cartdata._id]);
-   setTimeout(()=>{
-    setAddedItems([]);
-   },3000)
-    cartvalue(prev=> prev+1)
-    console.log('working',cartdata);
-    
-let res=await fetch('http://localhost:3000/get-order',{
-  method:'POST',
-            headers:{
-                'Content-type':'application/json'
-            },
-            body:JSON.stringify(cartdata)
-})
-
-}
   return (
     <>
       <div className='bg-[#fff8dd]   px-5 sm:px-15 md:px-15 lg:px-26 transition-all duration-300 '>
@@ -63,7 +31,7 @@ let res=await fetch('http://localhost:3000/get-order',{
             <div className=" flex flex-wrap items-center gap-4">
 
               {/* Primary Button */}
-              <button
+              <button onClick={()=>window.scroll(0,480)}
                 className="
          group flex items-center gap-3
          bg-black text-white
@@ -169,113 +137,11 @@ let res=await fetch('http://localhost:3000/get-order',{
           </div>
         </div>
       </div>
+      <div className='pb-40 bg-[#fff8dd]'>
 
-      <div className='bg-[#fff8dd]  transition-all duration-500 pb-30'>
-        <div className="text-center mb-14">
-          <p className="text-orange-500 uppercase tracking-[4px] font-semibold">
-            Our Menu
-          </p>
-
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#39364b] mt-3">
-            🍽️ Freshly Crafted, Served with Passion
-          </h1>
-
-          <p className="max-w-3xl mx-auto mt-5 text-gray-600 text-base md:text-lg leading-8">
-            Explore our complete collection of mouth-watering dishes, prepared with
-            fresh ingredients, rich flavors, and a touch of culinary excellence.
-            From quick bites to signature meals, every dish is made to satisfy your
-            cravings.
-          </p>
-
-          <div className="w-24 h-1 bg-orange-500 rounded-full mx-auto mt-6"></div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-6 lg:px-20 py-16">
-         {item.map((food) => {
-  return (
-    <div
-      key={food._id}
-      className="relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 overflow-hidden group"
-    >
-      {/* Category */}
-      <div className="absolute top-5 right-5 z-20">
-        <span className="bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-          {food.category}
-        </span>
+<Menu />
       </div>
-
-      {/* Image */}
-      <div className="flex justify-center mt-8">
-        <div className="w-40 h-40 rounded-full bg-orange-50 flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-500">
-          <img
-            src={food.image}
-            alt={food.name}
-            className="w-36 h-36 object-contain rounded-full"
-          />
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="px-6 pb-6 pt-4">
-
-       
-
-        {/* Name */}
-        <h2 className="text-2xl font-bold text-center text-[#39364b] mt-3 h-14 flex items-center justify-center">
-          {food.name}
-        </h2>
-
-        {/* Description */}
-        <p className="text-gray-500 text-sm text-center h-16 overflow-hidden leading-6 mt-2">
-          {food.description}
-        </p>
-
-        {/* Price + Stock */}
-        <div className="flex justify-between items-center mt-5">
-
-          <div>
-            <p className="text-xs text-gray-400">
-              Starting From
-            </p>
-
-            <h2 className="text-3xl font-extrabold text-orange-500">
-              ₹{food.price}
-            </h2>
-          </div>
-
-          <span
-            className={`px-4 py-2 rounded-full text-xs font-bold ${
-              food.isAvailable
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {food.isAvailable ? "🟢 Available" : "🔴 Unavailable"}
-          </span>
-
-        </div>
-
-        {/* Button */}
-        <button
-          onClick={() => handleAddToCart(food)}
-          disabled={addedItems.includes(food._id)}
-          className={`w-full mt-6 py-3 rounded-full font-bold transition-all duration-300 ${
-            addedItems.includes(food._id)
-              ? "bg-green-500 text-white"
-              : "bg-gradient-to-r from-orange-500 to-red-500 text-white hover:scale-105 hover:shadow-xl"
-          }`}
-        >
-          {addedItems.includes(food._id)
-            ? "✓ Added to Cart"
-            : "🛒 Add to Cart"}
-        </button>
-      </div>
-    </div>
-  );
-})}
-        </div>
-
-
-      </div>
+     
     </>
   )
 

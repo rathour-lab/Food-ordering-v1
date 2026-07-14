@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation} from 'react-router-dom'
 import Navbar from './Navbar'
 
 const Menu = ({socket}) => {
@@ -12,8 +12,8 @@ const Menu = ({socket}) => {
   const [showCard, setShowCard] = useState(4)
   const [selectedId, setSelectedId] = useState('')
   const navigate = useNavigate();
+  let location=useLocation()
   
-
   useEffect(() => {
     const updateCards = () => {
       if (window.innerWidth >= 1023) {
@@ -165,7 +165,7 @@ let res=await fetch('http://localhost:3000/get-order',{
 
         </div>
         <div className=' flex justify-center items-center  pt-5 '>
-          <button className="bg-[#39364b] hover:cursor-pointer text-white px-8 py-3 rounded-full border-2 border-[#39364b] hover:bg-transparent hover:text-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-105" onClick={() => navigate('/Menu')}>
+          <button className={`${location.pathname=='/Menu'? 'hidden' : ' bg-[#39364b] hover:cursor-pointer text-white px-8 py-3 rounded-full border-2 border-[#39364b] hover:bg-transparent hover:text-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-105"'}`} onClick={() => navigate('/Menu')}>
             🍽️ Explore Full Menu
           </button></div>
       </div>

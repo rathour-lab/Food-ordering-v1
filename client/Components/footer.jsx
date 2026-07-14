@@ -10,7 +10,9 @@ import {
 
 import logo from "../src/assets/logo.png";
 import pizza from '../src/assets/pizza.png'
+import { useNavigate } from "react-router-dom";
 export default function Footer() {
+  let navigator=useNavigate()
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Menu", path: "/Menu" },
@@ -42,11 +44,9 @@ export default function Footer() {
 
             <div className="flex flex-wrap gap-4">
 
-              <button className="bg-white text-orange-600 px-7 py-3 rounded-full font-semibold shadow-lg hover:scale-105 transition duration-300">
-                Order Now
-              </button>
+            
 
-              <button className="border border-white text-white px-7 py-3 rounded-full hover:bg-white hover:text-orange-600 transition duration-300">
+              <button onClick={()=>navigator('/Menu')} className="border border-white text-white px-7 py-3 rounded-full hover:bg-white hover:text-orange-600 transition duration-300">
                 View Menu
               </button>
 
