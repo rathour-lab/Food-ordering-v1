@@ -29,7 +29,11 @@ wss.on('connection',(ws)=>{
     console.log('client connected');
     
         ws.on('message',(message)=>{
-                console.log(message);
+                 let msg=JSON.parse(message.toString());
+                console.log(msg);
+                
+               ws.send(msg)
+
                 
         })
 })

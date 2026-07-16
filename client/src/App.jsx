@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+
 import { Routes, Route, useLocation } from "react-router-dom";
 import HomeSection from '../Pages/homePage'
 import Reservation from '../Components/Reservation'
@@ -20,6 +21,7 @@ import LoginPage from '../Pages/loginPage'
 
 
 function App() {
+  const myId = useRef(crypto.randomUUID());
   window.scrollTo(0, 0);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -50,6 +52,7 @@ function App() {
     socket.current.onopen=()=>{
         console.log('ws connected');
     }
+    
     return () => clearTimeout(timer);
 
   }, []);
@@ -70,9 +73,9 @@ function App() {
     adminlogin={adminlogin}
     socket={socket}
 />}
-      <Routes>
+      <Routes >
         <Route path="/" element={<HomeSection socket={socket}/>} />
-        <Route path="/Cart" element={<Cart setStatus={setStatus} statusTrack={statusTrack}/>} />
+        <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack}/>} />
           
         <Route path="/Menu" element={<Menupage />} />
         <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />

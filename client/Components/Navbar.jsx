@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FaCar, FaCheck, FaClock, FaRoad, FaUserShield } from "react-icons/fa";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useFetcher } from "react-router-dom";
 
 import logo from "../src/assets/logo.png";
 import menu from "../src/assets/menu.png";
 import { FaClipboardCheck, FaUtensils, FaCheckCircle } from "react-icons/fa";
 import Menu from "./Menu";
 import LoginPage from "../Pages/loginPage";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 
@@ -15,89 +15,62 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
     const [scrolled, setScrolled] = useState(false);
     const [cart, setCart] = useState(false);
     const [status, setStatus] = useState(true);
+    const [orderStatus, setOrderStatus] = useState([])
     const [sidebar, setSidebar] = useState(false);
     const [ATC_data, setATC_data] = useState([]);
-    const totalPrice = ATC_data.reduce((total, item) => {
-        return total + item.price * item.quantity;
+
+
+
+    const totalPrice = ATC_data.reduce((total, cart) => {
+        return total + cart.item.price * cart.item.quantity;
     }, 0);
     console.log('nav render');
     const location = useLocation();
-let navigator=useNavigate()
-useEffect(() => {
-  setCart(false);
-  setStatus(true);
-}, [location.pathname]);
-    const orderStatus = [
-        {
-            title: "Order Placed",
-            statuss: statusTrack.orderPlaced,
-            icon: <FaClipboardCheck />,
-        },
-        {
-            title: "Confirmed",
-            statuss: statusTrack.Confirmed,
-            icon: <FaCheck />,
-        },
-        {
-            title: "Prepairing",
-            statuss: statusTrack.Preparing,
-            icon: <FaUtensils />,
-        },
-        {
-            title: "Ready for Pickup",
-            statuss: statusTrack.ReadyForPickup,
-            icon: <FaCar />,
-        },
-        {
-            title: "Out For Delivery",
-            statuss: statusTrack.OutForDilivery,
-            icon: <FaRoad />,
-        },
-        {
-            title: "Deliverd",
-            statuss: statusTrack.Deliverd,
-            icon: <FaCheckCircle />,
-        },
-    ];
-    const totalQuantity = ATC_data.reduce((total, item) => {
-    return total + item.quantity;
-}, 0);
-async function increaseItem(id) {
+    let navigator = useNavigate()
+    useEffect(() => {
+        setCart(false);
+        setStatus(true);
+    }, [location.pathname]);
 
-    const item = ATC_data.find(i => i._id === id);
+    const totalQuantity = ATC_data.reduce((total, cart) => {
+        return total + cart.item.quantity;
+    }, 0);
+    async function increaseItem(id) {
 
-    await fetch(`http://localhost:3000/cart/${id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            quantity: item.quantity + 1,
-        }),
-    });
+        const cart = ATC_data.find(i => i._id === id);
 
-    getCartItem();
+        await fetch(`http://localhost:3000/cart/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                quantity: cart.item.quantity + 1,
+            }),
+        });
 
-}
-   async function decreaseItem(id) {
+        getCartItem();
 
-    const item = ATC_data.find(i => i._id === id);
+    }
+    async function decreaseItem(id) {
 
-    if (item.quantity === 1) return;
+        const cart = ATC_data.find(i => i._id === id);
 
-    await fetch(`http://localhost:3000/cart/${id}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            quantity: item.quantity - 1,
-        }),
-    });
+      if (cart.item.quantity === 1) return;
 
-    getCartItem();
+        await fetch(`http://localhost:3000/cart/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                quantity: cart.item.quantity - 1,
+            }),
+        });
 
-}
+        getCartItem();
+
+    }
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 30);
@@ -109,21 +82,42 @@ async function increaseItem(id) {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
-  async function getCartItem() {
-    const response = await fetch("http://localhost:3000/get-cartItem");
-    const data = await response.json();
+    // orders status                      ////////////////////////////////
+    useEffect(() => {
+        async function Status() {
+            const userId = localStorage.getItem("userId");
 
-    setATC_data(data);
-}
-useEffect(() => {
-    getCartItem();
-    let interval=setInterval(() => {
+            let res = await fetch(
+                `http://localhost:3000/getAdminCartData/${userId}`
+            );
+            let data = await res.json();
+            setOrderStatus(data.data)
+
+
+            // console.log(orderStatus.data.map((item)=>{
+            //     return item._id,item.orderStatus
+            // }));
+
+        }
+        Status();
+    }, [])
+
+    async function getCartItem() {
+        let userId = localStorage.getItem('userId')
+        const response = await fetch(`http://localhost:3000/get-cartItem/${userId}`);
+        const data = await response.json();
+
+        setATC_data(data);
+
+    }
+    
+   socket.current.onmessage=(event)=>{
+     if (event.data==='CartItem_ADD') {
         getCartItem();
-    }, 1000);
-   clearInterval(()=>{
-    return interval;
-   })
-}, []);
+     }
+     
+    }
+
     return (
         <div
             className={`sticky top-0 z-50 bg-[#fff8dd] transition-all duration-500 ${scrolled
@@ -236,39 +230,25 @@ useEffect(() => {
                         Status
 
                         <span
-    className={`absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500 ${
-        totalQuantity > 0 ? "animate-ping" : "animate-none"
-    }`}
-></span>
+                            className={`absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500 ${totalQuantity > 0 ? "animate-ping" : "animate-none"
+                                }`}
+                        ></span>
                         <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500"></span>
                         <div className={`${status ? 'hidden' : 'block'} absolute w-60  text-black top-15 py-5 px-5 flex flex-col justify-center right-0`}>
-                            <div className="bg-white rounded-2xl shadow-lg p-6 w-70 ">
+                            <div className="bg-white rounded-2xl shadow-lg p-6 w-140 ">
                                 <h2 className="text-xl font-bold mb-6 text-gray-800">
                                     Order Status
                                 </h2>
-
-                                {orderStatus.map((item, index) => (
-                                    <div key={index} className="flex items-start gap-4 relative pb-1 last:pb-0">
-
-                                        {/* Timeline */}
-                                        <div className="flex flex-col items-center">
-                                            <div className={`w-8 h-8 rounded-full ${!item.statuss ? 'bg-gray-200' : ' bg-orange-500'} flex items-center justify-center text-white`} >
-                                                {item.icon}
-                                            </div>
-
-                                            {index !== orderStatus.length - 1 && (
-                                                <div className={`w-[2px] h-8 ${!item.statuss ? 'bg-gray-200' : ' bg-orange-500'} mt-1`}></div>
-                                            )}
+                                {orderStatus.map((orders) => {
+                                    return (
+                                        <div className="flex justify-between items-center ">
+                                            <div className="w-40 truncate ">{orders._id}</div>
+                                            <div className="border-l-2 w-40">{orders.orderStatus}</div>
                                         </div>
+                                    )
+                                })}
 
-                                        {/* Text */}
-                                        <div>
-                                            <h3 className="font-semibold text-gray-800">
-                                                {item.title}
-                                            </h3>
-                                        </div>
-                                    </div>
-                                ))}
+
                             </div>
                         </div>
                     </button>
@@ -311,7 +291,7 @@ useEffect(() => {
                                         </div>
 
                                         <div className="border-t p-4">
-                                            <button onClick={()=>navigator('/Menu')}
+                                            <button onClick={() => navigator('/Menu')}
                                                 className="w-full py-3 rounded-full
             bg-gradient-to-r from-orange-500 to-amber-500
             text-white font-semibold
@@ -330,7 +310,7 @@ useEffect(() => {
                                             🛒 Your Cart
                                         </h3>
                                         <p className="text-sm text-gray-500">
-                                            {totalQuantity} Item{{totalQuantity} !== 1 && "s"}
+                                            {totalQuantity} Item{{ totalQuantity } !== 1 && "s"}
                                         </p>
                                     </div>
 
@@ -339,17 +319,17 @@ useEffect(() => {
 
                                         {ATC_data.map((cartdata) => (
                                             <div
-                                                key={cartdata._id}
+                                                key={cartdata.item._id}
                                                 className="flex justify-between items-center pb-4 border-b last:border-none"
                                             >
                                                 <div className="flex-1">
 
                                                     <h4 className="font-semibold text-gray-800">
-                                                        {cartdata.name}
+                                                        {cartdata.item.name}
                                                     </h4>
 
                                                     <p className="text-orange-500 font-bold mt-1">
-                                                        ₹{cartdata.price}
+                                                        ₹{cartdata.item.price}
                                                     </p>
 
                                                     {/* Quantity */}
@@ -362,7 +342,7 @@ useEffect(() => {
                                                         </button>
 
                                                         <span className="font-semibold">
-                                                            {cartdata.quantity}
+                                                            {cartdata.item.quantity}
                                                         </span>
 
                                                         <button onClick={() => increaseItem(cartdata._id)}
@@ -391,7 +371,7 @@ useEffect(() => {
                                             <button
                                                 onClick={() => setCart(false)
 
-                                                 }
+                                                }
                                                 className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300"
                                             >
                                                 Go to Cart →
@@ -422,7 +402,7 @@ useEffect(() => {
 
                                 <div className="bg-white absolute top-14 h-145 w-2xs -right-4  transition-all  duration-300 rounded-s-3xl px-3 py-2  flex flex-col  ">
                                     <div className="flex justify-between items-center border-b-2 border-gray-600 ">
-                                    <p className="py-3 font-bold text-xl text-center ">HUNGER TOWN </p>
+                                        <p className="py-3 font-bold text-xl text-center ">HUNGER TOWN </p>
                                         <img className="size-8 cursor-pointer" src="https://img.icons8.com/?size=100&id=gykZ2Zai2dlQ&format=png&color=FD7E14" alt="" onClick={() => setSidebar(!sidebar)} />
                                     </div>
                                     <ul className="  text-lg font-semibold pt-5   *:space-y-4 flex-1">
@@ -496,11 +476,11 @@ useEffect(() => {
                                             ></span>
                                         </NavLink>
                                     </ul>
-                                        <Link to='/menu'>
-                                    <div className="  rounded-2xl py-2 text-white font-bold bg-linear-to-r from-orange-500 to-amber-500  flex justify-center items-center hover:cursor-pointer shadow-lg shadow-orange-400/30 transition-all duration-300 hover:shadow-xl ">
+                                    <Link to='/menu'>
+                                        <div className="  rounded-2xl py-2 text-white font-bold bg-linear-to-r from-orange-500 to-amber-500  flex justify-center items-center hover:cursor-pointer shadow-lg shadow-orange-400/30 transition-all duration-300 hover:shadow-xl ">
                                             <button className="hover:cursor-pointer">Order Now</button>
-                                    </div>
-                                        </Link>
+                                        </div>
+                                    </Link>
                                 </div>
                             </>)}
                         </div>

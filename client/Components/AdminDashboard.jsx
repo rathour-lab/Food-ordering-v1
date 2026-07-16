@@ -23,7 +23,8 @@ const AdminDashboard = () => {
   }
 
   const getOrder = async() =>{
-    let res = await fetch('http://localhost:3000/getAdminCartData');
+
+    let res = await fetch(`http://localhost:3000/getAdminCartData`);
     let data = await res.json();
     setOrder(data.data)
   }
