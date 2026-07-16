@@ -113,8 +113,8 @@ const AdminOrders = () => {
 
   return (
     <>
-      <section className='bg-[#fff8dd] px-6 py-6'>
-        <div className="flex items-center gap-5 bg-white rounded-2xl p-6 shadow-md border border-orange-100 mb-6">
+      <section className="bg-[#fff8dd] px-4 sm:px-6 py-6">
+       <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-orange-100 mb-6">
 
           {/* Icon */}
           <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-100">
@@ -127,11 +127,11 @@ const AdminOrders = () => {
 
           {/* Text */}
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
               Order History
             </h1>
 
-            <p className="text-gray-500 mt-1">
+           <p className="text-sm sm:text-base text-gray-500 mt-1">
               View, track, and manage all customer orders in one place.
             </p>
           </div>
@@ -139,13 +139,13 @@ const AdminOrders = () => {
         </div>
 
 
-        <div className='grid grid-cols-4 gap-4 *:bg-white *:rounded-2xl'>
-          <div className=' px-0 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">
+          <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
             <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/pastel-glyph/64/FD7E14/paper-bag--v2.png" alt="paper-bag--v2" /></div>
             <div>
               <h1 className='font-bold
            text-sm text-gray-700'>Total Orders</h1>
-              <p className='text-2xl font-extrabold'>{orderCount}</p>
+              <p className='text-xl sm:text-2xl font-extrabold'>{orderCount}</p>
               <p className='font-bold text-sm text-gray-700'>All time orders</p>
             </div>
           </div>
@@ -153,7 +153,7 @@ const AdminOrders = () => {
             <div className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/parakeet-line/48/FD7E14/data-pending.png" alt="data-pending" /></div>
             <div>
               <h1 className='font-bold text-sm text-gray-700'>Placed Orders </h1>
-              <p className='text-2xl font-extrabold'>{orderPlaced}</p>
+              <p className='text-xl sm:text-2xl font-extrabold'>{orderPlaced}</p>
               <p className='font-bold text-sm text-gray-700'>Need atention</p>
             </div>
           </div>
@@ -161,7 +161,7 @@ const AdminOrders = () => {
             <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/ios/50/FD7E14/checked-truck.png" alt="checked-truck" /></div>
             <div>
               <h1 className='font-bold text-sm text-gray-700'>Delivered Orders</h1>
-              <p className='text-2xl font-extrabold'>{orderDelivered}</p>
+              <p className='text-xl sm:text-2xl font-extrabold'>{orderDelivered}</p>
               <p className='font-bold text-sm text-gray-700'>Successfully delivered</p>
             </div>
           </div>
@@ -177,34 +177,33 @@ const AdminOrders = () => {
 
             <div>
               <h1 className="font-bold text-sm text-gray-700">Ready for Pickup</h1>
-              <p className="text-2xl font-extrabold"> {readyToPickup} </p>
+              <p className="text-xl sm:text-2xl font-extrabold"> {readyToPickup} </p>
               <p className="font-bold text-sm text-gray-700">Waiting for customer </p>
             </div>
           </div>
         </div>
 
-        <div className='grid grid-cols-4 py-6 gap-4'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 py-6 gap-5">
           {order && order.map((food) => {
-            return <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5">
+            return <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5 h-full flex flex-col">
 
               {/* Header */}
-              <div className="flex justify-between items-center pb-4 border-b border-gray-200">
-                <h2 className="text-lg font-bold text-gray-800">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-200">
+               <h2 className="text-base sm:text-lg font-bold text-gray-800 break-all">
                    Order #{food._id.slice(-6)}
                 </h2>
 
-                <span className={`${statusStyle(food.orderStatus)} text-xs font-semibold px-3 py-1 rounded-full`} >
+                <span className={`${statusStyle(food.orderStatus)} whitespace-nowrap text-xs font-semibold px-3 py-1 rounded-full`} >
                   {food.orderStatus}
                 </span>
               </div>
 
               {/* Items */}
-              <div className="py-4 space-y-3 border-b border-gray-200 h-32 overflow-y-scroll scrollbar-thin">
+              <div className="py-4 space-y-3 border-b border-gray-200 h-32 overflow-y-auto scrollbar-thin">
 
                 {food.cartItems.map((item) => {
-                  return <div className="flex justify-between">
-                    <p className='flex gap-2 '
-                    ><img src={item.image} className='w-6' alt="" /> {item.name}</p>
+                  return <div className="flex justify-between items-center gap-3">
+                   <p className="flex items-center gap-2 text-sm break-words"><img src={item.image} className='size-6  rounded-full' alt="" /> {item.name}</p>
                     <span className="font-semibold">×{item.quantity}</span>
                   </div>
                 })}
@@ -220,7 +219,7 @@ const AdminOrders = () => {
                     Payment
                   </span>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2 justify-end">
                     <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                       Paid
                     </span>
@@ -237,7 +236,7 @@ const AdminOrders = () => {
                     Total
                   </span>
 
-                  <span className="text-2xl font-bold text-orange-500">
+                 <span className="text-xl sm:text-2xl font-bold text-orange-500">
                     ₹{food.grandTotal}
                   </span>
                 </div>
@@ -245,13 +244,13 @@ const AdminOrders = () => {
               </div>
 
               {/* Date */}
-              <div className="flex justify-between py-4 text-sm text-gray-500 font-medium">
+              <div className="flex flex-col sm:flex-row justify-between gap-2 py-4 text-sm text-gray-500 font-medium">
                 <span>📅 {new Date(food.createdAt).toLocaleDateString("en-IN")}</span>
                 <span>🕒 {new Date(food.createdAt).toLocaleTimeString("en-IN")}</span>
               </div>
 
               {/* Status */}
-              <select className="w-full rounded-xl border-2 border-orange-300 py-3 px-4 font-semibold text-orange-600 outline-none focus:border-orange-500 bg-orange-50 text-center" value={food.orderStatus} onChange={(e) => updateOrderStatus(food._id, e.target.value)}>
+              <select className="w-full rounded-xl border-2 border-orange-300 py-3 px-4 text-sm sm:text-base font-semibold text-orange-600 outline-none focus:border-orange-500 bg-orange-50 text-center" value={food.orderStatus} onChange={(e) => updateOrderStatus(food._id, e.target.value)}>
 
                 {statusOptions.map((icon) => {
                   return <option key={icon.title} value={icon.title}>{icon.title}</option>

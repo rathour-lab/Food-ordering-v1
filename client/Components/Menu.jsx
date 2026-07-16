@@ -95,11 +95,11 @@ let res=await fetch('http://localhost:3000/get-order',{
 
       {/* Image */}
       <div className="flex justify-center mt-8">
-        <div className="w-40 h-40 rounded-full bg-orange-50 flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-500">
+        <div className="w-40 h-40 rounded-full bg-orange-50 flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-500 ">
           <img
             src={food.image}
             alt={food.name}
-            className="w-36 h-36 object-contain rounded-full"
+            className="w-36 h-36 object-cover  rounded-full p-1 "
           />
         </div>
       </div>
@@ -115,7 +115,7 @@ let res=await fetch('http://localhost:3000/get-order',{
         </h2>
 
         {/* Description */}
-        <p className="text-gray-500 text-sm text-center h-16 overflow-hidden leading-6 mt-2">
+        <p className="text-gray-500 text-sm text-center h-18 overflow-hidden leading-6 mt-2">
           {food.description}
         </p>
 

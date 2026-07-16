@@ -33,8 +33,9 @@ function App() {
     Deliverd:false
 
   });
-  const [form,setForm]=useState(false)
-  const [bell,setBell]=useState(false)
+  const [form,setForm]=useState(false);
+  const [bell,setBell]=useState(false);
+  const [categoryMenu,setCategoryMenu]=useState(false);
   const isAdmin = location.pathname.startsWith("/Admin");
 
   const socket=useRef()
@@ -81,7 +82,7 @@ function App() {
         <Route path="/Admin" element={<Adminpage bell={bell} setBell={setBell} />}>
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm}/>} />
+          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu}/>} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="reservation" element={<AdminReservation  />} />
         </Route>

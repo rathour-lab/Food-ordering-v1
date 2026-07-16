@@ -17,7 +17,6 @@ try {
             revenue:{ $sum :"$grandTotal"}
         }
     }]) ;
-    console.log(revenue);
     
     const totalRevenue = revenue.length > 0 ?revenue[0].revenue : 0; 
 

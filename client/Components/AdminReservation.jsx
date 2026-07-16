@@ -85,8 +85,8 @@ const canceledCount = reservationData.filter(item=>item.state === "Cancelled").l
 const pendingCount = reservationData.filter(item=>item.state === "Pending").length
   return (
     <>
-    <section className='bg-[#fff8dd] px-6 py-6'>
-       <div className="flex items-center gap-5 bg-white rounded-2xl p-6 shadow-md border border-orange-100 mb-6">
+    <section className="bg-[#fff8dd] px-4 sm:px-6 py-6">
+       <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-orange-100 mb-6">
 
   {/* Icon */}
   <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-100">
@@ -99,23 +99,20 @@ const pendingCount = reservationData.filter(item=>item.state === "Pending").leng
 
   {/* Text */}
   <div>
-    <h1 className="text-3xl font-bold text-gray-800">
-      Reservation Requests
+<h1 className="text-2xl sm:text-3xl font-bold text-gray-800">      Reservation Requests
     </h1>
 
-    <p className="text-gray-500 mt-1">
-      View, review, and manage all table reservation requests from customers in one place.
+<p className="text-sm sm:text-base text-gray-500 mt-1">      View, review, and manage all table reservation requests from customers in one place.
     </p>
   </div>
 
 </div>
 
-<div className='grid grid-cols-4 gap-4 *:bg-white *:rounded-2xl'>
-      <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">      <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
         <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=g6FfrEql0mPQ&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
           <h1 className="font-bold text-sm text-gray-700">  Total Reservations</h1>
-<p className="text-2xl font-extrabold">{reservationCount}</p>
+<p className="text-xl sm:text-2xl font-extrabold">{reservationCount}</p>
 <p className="font-bold text-sm text-gray-700"> All reservation requests</p>
         </div>
       </div>
@@ -123,7 +120,7 @@ const pendingCount = reservationData.filter(item=>item.state === "Pending").leng
         <div  className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/?size=100&id=15849&format=png&color=FD7E14" alt="data-pending"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'>Pending Requests</h1>
-          <p className='text-2xl font-extrabold'>{pendingCount}</p>
+          <p className='text-xl sm:text-2xl font-extrabold'>{pendingCount}</p>
           <p className='font-bold text-sm text-gray-700'>Awaiting confirmation</p>
         </div>
       </div>
@@ -131,7 +128,7 @@ const pendingCount = reservationData.filter(item=>item.state === "Pending").leng
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/dotty/80/FD7E14/ticket-confirmed.png" alt="ticket-confirmed"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'> Confirmed Bookings</h1>
-          <p className='text-2xl font-extrabold'>{confirmedCount}</p>
+          <p className='text-xl sm:text-2xl font-extrabold'>{confirmedCount}</p>
           <p className='font-bold text-sm text-gray-700'>Ready for guests</p>
         </div>
       </div>
@@ -139,22 +136,20 @@ const pendingCount = reservationData.filter(item=>item.state === "Pending").leng
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=42223&format=png&color=FD7E14" alt="checked-truck"/></div>
         <div>
           <h1 className='font-bold text-sm text-gray-700'>Cancelled Reservations</h1>
-          <p className='text-2xl font-extrabold'>{canceledCount}</p>
+          <p className='text-xl sm:text-2xl font-extrabold'>{canceledCount}</p>
           <p className='font-bold text-sm text-gray-700'>Cancelled bookings</p>
         </div>
       </div>
       
     </div>
 
-    <div className="grid grid-cols-4 py-6 gap-3">
-{reservationData.map((customer)=>{
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 py-6 gap-5">  {reservationData.map((customer)=>{
   console.log(customer.state);
 console.log(typeof customer.state);
-  return   <div  key={customer._id} className='bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6'>
+  return   <div  key={customer._id} className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 h-full flex flex-col">
   {/* Header */}
-  <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-    <div>
-      <h2 className="text-xl font-bold text-gray-800">
+<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-200 pb-4">    <div>
+      <h2 className="text-lg sm:text-xl font-bold text-gray-800 break-all">
         id #{customer._id ?.slice(-6)}
       </h2>
       <p className="text-sm text-gray-500 mt-1">
@@ -162,7 +157,13 @@ console.log(typeof customer.state);
       </p>
     </div>
 
-    <span className=" bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+    <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap self-start sm:self-auto ${ 
+       customer.state === "Confirmed"
+        ? "bg-green-100 text-green-700"
+        : customer.state === "Cancelled"
+        ? "bg-red-100 text-red-700"
+        : "bg-yellow-100 text-yellow-700"
+    }`}>
         {customer.state || "Pending"}
     </span>
   </div>
@@ -170,54 +171,54 @@ console.log(typeof customer.state);
   {/* Details */}
   <div className="space-y-3 py-5">
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">👤 Customer</span>
-      <span className="font-semibold text-gray-800">{customer.fullName}</span>
+      <span className="font-semibold text-gray-800 text-right break-words">{customer.fullName}</span>
     </div>
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">📧 Email</span>
       <span
-  className="font-semibold text-gray-800 truncate max-w-[170px]"
+  className="font-semibold text-gray-800 text-right truncate max-w-[175px] "
   title={customer.email}
 >
   {customer.email}
 </span>
     </div>
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">📞 Phone</span>
-      <span className="font-semibold text-gray-800">
+      <span className="font-semibold text-gray-800 text-right">
         {customer.phone}
         
       </span>
     </div>
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">👥 Guests</span>
-      <span className="font-semibold text-gray-800">
+      <span className="font-semibold text-gray-800 text-right">
         {customer.guests}
         
       </span>
     </div>
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">📅 Date</span>
-      <span className="font-semibold text-gray-800">
+      <span className="font-semibold text-gray-800 text-right">
                 {new Date(customer.date).toLocaleDateString("en-IN")}
       </span>
     </div>
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">🕒 Time</span>
-      <span className="font-semibold text-gray-800">
+      <span className="font-semibold text-gray-800 text-right">
                 {customer.time}
       </span>
     </div>
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-start gap-3">
       <span className="text-gray-500">🎉 Occasion</span>
-      <span className="font-semibold text-gray-800">
+      <span className="font-semibold text-gray-800 text-right">
                 {customer.occasion}
       </span>
     </div>
@@ -225,27 +226,26 @@ console.log(typeof customer.state);
   </div>
 
   {/* Buttons */}
-  <div className="flex gap-3 pt-4 border-t border-gray-200">
+ <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 mt-auto">
 
   {( customer.state === "Pending")  ? (
   <>
     <button
-      className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold"
-      onClick={() => confirm(customer._id)}
+className="w-full sm:flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition"
+ onClick={() => confirm(customer._id)}
     >
       ✓ Confirm
     </button>
 
     <button
-      className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold"
-      onClick={() => Cancel(customer._id)}
+className="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"  
+    onClick={() => Cancel(customer._id)}
     >
       ✕ Cancel
     </button>
   </>
 ) : (
-  <div className="w-full text-center font-semibold text-gray-500">
-    Reservation {customer.state}
+<div className="w-full text-center text-sm sm:text-base font-semibold text-gray-500 py-2">    Reservation {customer.state}
   </div>
 )}
   </div>

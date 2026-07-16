@@ -13,7 +13,6 @@ function HomeSection({socket}) {
     <Home />
     <Menu cartvalue={socket}/>
     <About/>
-   
     </>
   )
 }

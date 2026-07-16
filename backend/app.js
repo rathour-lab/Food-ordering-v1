@@ -15,11 +15,13 @@ const ATC_Route=require('./routes/addToCartRoutes');
 const admin_Route=require('./routes/adminRoutes');
 const Reservation_Route=require('./routes/reservationRoutes');
 const revenue=require("./routes/dashboardRoutes")
+const category=require("./routes/categoryRoutes")
 app.use(route)
 app.use(ATC_Route)
 app.use(admin_Route)
 app.use(Reservation_Route)
 app.use(revenue)
+app.use(category)
 
 // websocket 
 

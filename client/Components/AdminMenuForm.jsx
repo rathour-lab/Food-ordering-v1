@@ -4,6 +4,7 @@ import { FaCross, FaTimes } from 'react-icons/fa';
 
 function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
 
+  const [getCategory,setGetCategory]=useState([])
   const [foodDetail, setFoodDetail] = useState({
     name: '',
     description: '',
@@ -27,7 +28,8 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
       })
       setEditData(false )
     }
-  }, [])
+    getcategoryName()
+  }, [editData])
 
 
   async function addFoodItem() {
@@ -59,7 +61,16 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
     setUpdateId(null)
   }
 
-
+ const getcategoryName = async() =>{
+  try {
+    let res = await fetch('http://localhost:3000/get-category');
+    let data = await res.json();
+    setGetCategory(data.data)
+  } catch (error) {
+    console.log(error);
+    
+  }
+ }
   
   return (
     <>
@@ -110,7 +121,7 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
                 className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:border-orange-500 focus:outline-none"
                 value={foodDetail.price}
                 onChange={(e) => setFoodDetail({ ...foodDetail, price: e.target.value })}
-                placeholder="$20"
+                placeholder="₹20"
               />
             </div>
 
@@ -130,18 +141,16 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
 
             <select
               value={foodDetail.category}
+              defaultValue={"Select Category"}
               onChange={(e) =>
                 setFoodDetail({ ...foodDetail, category: e.target.value })
               }
-              className="w-full rounded-xl border-2 border-gray-200 px-4 py-2 focus:border-orange-500 outline-none"
+              className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 focus:border-orange-500 outline-none"
             >
               <option value="">Select Category</option>
-              <option>Burger</option>
-              <option>Pizza</option>
-              <option>Pasta</option>
-              <option>Sandwich</option>
-              <option>Dessert</option>
-              <option>Drinks</option>
+             {getCategory.map((item)=>(
+                <option key={item._id} >{item.name}</option>
+             ))}
             </select>
             <div>
               <label className="block mb-2 font-semibold text-[#39364b]">

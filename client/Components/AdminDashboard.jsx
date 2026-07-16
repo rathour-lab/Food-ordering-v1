@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const [dashboard,setDashboard]=useState({});
   const [order,setOrder]=useState([]);
   const [reservation,setReservation]=useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
   getDashboard(); 
@@ -40,74 +41,71 @@ const AdminDashboard = () => {
 }));
   return (
     <>
-    <section className='bg-[#fff8dd] px-6 py-6'>
-       <div className="flex items-center gap-5 bg-white rounded-2xl p-6 shadow-md border border-orange-100 mb-6">
+    <section className='bg-[#fff8dd] px-4 sm:px-6 py-6'>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-orange-100 mb-6">
 
-  {/* Icon */}
-  <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-100">
+  <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-2xl bg-orange-100">
     <img
       src="https://img.icons8.com/?size=100&id=15HuPyEJyD8J&format=png&color=FD7E14"
       alt="Order History"
-      className="w-12 h-12"
+      className="w-10 h-10 sm:w-12 sm:h-12"
     />
   </div>
 
-  {/* Text */}
   <div>
-   <h1 className="text-3xl font-bold text-gray-800">
-  Dashboard
-</h1>
+    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+      Dashboard
+    </h1>
 
-<p className="text-gray-500 mt-1">
-  Welcome back! Here's an overview of your restaurant's performance, orders, revenue, menu, and reservations.
-</p>
+    <p className="text-sm sm:text-base text-gray-500 mt-1">
+      Welcome back! Here's an overview of your restaurant's performance,
+      orders, revenue, menu, and reservations.
+    </p>
   </div>
-<div>
 
 </div>
-</div>
 
-<div className='grid grid-cols-4 gap-4 *:bg-white *:rounded-2xl'>
-      <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">
+      <div className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=ySRi3OLgoOJX&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
-          <h1 className="font-bold text-sm text-gray-700"> Total Orders</h1>
-<p className="text-2xl font-extrabold"> {dashboard.totalOrders}</p>
+          <h1 className="font-bold text-sm md:text-base text-gray-700">Total Orders</h1>
+<p className="text-xl sm:text-2xl font-extrabold"> {dashboard.totalOrders}</p>
 <p className="font-bold text-sm text-gray-700"> All customer orders received</p>
         </div>
       </div>
-       <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+       <div className="px-4 py-5 flex flex-row sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div  className='self-center'><img width="52" height="52" className='' src="https://img.icons8.com/?size=100&id=68426&format=png&color=FD7E14" alt="data-pending"/></div>
         <div>
-          <h1 className='font-bold text-sm text-gray-700'>Total Revenue</h1>
-          <p className='text-2xl font-extrabold'>₹ {dashboard.totalRevenue}</p>
+          <h1 className="font-bold text-sm md:text-base text-gray-700">Total Revenue</h1>
+          <p className="text-xl sm:text-2xl font-extrabold">₹ {dashboard.totalRevenue}</p>
           <p className='font-bold text-sm text-gray-700'>Total earnings from  orders.</p>
         </div>
       </div>
-       <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+       <div className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=QiAIVvJZ1woO&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
-          <h1 className='font-bold text-sm text-gray-700'> Menu Items</h1>
-          <p className='text-2xl font-extrabold'>{dashboard.totalMenuItems}</p>
+          <h1 className="font-bold text-sm md:text-base text-gray-700"> Menu Items</h1>
+          <p className="text-xl sm:text-2xl font-extrabold">{dashboard.totalMenuItems}</p>
           <p className='font-bold text-sm text-gray-700'>Currently available dishes</p>
         </div>
       </div>
-       <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+       <div className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=qXfHicSrtSY4&format=png&color=FD7E14" alt="checked-truck"/></div>
         <div>
-          <h1 className='font-bold text-sm text-gray-700'> Reservations</h1>
-          <p className='text-2xl font-extrabold'>{dashboard.totalReservations}</p>
+          <h1 className="font-bold text-sm md:text-base text-gray-700"> Reservations</h1>
+          <p className="text-xl sm:text-2xl font-extrabold">{dashboard.totalReservations}</p>
           <p className='font-bold text-sm text-gray-700'>Total table bookings</p>
         </div>
       </div>
       
     </div>
 
-   <div className="mt-7">
+   <div className="hidden md:block mt-7 pb-4 overflow-x-auto">
     <RevenueChart
-    data={dashboard.revenueChart}
-    pieData={pieData}
-/>
+        data={dashboard.revenueChart}
+        pieData={pieData}
+    />
 </div>
 
 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
@@ -124,12 +122,14 @@ const AdminDashboard = () => {
         </p>
       </div>
 
-      <button className="text-orange-500 font-semibold hover:text-orange-600 transition" >
+      <button className="text-orange-500 font-semibold hover:text-orange-600 transition cursor-pointer" 
+      onClick={()=>navigate('/Admin/orders')}>
         View All
       </button>
     </div>
 
-    <table className="w-full">
+    <div className="overflow-x-auto md:overflow-visible">
+    <table className="min-w-[650px] md:min-w-full w-full">
       <thead className="bg-orange-50">
         <tr className="text-gray-700">
           <th className="px-5 py-3 text-left">Order ID</th>
@@ -146,7 +146,7 @@ const AdminDashboard = () => {
           {item.cartItems.map((data) => (
       <span
         key={data._id}
-        className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs"
+        className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs "
       >
         {data.name}
       </span>
@@ -162,6 +162,7 @@ const AdminDashboard = () => {
       </tbody>
     </table>
   </div>
+  </div>
 
   {/* Recent Reservations */}
   <div className="bg-white rounded-2xl shadow-md border border-orange-100 overflow-hidden">
@@ -175,18 +176,20 @@ const AdminDashboard = () => {
         </p>
       </div>
 
-      <button className="text-orange-500 font-semibold hover:text-orange-600 transition" >
+      <button className="text-orange-500 font-semibold hover:text-orange-600 transition cursor-pointer" 
+       onClick={()=>navigate('/Admin/reservation')}>
         View All
       </button>
     </div>
 
-    <table className="w-full">
+    <div className="overflow-x-auto md:overflow-visible">
+    <table className="min-w-[650px] md:min-w-full w-full">
       <thead className="bg-orange-50">
         <tr className="text-gray-700">
           <th className="px-5 py-3 text-left">ID</th>
           <th className="px-5 py-3 text-left">Guests</th>
           <th className="px-5 py-3 text-left">Date</th>
-          <th className="px-5 py-3 text-left">Time</th>
+          <th className="px-5 py-3 text-left hidden md:block">Time</th>
           <th className="px-5 py-3 text-center">Status</th>
         </tr>
       </thead>
@@ -197,7 +200,7 @@ const AdminDashboard = () => {
           <td className="px-5 py-4 font-medium">#{info._id.slice(-6)}</td>
           <td className="px-5 py-4">{info.guests}</td>
           <td className="px-5 py-4">{new Date(info.date).toLocaleDateString("en-IN")}</td>
-          <td className="px-5 py-4">{info.time}</td>
+          <td className="px-5 py-4 hidden md:block">{info.time}</td>
           <td className="px-5 py-4 text-center">
             <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
               {info.state}
@@ -207,6 +210,7 @@ const AdminDashboard = () => {
        })}
       </tbody>
     </table>
+  </div>
   </div>
 
 </div>

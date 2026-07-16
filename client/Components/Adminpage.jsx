@@ -41,21 +41,44 @@ console.log("isToken:", isToken);
      
        </div>
 
-          <div className="flex items-center gap-2 cursor-pointer">
-            <img
+          <div className="flex items-center gap-3 bg-orange-50 px-4 py-1 rounded-xl border border-orange-100 shadow-sm">
+
+  <div className="relative">
+    <img
       src="https://img.icons8.com/?size=100&id=FAYM3LUVoMeE&format=png&color=FD7E14"
-      alt="Order History"
-      className="w-10 h-10"
+      alt="Admin"
+      className="w-11 h-11 rounded-full"
     />
-            <h3 className="font-medium">Admin Name</h3>
-          </div>
+
+    {/* Online Dot */}
+    {/* <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span> */}
+  </div>
+
+  <div className="leading-tight">
+    <h3 className="font-semibold text-gray-800">
+      Preet Singh
+    </h3>
+
+    <p className="text-xs text-gray-500">
+      Restaurant Admin
+    </p>
+
+    <div className="flex items-center gap-1 mt-1">
+      <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+      <span className="text-xs font-medium text-green-600">
+        Online
+      </span>
+    </div>
+  </div>
+
+</div>
         </div>
       </nav>
 
       {/* Main Section */}
-      <div className="flex flex-1 overflow-hidden px-0">
+      <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-50 bg-white shadow-md  space-y-3 p-2 overflow-y-auto">
+       <aside className="w-44 shrink-0 bg-white shadow-md space-y-3 p-2 overflow-y-auto">
           <NavLink to="dashboard" className={navStyle}>
             Dashboard
           </NavLink>
@@ -74,7 +97,7 @@ console.log("isToken:", isToken);
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto">
+       <main className="flex-1 min-w-0 overflow-y-auto">
           <Outlet />
         </main>
       </div>

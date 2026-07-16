@@ -2,226 +2,300 @@ import React, { useEffect, useRef } from 'react'
 import Admin from './AdminMenuForm';
 import { useState } from 'react';
 import { FaHeart, FaPlus } from 'react-icons/fa';
+import AdminCategories from './AdminCategories';
 
-const AdminMenusection = ({form,setForm}) => {
+const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
 
-  const[menu,setMenu]=useState([]);
-  const[menuCount,setMenuCount]=useState(0);
-  const[like,setLike]=useState(false)
-  const[updateId,setUpdateId]=useState(null)
+  const [menu, setMenu] = useState([]);
+  const [menuCount, setMenuCount] = useState(0);
+  const [like, setLike] = useState(false)
+  const [updateId, setUpdateId] = useState(null)
   const ref = useRef()
-  const[editData,setEditData]=useState(null)
+  const [editData, setEditData] = useState(null)
+  const [countCategory, setCountCategory] = useState(0);
+  const [search, setSearch] = useState("")
 
-  useEffect(()=>{
-    const getMenu = async() =>{
-      console.log("hloooo");
-      
-    try {
+  useEffect(() => {
+    const getMenu = async () => {
+      try {
+        console.log();
+
         let res = await fetch('http://localhost:3000/menu');
         let data = await res.json();
         setMenu(data.data);
-       
-        
-        setMenuCount(data.count)
-
+        setMenuCount(data.count);
       }
       catch (error) {
         console.log(error);
-      } 
+      }
     }
     getMenu()
 
-    
-  },[])
-  
-  const deleteItem = async(id)=>{
-      setMenu(prev =>{
-        return prev.filter(item=>item._id !== id)
-      })
-   try {
-     let res = await fetch(`http://localhost:3000/removerMenu/${id}`,{
-      method:'DELETE'
-    });
+  }, [])
 
-   } catch (error) {
-    console.log(error);
-   }
-  }
-  
-  
-   const edit = async(food)=>{
-    
-    
-   setUpdateId(food._id)
+  useEffect(() => {
+    categoryData()
+  }, [])
 
-      setForm(true)
-   setEditData(food)
+  const categoryData = async () => {
+    try {
+      let res = await fetch('http://localhost:3000/get-category');
+      let data = await res.json()
+      setCountCategory(data.count)
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+
+  const deleteItem = async (id) => {
+    setMenu(prev => {
+      return prev.filter(item => item._id !== id)
+    })
+    try {
+      let res = await fetch(`http://localhost:3000/removerMenu/${id}`, {
+        method: 'DELETE'
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const edit = async (food) => {
+
+
+    setUpdateId(food._id)
+
+    setForm(true)
+    setEditData(food)
+  }
+
+  const find = menu.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase()) || item.category.toLowerCase().includes(search.toLowerCase()))
+
 
   if (form) {
-    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} updateId={updateId} setUpdateId={setUpdateId}/>
+    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} updateId={updateId} setUpdateId={setUpdateId} />
+  }
+  if (categoryMenu) {
+    return <AdminCategories categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} categoryData={categoryData} />
   }
 
-  const Available = menu.filter(item=>item.isAvailable === true).length
-  const unavailable = menu.filter(item=>item.isAvailable === false).length
+
+  const Available = menu.filter(item => item.isAvailable === true).length
+  const unavailable = menu.filter(item => item.isAvailable === false).length
 
 
   return (
     <>
-    <section className='bg-[#fff8dd] px-6 py-6 '>
-     <div className=' bg-white rounded-2xl p-6 shadow-md border border-orange-100 mb-6 flex justify-between'>
-       <div className="flex items-center gap-5">
+      <section className="bg-[#fff8dd] px-4 sm:px-6 py-6">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-orange-100 mb-6 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
 
-  {/* Icon */}
-  <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-100">
-    <img
-      src="https://img.icons8.com/?size=100&id=G736SmolvT3J&format=png&color=FD7E14"
-      alt="Order History"
-      className="w-12 h-12"
-    />
-  </div>
+            {/* Icon */}
+            <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-100">
+              <img
+                src="https://img.icons8.com/?size=100&id=G736SmolvT3J&format=png&color=FD7E14"
+                alt="Order History"
+                className="w-12 h-12"
+              />
+            </div>
 
-  {/* Text */}
-  <div>
-    <h1 className="text-3xl font-bold text-gray-800">
-    Menu Menagement
-    </h1>
+            {/* Text */}
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+                Menu Menagement
+              </h1>
 
-    <p className="text-gray-500 mt-1">
-      View, review, and manage all table reservation requests from customers in one place.
-    </p>
-  </div>
-</div>
-<button
-  onClick={() => setForm(!form)}
-  className="flex items-center gap-2 bg-orange-500/90 backdrop-blur-md border border-orange-300 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg hover:bg-orange-600 transition-all duration-300 hover:scale-105 cursor-pointer"
->
-  <FaPlus className="text-sm" />
-  Add New Item
-</button>
-     </div>
+              <p className="text-sm sm:text-base text-gray-500 mt-1">
+                View, review, and manage all table reservation requests from customers in one place.
+              </p>
+            </div>
+          </div>
 
-<div className='grid grid-cols-4 gap-4 *:bg-white *:rounded-2xl'>
-      <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
-        <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=24555&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
-        <div>
-          <h1 className="font-bold text-sm text-gray-700">  Total Menu Item</h1>
-<p className="text-2xl font-extrabold"> {menuCount}</p>
-<p className="font-bold text-sm text-gray-700"> Available on Menu</p>
+          <div className="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+
+            <button
+              onClick={() => setCategoryMenu(!categoryMenu)}
+              className="flex items-center gap-2 w-full sm:w-auto px-4 py-2.5 bg-white border-2 border-orange-400 text-orange-600 rounded-xl font-semibold shadow-sm hover:bg-orange-50 transition cursor-pointer"
+            >
+              <FaPlus className="text-xs" />
+              Category
+            </button>
+
+            <button
+              onClick={() => setForm(!form)}
+              className="flex items-center gap-2 w-full sm:w-auto px-4 py-2.5 bg-orange-500 text-white rounded-xl font-semibold shadow-sm hover:bg-orange-600 transition cursor-pointer"
+            >
+              <FaPlus className="text-xs" />
+              Menu Item
+            </button>
+
+          </div>
         </div>
-      </div>
-       <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
-        <div  className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/?size=100&id=bmIB2pcxPHgU&format=png&color=FD7E14" alt="data-pending"/></div>
-        <div>
-          <h1 className='font-bold text-sm text-gray-700'>Available Items</h1>
-          <p className='text-2xl font-extrabold'>{Available}</p>
-          <p className='font-bold text-sm text-gray-700'>Ready to order</p>
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white border border-orange-100 rounded-2xl shadow-md p-5 my-6">
+
+          {/* Left */}
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">
+              Menu Items
+            </h2>
+            <p className="text-gray-500 text-sm mt-1">
+              Search and manage your restaurant menu.
+            </p>
+          </div>
+
+          {/* Right */}
+          <div className="flex items-center gap-3 w-full md:w-auto">
+
+            <div className="relative flex-1 md:w-80">
+              <input
+                type="text"
+                placeholder="Search by name or category..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-orange-200 bg-orange-50 focus:outline-none focus:border-orange-500"
+              />
+
+              <img
+                src="https://img.icons8.com/fluency-systems-filled/48/FD7E14/search.png"
+                alt="search"
+                className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2"
+              />
+            </div>
+
+            <button
+              onClick={() => setSearch("")}
+              className="px-5 py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600 transition"
+            >
+              Clear
+            </button>
+
+          </div>
+
         </div>
-      </div>
-       <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
-        <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=2828&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
-        <div>
-          <h1 className='font-bold text-sm text-gray-700'> Categories</h1>
-          <p className='text-2xl font-extrabold'>45</p>
-          <p className='font-bold text-sm text-gray-700'>Food categories</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">
+          <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+            <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=24555&format=png&color=FD7E14" alt="ticket-confirmed" /></div>
+            <div>
+              <h1 className="font-bold text-sm text-gray-700">  Total Menu Item</h1>
+              <p className="text-2xl font-extrabold"> {menuCount}</p>
+              <p className="font-bold text-sm text-gray-700"> Available on Menu</p>
+            </div>
+          </div>
+          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+            <div className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/?size=100&id=bmIB2pcxPHgU&format=png&color=FD7E14" alt="data-pending" /></div>
+            <div>
+              <h1 className='font-bold text-sm text-gray-700'>Available Items</h1>
+              <p className='text-2xl font-extrabold'>{Available}</p>
+              <p className='font-bold text-sm text-gray-700'>Ready to order</p>
+            </div>
+          </div>
+          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+            <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=2828&format=png&color=FD7E14" alt="ticket-confirmed" /></div>
+            <div>
+              <h1 className='font-bold text-sm text-gray-700'> Categories</h1>
+              <p className='text-2xl font-extrabold'>{countCategory}</p>
+              <p className='font-bold text-sm text-gray-700'>Food categories</p>
+            </div>
+          </div>
+          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+            <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=Zg39Op7xYb6E&format=png&color=FD7E14" alt="checked-truck" /></div>
+            <div>
+              <h1 className='font-bold text-sm text-gray-700'>Out of Stock</h1>
+              <p className='text-2xl font-extrabold'>{unavailable}</p>
+              <p className='font-bold text-sm text-gray-700'>Currently unavailable</p>
+            </div>
+          </div>
+
         </div>
-      </div>
-       <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
-        <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=Zg39Op7xYb6E&format=png&color=FD7E14" alt="checked-truck"/></div>
-        <div>
-          <h1 className='font-bold text-sm text-gray-700'>Out of Stock</h1>
-          <p className='text-2xl font-extrabold'>{unavailable}</p>
-          <p className='font-bold text-sm text-gray-700'>Currently unavailable</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 py-5">
+          {find.map((food) => {
+            return <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
+
+              {/* Food Image */}
+              <div className="relative">
+                <img
+                  src={`${food.image}`}
+                  alt="Pizza"
+                  className="w-full h-52 sm:h-56 object-cover"
+                />
+              </div>
+
+              {/* Card Content */}
+              <div className="p-5">
+
+                {/* Title */}
+                <div className="flex justify-between items-start gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-800 break-words">
+                    {food.name}
+                  </h2>
+                  <span className="bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+                    {food.category}
+                  </span>
+                </div>
+
+                {/* Description */}
+                <p className="text-gray-500 text-sm mt-2 leading-6 line-clamp-3 min-h-[72px]">
+                  {food.description}
+                </p>
+
+                {/* Price */}
+                <div className="flex justify-between items-center mt-5 gap-2">
+
+                  <span className=" font-bold text-xl text-gray-800">
+                    Price :
+                  </span>
+
+                  <span className="text-xl sm:text-2xl font-bold text-orange-500">
+                    ₹{food.price}
+                  </span>
+
+                </div>
+
+                <div className="flex justify-between items-center mt-5 gap-2">
+                  <span className=" font-bold text-xl text-gray-800">
+                    Stock :
+                  </span>
+                  <div
+                    className={`px-3 py-1 rounded-full text-xs font-bold ${food.isAvailable
+                        ? "bg-green-600 text-white"
+                        : "bg-orange-400 text-white"
+                      }`}
+                  >
+                    {food.isAvailable ? "Available" : "Unavailable"}
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-gray-200 my-5"></div>
+
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3">
+
+                  <button className="w-full sm:flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+                    onClick={() => edit(food)}
+                  >
+                    ✏️ Edit
+                  </button>
+
+                  <button className="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
+                    onClick={() => deleteItem(food._id)}
+                  >
+                    🗑 Delete
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+          })}
         </div>
-      </div>
-      
-    </div>
-
-    <div className='grid grid-cols-4 gap-5 py-5 '>
-      {menu.map((food)=>{
-        return <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
-
-  {/* Food Image */}
-  <div className="relative">
-    <img
-      src={`${food.image}`}
-      alt="Pizza"
-      className="w-full h-52 object-cover"
-    />
-  </div>
-
-  {/* Card Content */}
-  <div className="p-5">
-
-    {/* Title */}
-<div className='flex justify-between'>
-      <h2 className="text-2xl font-bold text-gray-800">
-     {food.name}
-    </h2>
-    <span className="self-center bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-      {food.category}
-    </span>
-</div>
-
-    {/* Description */}
-    <p className="text-gray-500 text-sm mt-2 leading-6 overflow-hidden h-18  ">
-  {food.description}
-</p>
-
-    {/* Price */}
-    <div className="flex justify-between items-center mt-5">
-
-      <span className="text-gray-600 font-bold text-xl text-gray-800">
-        Price :
-      </span>
-
-      <span className="text-2xl font-bold text-orange-500">
-        ₹{food.price}
-      </span>
-
-    </div>
-
-  <div className="flex justify-between items-center mt-5">
-     <span className="text-gray-600 font-bold text-xl text-gray-800">
-        Stock :
-      </span>
-     <div
-  className={`px-3 py-1 rounded-full text-xs font-bold ${
-    food.isAvailable
-      ? "bg-green-600 text-white"
-      : "bg-orange-400 text-white"
-  }`}
->
-  {food.isAvailable ? "Available" : "Unavailable"}
-</div>
-  </div>
-
-    {/* Divider */}
-    <div className="border-t border-gray-200 my-5"></div>
-
-    {/* Buttons */}
-    <div className="flex gap-3">
-
-      <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
-      onClick={()=>edit(food)}
-      >
-        ✏️ Edit
-      </button>
-
-      <button className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
-       onClick={()=>deleteItem(food._id)}
-       >
-        🗑 Delete
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-      })}
-    </div>
-    </section>
+      </section>
     </>
   )
 }
