@@ -64,7 +64,7 @@ const AdminOrders = () => {
         let data = await res.json();
         setOrder(data.data);
         setOrderCount(data.count)
-        console.log(data.data);
+       
       }
       foodOrder();
     } catch (error) {

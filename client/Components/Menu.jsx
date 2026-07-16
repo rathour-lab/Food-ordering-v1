@@ -13,7 +13,7 @@ const Menu = ({socket}) => {
   const [selectedId, setSelectedId] = useState('')
   const navigate = useNavigate();
   let location=useLocation()
-  
+  let userId=localStorage.getItem('userId')
   useEffect(() => {
     const updateCards = () => {
       if (window.innerWidth >= 1023) {
@@ -43,8 +43,11 @@ const Menu = ({socket}) => {
     return () => window.removeEventListener("resize", updateCards);
   }, [])
 
-  const  handleAddToCart =async (cartdata) => {
-    setAddedItems(prev => [...prev, cartdata._id]);
+  const  handleAddToCart =async (item) => {
+    let msg='CartItem_ADD'
+         socket.current.send(JSON.stringify(msg));
+
+    setAddedItems(prev => [...prev, item._id]);
    setTimeout(()=>{
     setAddedItems([]);
    },3000)
@@ -55,7 +58,12 @@ let res=await fetch('http://localhost:3000/get-order',{
             headers:{
                 'Content-type':'application/json'
             },
-            body:JSON.stringify(cartdata)
+            body:JSON.stringify({
+
+              userId,
+              item
+            }
+            )
 })
 
   };

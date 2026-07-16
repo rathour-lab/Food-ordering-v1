@@ -11,7 +11,7 @@ function HomeSection({socket}) {
   return (
     <>
     <Home />
-    <Menu cartvalue={socket}/>
+    <Menu socket={socket}/>
     <About/>
     </>
   )

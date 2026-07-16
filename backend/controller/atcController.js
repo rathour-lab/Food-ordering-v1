@@ -3,12 +3,19 @@ const CartModel = require("../models/cartModel");
 
 async function getATC(req, res) {
     try {
-        const item = req.body;
+        const {userId,item} = req.body;
+        console.log(userId,item);
+        
+        
 
-        const alreadyExists = await CartModel.findById(item._id);
+        const alreadyExists = await CartModel.findOne({
+            userId,
+            'item._id':item._id
+
+        });
 
         if (alreadyExists) {
-            alreadyExists.quantity += 1;
+            alreadyExists.item.quantity += 1;
             await alreadyExists.save();
 
             return res.json({
@@ -17,7 +24,9 @@ async function getATC(req, res) {
             });
         }
 
-        const cartItem = await CartModel.create(item);
+        const cartItem = await CartModel.create({
+            userId,
+            item});
 
         res.json({
             message: "Item Added",
@@ -34,9 +43,14 @@ async function getATC(req, res) {
 
 async function getCartItem(req, res) {
     try {
-
-        const cart = await CartModel.find();
-
+            let {userId}=req.params;
+        const cart = await CartModel.find({userId});
+            
+            // if (cart.userId==CompareUserId) {
+            //     res.json(cart.item)
+            //     console.log(cart.item);
+                
+            // }
         res.json(cart);
 
     } catch (err) {
@@ -59,7 +73,7 @@ async function deleteCartItem(req, res) {
 
         res.json({
             message: "Deleted Successfully",
-            data: cart,
+           
         });
 
     } catch (err) {
@@ -80,7 +94,9 @@ async function updateCartQuantity(req, res) {
 
         const updatedItem = await CartModel.findByIdAndUpdate(
             req.params.id,
-            { quantity },
+             {
+                "item.quantity": quantity,
+            },
             { new: true }
         );
 
@@ -99,25 +115,29 @@ async function updateCartQuantity(req, res) {
 
 async function AdminCartdata(req, res) { //post cart data to the orders schema
     try {
-
-        const cartItems = await CartModel.find();
+          
+        const {userId}=req.body;
+  
+    
+        const cartItems = await CartModel.find({userId});
 
         if (cartItems.length === 0) {
             return res.status(400).json({
-                message: "Cart is empty",
+                message: "Cart is empty",   
             });
         }
 
-        const grandTotal = cartItems.reduce((total, item) => {
-            return total + item.price * item.quantity;
+        const grandTotal = cartItems.reduce((total, cart) => {
+            return total + cart.item.price * cart.item.quantity;
         }, 0);
-
+            let orderItems=cartItems.map(cart=>cart.item)
         await OrderModel.create({
-            cartItems,
+            userId,
+            cartItems:orderItems,
             grandTotal,
         });
 
-        await CartModel.deleteMany({});
+        await CartModel.deleteMany({userId});
 
         res.json({
             message: "Order placed successfully",
@@ -133,8 +153,9 @@ async function AdminCartdata(req, res) { //post cart data to the orders schema
 }
 async function getAdminCartdata(req, res) {
     try {
+        
         const data = await OrderModel.find().sort({ createdAt: -1 });
-        let count=await OrderModel.countDocuments()
+        let count=data.length;
 
         res.json({data,count});
     } catch (err) {
