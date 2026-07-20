@@ -30,14 +30,15 @@ const wss=new websocket.Server({server})
 wss.on('connection',(ws)=>{
     console.log('client connected');
     
-        ws.on('message',(message)=>{
-                 let msg=JSON.parse(message.toString());
-                console.log(msg);
-                
-               ws.send(msg)
+      ws.on("message", (message) => {
+    const msg = JSON.parse(message.toString());
 
-                
-        })
+    wss.clients.forEach((client) => {
+        if (client.readyState === websocket.OPEN) {
+            client.send(JSON.stringify(msg));
+        }
+    });
+});
 })
 server.listen(3000,()=>{
 console.log('server Start');

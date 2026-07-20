@@ -144,8 +144,7 @@ const pendingCount = reservationData.filter(item=>item.state === "Pending").leng
     </div>
 
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 py-6 gap-5">  {reservationData.map((customer)=>{
-  console.log(customer.state);
-console.log(typeof customer.state);
+
   return   <div  key={customer._id} className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 h-full flex flex-col">
   {/* Header */}
 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-200 pb-4">    <div>

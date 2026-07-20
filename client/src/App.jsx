@@ -18,8 +18,7 @@ import AdminOrders from '../Components/AdminOrders';
 import AdminReservation from '../Components/AdminReservation';
 import Cart from '../Components/cart'
 import LoginPage from '../Pages/loginPage'
-
-
+import CheckoutModal from '../Components/CheckOutPage'
 function App() {
   const myId = useRef(crypto.randomUUID());
   window.scrollTo(0, 0);
@@ -53,7 +52,12 @@ function App() {
     socket.current.onopen=()=>{
         console.log('ws connected');
     }
-    
+    let userId = localStorage.getItem("userId");
+
+  if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem("userId", userId);
+  }
     return () => clearTimeout(timer);
 
   }, []);
@@ -77,8 +81,9 @@ function App() {
       <Routes >
         <Route path="/" element={<HomeSection socket={socket}/>} />
         <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack}/>} />
+        <Route path="/Checkout" element={<CheckoutModal/>} />
           
-        <Route path="/Menu" element={<Menupage />} />
+        <Route path="/Menu" element={<Menupage socket={socket}/>} />
         <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />
 
 
@@ -86,7 +91,7 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu}/>} />
-          <Route path="orders" element={<AdminOrders />} />
+          <Route path="orders" element={<AdminOrders socket={socket}/>} />
           <Route path="reservation" element={<AdminReservation  />} />
         </Route>
       </Routes>

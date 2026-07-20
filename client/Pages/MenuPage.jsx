@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { FaArrowRight, FaCcDinersClub, FaFire, FaMotorcycle, FaTruck, FaUtensils, FaUtensilSpoon } from 'react-icons/fa'
 import Menu from '../Components/Menu'
-function Menupage({cartvalue}) {
+function Menupage({socket}) {
 
   return (
     <>

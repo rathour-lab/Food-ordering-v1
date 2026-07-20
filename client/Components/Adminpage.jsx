@@ -10,8 +10,6 @@ const Adminpage = ({bell,setBell}) => {
     }`;
 
   const isToken = document.cookie.includes("token=");
-console.log("Cookie:", document.cookie);
-console.log("isToken:", isToken);
 
   // if (!isToken) {
   //   return <Navigate to="/" replace />;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCar, FaCheck, FaClock, FaRoad, FaUserShield } from "react-icons/fa";
+import { FaCar, FaCheck, FaClock, FaRegCalendar, FaRegCalendarAlt, FaRegCalendarPlus, FaRegCalendarTimes, FaRoad, FaUserShield } from "react-icons/fa";
 import { Link, NavLink, useFetcher } from "react-router-dom";
 
 import logo from "../src/assets/logo.png";
@@ -14,22 +14,29 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
     const [scrolled, setScrolled] = useState(false);
     const [cart, setCart] = useState(false);
-    const [status, setStatus] = useState(true);
+    const [status, setStatus] = useState(false);
     const [orderStatus, setOrderStatus] = useState([])
     const [sidebar, setSidebar] = useState(false);
     const [ATC_data, setATC_data] = useState([]);
 
-
+const statusStyles = {
+  "Order Placed": "bg-orange-100 text-orange-700",
+  "Confirmed": "bg-blue-100 text-blue-700",
+  "Preparing": "bg-yellow-100 text-yellow-700",
+  "Ready for Pickup": "bg-purple-100 text-purple-700",
+  "Out for Delivery": "bg-indigo-100 text-indigo-700",
+  "Delivered": "bg-green-100 text-green-700",
+};
 
     const totalPrice = ATC_data.reduce((total, cart) => {
         return total + cart.item.price * cart.item.quantity;
     }, 0);
-    console.log('nav render');
+   
     const location = useLocation();
     let navigator = useNavigate()
     useEffect(() => {
         setCart(false);
-        setStatus(true);
+        setStatus(false);
     }, [location.pathname]);
 
     const totalQuantity = ATC_data.reduce((total, cart) => {
@@ -77,18 +84,17 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
         };
 
         window.addEventListener("scroll", handleScroll);
-
+        getCartItem()
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
     // orders status                      ////////////////////////////////
-    useEffect(() => {
-        async function Status() {
+    async function Status() {
             const userId = localStorage.getItem("userId");
 
             let res = await fetch(
-                `http://localhost:3000/getAdminCartData/${userId}`
+                `http://localhost:3000/showStatusOrders/${userId}`
             );
             let data = await res.json();
             setOrderStatus(data.data)
@@ -99,6 +105,8 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
             // }));
 
         }
+    useEffect(() => {
+        
         Status();
     }, [])
 
@@ -111,12 +119,25 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
     }
     
-   socket.current.onmessage=(event)=>{
-     if (event.data==='CartItem_ADD') {
-        getCartItem();
-     }
-     
+  socket.current.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+            console.log(data.type);
+            
+    switch (data.type) {
+        case "CartItem_ADD":
+            getCartItem();
+            break;
+
+        case "Order_added":
+            Status();
+            break;
+
+        default:
+            break;
     }
+};
+     
+    
 
     return (
         <div
@@ -211,7 +232,10 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                     </NavLink>
 
 
-                    <button onClick={() => setStatus(!status)}
+                    <button onClick={() => {
+    setStatus(prev => !prev);
+    setCart(false);
+}}
                         className="relative
                         flex items-center
                         gap-2
@@ -230,23 +254,77 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                         Status
 
                         <span
-                            className={`absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500 ${totalQuantity > 0 ? "animate-ping" : "animate-none"
+                            className={`absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500 ${orderStatus.length > 0 ? "animate-ping" : "animate-none"
                                 }`}
                         ></span>
                         <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500"></span>
-                        <div className={`${status ? 'hidden' : 'block'} absolute w-60  text-black top-15 py-5 px-5 flex flex-col justify-center right-0`}>
+                        <div className={`${status==false ? 'hidden' : 'block'} absolute w-60  text-black top-15 py-5 px-5 flex flex-col justify-center right-0`}>
                             <div className="bg-white rounded-2xl shadow-lg p-6 w-140 ">
                                 <h2 className="text-xl font-bold mb-6 text-gray-800">
                                     Order Status
                                 </h2>
-                                {orderStatus.map((orders) => {
-                                    return (
-                                        <div className="flex justify-between items-center ">
-                                            <div className="w-40 truncate ">{orders._id}</div>
-                                            <div className="border-l-2 w-40">{orders.orderStatus}</div>
-                                        </div>
+                                {orderStatus.length===0 ? (<><div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+    <div className="text-6xl mb-4">📦</div>
+
+    <h2 className="text-xl font-bold text-gray-800">
+      No Orders Yet
+    </h2>
+
+    <p className="text-gray-500 mt-2 max-w-xs">
+      Looks like you haven't placed any orders yet.
+      Once you order something, its status will appear here.
+    </p>
+
+    <Link
+      to="/Menu"
+      onClick={() => setStatus(false)}
+      className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium transition"
+    >
+      🍔 Browse Menu
+    </Link>
+  </div></>)
+                                :
+                                
+
+                                    orderStatus.map((orders) => {
+                                        return (
+                                            <div
+                                            key={orders._id}
+                                            className="flex items-center justify-between p-4 mb-3 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-300"
+>
+  {/* Left */}
+  <div className="flex flex-col gap-1">
+    <p className="text-xs text-gray-400">
+      Order ID
+    </p>
+
+    <p className="font-semibold text-gray-800 text-sm truncate max-w-52">
+      {orders._id}
+    </p>
+
+    <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
+      <span>
+        📅 {new Date(orders.createdAt).toLocaleDateString("en-IN")}
+      </span>
+
+      <span>
+        🕒 {new Date(orders.createdAt).toLocaleTimeString("en-IN")}
+      </span>
+    </div>
+  </div>
+
+  {/* Right */}
+ <span
+  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+      statusStyles[orders.orderStatus]
+      }`}
+>
+  {orders.orderStatus}
+</span>
+</div>
                                     )
                                 })}
+                            
 
 
                             </div>
@@ -257,7 +335,8 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                 <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
 
                     <div className="flex items-center gap-3 md:gap-4">
-                        <div className="relative">
+                        <div className={`relative ${location.pathname=='/Cart'?'hidden':'block'
+                        }`} >
 
                             <div className="absolute z-10 -top-2 -right-2 h-5 w-5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold flex items-center justify-center">
                                 {totalQuantity}
@@ -310,7 +389,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                                             🛒 Your Cart
                                         </h3>
                                         <p className="text-sm text-gray-500">
-                                            {totalQuantity} Item{{ totalQuantity } !== 1 && "s"}
+                                            {totalQuantity} { totalQuantity > 1 ? "items":'item'} 
                                         </p>
                                     </div>
 
@@ -369,9 +448,9 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
                                         <Link to="/Cart">
                                             <button
-                                                onClick={() => setCart(false)
+                                                
 
-                                                }
+                                                
                                                 className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300"
                                             >
                                                 Go to Cart →
@@ -384,7 +463,10 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                             </div>
 
                             <img
-                                onClick={() => setCart(!cart)}
+                                onClick={() => {
+    setCart(prev => !prev);
+    setStatus(false);
+}}
                                 className="h-7 sm:h-8 cursor-pointer hover:scale-110 transition duration-300"
                                 src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
                                 alt="cart"

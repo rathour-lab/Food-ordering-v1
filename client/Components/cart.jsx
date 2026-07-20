@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { FaChevronLeft, FaChevronRight, FaMinus, FaPlus, FaTrash } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import swal from 'sweetalert2';
+import CheckoutModal from './CheckOutPage';
 
 const Cart = ({ setStatus, statusTrack }) => {
   const [CartItem, setCartItem] = useState([])
@@ -39,21 +40,22 @@ const Cart = ({ setStatus, statusTrack }) => {
 
     if (res.ok) {
 
-     setCartItem(prev =>
-  prev.map(cart =>
-    cart._id === id
-      ? {
-          ...cart,
-          item: {
-            ...cart.item,
-            quantity: cart.item.quantity + 1,
-          },
-        }
-      : cart
-  )
-);
+      setCartItem(prev =>
+        prev.map(cart =>
+          cart._id === id
+            ? {
+              ...cart,
+              item: {
+                ...cart.item,
+                quantity: cart.item.quantity + 1,
+              },
+            }
+            : cart
+        )
+      );
 
     }
+  
 
   }
   async function decreaseItem(id) {
@@ -69,26 +71,28 @@ const Cart = ({ setStatus, statusTrack }) => {
       },
       body: JSON.stringify({
         quantity: cart.item.quantity - 1,
+
       }),
     });
 
     if (res.ok) {
 
       setCartItem(prev =>
-  prev.map(cart =>
-    cart._id === id
-      ? {
-          ...cart,
-          item: {
-            ...cart.item,
-            quantity: cart.item.quantity - 1,
-          },
-        }
-      : cart
-  )
-);
-    }
+        prev.map(cart =>
+          cart._id === id
+            ? {
+              ...cart,
+              item: {
+                ...cart.item,
+                quantity: cart.item.quantity - 1,
 
+              },
+            }
+            : cart
+        )
+      );
+    }
+  
   }
   useEffect(() => {
 
@@ -118,17 +122,17 @@ const Cart = ({ setStatus, statusTrack }) => {
       method: 'DELETE'
     })
     if (response.ok) {
-    setCartItem(prev => prev.filter(item => item._id !== id));
+      setCartItem(prev => prev.filter(item => item._id !== id));
+    }
+   
   }
-  }
+
   let userId = localStorage.getItem("userId");
 
-  if (!userId) {
-    userId = crypto.randomUUID();
-    localStorage.setItem("userId", userId);
-  }
 
-  async function handelCheckout() {
+
+  async function handelCheckout(formData) {
+    console.log(formData);
 
     if (CartItem.length > 0) {
 
@@ -138,7 +142,10 @@ const Cart = ({ setStatus, statusTrack }) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId })
+          body: JSON.stringify({
+            userId, 
+            PaymentDetails:formData
+          })
         }
 
       );
@@ -157,8 +164,8 @@ const Cart = ({ setStatus, statusTrack }) => {
       })
       setCartItem([])
       setTimeout(() => {
-  navigator("/");
-}, 3500);
+        navigator("/");
+      }, 3500);
     }
 
   }
@@ -171,7 +178,12 @@ const Cart = ({ setStatus, statusTrack }) => {
       return () => clearTimeout(timer);
     }
   }, [CartItem]);
-
+  const [open, setOpen] = useState(false);
+  if (open) {
+    return (
+      <CheckoutModal open={open} setOpen={setOpen} handelCheckout={handelCheckout} grandTotal={grandTotal} />
+    )
+  }
   return (
     <div className="min-h-screen bg-orange-50 pt-10 pb-60 ">
       <div className="max-w-7xl mx-auto px-6 flex flex-col xl:flex-row gap-8">
@@ -253,7 +265,7 @@ const Cart = ({ setStatus, statusTrack }) => {
 
                       <td className="text-center font-bold text-orange-600">
 
-                        ₹{item.item.price}
+                        ₹{item.item.price * item.item.quantity}
                       </td>
                       <td className="  font-bold text-orange-600">
 
@@ -333,12 +345,14 @@ const Cart = ({ setStatus, statusTrack }) => {
                   </p>
                 )}
 
+
                 <button
-                  onClick={handelCheckout}
+                  onClick={() => setOpen(!open)}
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition mt-4"
                 >
                   Checkout • ₹{finalTotal}
                 </button>
+
 
               </div>
 

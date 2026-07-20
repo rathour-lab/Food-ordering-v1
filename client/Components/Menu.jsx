@@ -5,7 +5,7 @@ import { useNavigate,useLocation} from 'react-router-dom'
 import Navbar from './Navbar'
 
 const Menu = ({socket}) => {
-  console.log('menu render');
+  
   
   const [item, setItem] = useState([])
   const [addedItems, setAddedItems] = useState([]);
@@ -44,8 +44,7 @@ const Menu = ({socket}) => {
   }, [])
 
   const  handleAddToCart =async (item) => {
-    let msg='CartItem_ADD'
-         socket.current.send(JSON.stringify(msg));
+    
 
     setAddedItems(prev => [...prev, item._id]);
    setTimeout(()=>{
@@ -66,7 +65,10 @@ let res=await fetch('http://localhost:3000/get-order',{
             )
 })
 
-  };
+socket.current.send(JSON.stringify({
+    type:'CartItem_ADD'
+   }))
+  }
   return (
     <>
       <div className='bg-[#fff8dd]  transition-all duration-500'>

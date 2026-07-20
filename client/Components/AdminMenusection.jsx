@@ -18,7 +18,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
   useEffect(() => {
     const getMenu = async () => {
       try {
-        console.log();
+      
 
         let res = await fetch('http://localhost:3000/menu');
         let data = await res.json();
@@ -212,7 +212,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
 
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 py-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-5">
           {find.map((food) => {
             return <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
 
