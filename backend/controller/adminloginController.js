@@ -11,7 +11,7 @@ const {EMAIL,PASSWORD}=process.env
         {expiresIn:"10m"}
     )
     if (email==EMAIL && password==PASSWORD) {
-
+                res.json(name)
             res.status(200).json({
             message:"login succesfull",
             token})

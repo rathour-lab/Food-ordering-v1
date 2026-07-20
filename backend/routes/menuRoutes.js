@@ -8,7 +8,7 @@ route.get('/menu',getMenu);
 
 // for admin //
 
-route.post('/addMenu/:page',addItem);
+route.post('/addMenu',addItem);
 route.put('/updateMenu/:id',editItem);
 route.delete('/removerMenu/:id',dltItem);
 

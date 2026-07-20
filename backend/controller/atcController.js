@@ -157,6 +157,8 @@ async function AdminCartdata(req, res) { //post cart data to the orders schema
 }
 async function getAdminCartdata(req, res) {
     try {
+        console.log('working');
+        
         let {page} = req.query;
         console.log(page);
         
