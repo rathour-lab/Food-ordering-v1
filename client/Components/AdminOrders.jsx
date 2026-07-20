@@ -60,7 +60,15 @@ const AdminOrders = ({socket}) => {
 
 
   useEffect(() => {
-    try {
+    
+    foodOrder();
+    let interval = setInterval(() => {
+       foodOrder();
+    },5000);
+    return ()=> clearInterval(interval)
+  }, [pageNumber])
+
+  try {
       const foodOrder = async () => {
         let res = await fetch(`http://localhost:3000/getAdminCartData?page=${pageNumber}`);
         let data = await res.json();
@@ -68,13 +76,10 @@ const AdminOrders = ({socket}) => {
         setOrderCount(data.count)
         setTotalPages(data.totalPages)
       }
-      foodOrder();
     } catch (error) {
       console.log(error);
-
+      
     }
-  }, [])
-
 
   const updateOrderStatus = async (id, status) => {
     

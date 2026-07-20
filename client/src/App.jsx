@@ -80,8 +80,8 @@ function App() {
 />}
       <Routes >
         <Route path="/" element={<HomeSection socket={socket}/>} />
-        <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack}/>} />
-        <Route path="/Checkout" element={<CheckoutModal/>} />
+        <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack} />} />
+        <Route path="/Checkout" element={<CheckoutModal setBell={setBell}/>} />
           
         <Route path="/Menu" element={<Menupage socket={socket}/>} />
         <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />

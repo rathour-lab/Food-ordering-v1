@@ -293,7 +293,7 @@ setBell(true)
       </form>
             </div>
 
-      <section className="bg-[#fff8dd] pt-20 pb-32 py-8 px-5 sm:px-1.5 lg:px-26">
+      <section id="contact" className="bg-[#fff8dd] pt-20 pb-32 py-8 px-5 sm:px-1.5 lg:px-26">
         <div className="w-8xl mx-auto grid lg:grid-cols-2 gap-22 items-center pb-20">
 
           <div className="overflow-hidden rounded-3xl shadow-xl ">

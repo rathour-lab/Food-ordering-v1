@@ -231,7 +231,7 @@ const Cart = ({ setStatus, statusTrack }) => {
                         {item.item.name}
                       </td>
 
-                      <td className="text-gray-500 text-sm ">
+                      <td className="text-gray-500 text-sm  overflow-y-hidden ">
                         {item.item.description}
                       </td>
 

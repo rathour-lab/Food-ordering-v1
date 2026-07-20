@@ -5,10 +5,11 @@ import Hero from '../src/assets/hero.png'
 import chicken from '../src/assets/chickenicon.png'
 import burger from '../src/assets/burgericon.png'
 import pizza from '../src/assets/pizza.png'
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
  
-
+const navigate = useNavigate()
 
   return (
     <>
@@ -28,15 +29,15 @@ const Home = () => {
 
               <div className="flex flex-wrap items-center gap-4">
                 {/* Primary Button */}
-                <button  className="group flex items-center gap-3 bg-black text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-black/20 transition-all duration-300 hover:bg-neutral-900 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-black/20 cursor-pointer">
+                <button  className="group flex items-center gap-3 bg-black text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-black/20 transition-all duration-300 hover:bg-neutral-900 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-black/20 cursor-pointer" onClick={()=>window.scroll(0,2370)}>
                   Grab Your Order
                   <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 
                 {/* Secondary Button */}
-                <button className="group flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-orange-400/40 transition-all duration-300 hover:from-orange-600 hover:to-amber-600 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300 cursor-pointer">
+                <button className="group flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-orange-400/40 transition-all duration-300 hover:from-orange-600 hover:to-amber-600 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-300 cursor-pointer" onClick={()=>navigate('/Reservations')}>
                   <FaFire className="text-lg transition-transform duration-300 group-hover:rotate-12 group-hover:scale-125" />
-                  Combo Deals
+                  Reservation 
                 </button>
               </div>
             </div>

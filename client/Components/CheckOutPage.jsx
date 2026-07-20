@@ -16,6 +16,7 @@ export default function CheckoutModal({
   setOpen,
   handelCheckout,
   grandTotal,
+  setBell
 }) {
   const deliveryCharge =
     grandTotal >= 500 ? 0 : 40;
@@ -58,6 +59,7 @@ export default function CheckoutModal({
   };
 
   const placeOrder = () => {
+
     if (
       !form.name ||
       !form.phone ||

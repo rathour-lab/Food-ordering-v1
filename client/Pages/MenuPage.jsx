@@ -18,6 +18,7 @@ function Menupage({ socket }) {
   const [totalPages, setTotalPages] = useState(1)
   const userId = localStorage.getItem("userId");
   let location = useLocation()
+  const Navigate=useNavigate()
   
   async function getMenu() {
     try {
@@ -64,6 +65,8 @@ function Menupage({ socket }) {
 
   const find = item.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()) || item.category.toLowerCase().includes(search.toLowerCase()))
 
+  
+
   return (
     <>
       <div className='bg-[#fff8dd]   px-5 sm:px-15 md:px-15 lg:px-26 transition-all duration-300 '>
@@ -109,33 +112,7 @@ function Menupage({ socket }) {
                 />
               </button>
 
-              {/* Secondary Button */}
-              <button
-                className="
-         group flex items-center gap-3
-         bg-gradient-to-r from-orange-500 to-amber-500
-         text-white
-         px-7 py-3 rounded-full
-         font-semibold tracking-wide
-         shadow-lg shadow-orange-400/40
-         transition-all duration-300
-         hover:from-orange-600 hover:to-amber-600
-         hover:shadow-2xl hover:-translate-y-1
-         active:scale-95
-         focus:outline-none focus:ring-4 focus:ring-orange-300
-         cursor-pointer
-         "
-              >
-                <FaFire
-                  className="
-           text-lg
-           transition-transform duration-300
-           group-hover:rotate-12 group-hover:scale-125
-           "
-                />
-
-                Best Sellers
-              </button>
+              
 
             </div>
 
@@ -334,7 +311,9 @@ function Menupage({ socket }) {
   {/* Previous */}
   <button
     disabled={pageNumber === 1}
-    onClick={() => setPageNumber(pageNumber - 1)}
+    onClick={() => {setPageNumber(pageNumber - 1)
+       window.scroll(0,800)
+    }}
     className="
       px-6 py-3 rounded-full
       bg-gradient-to-r from-orange-500 to-red-500
@@ -379,7 +358,9 @@ function Menupage({ socket }) {
   {/* Next */}
   <button
     disabled={pageNumber === totalPages}
-    onClick={() => setPageNumber(pageNumber + 1)}
+    onClick={() =>{ setPageNumber(pageNumber + 1)
+      window.scroll(0,800)
+    }}
     className="
       px-6 py-3 rounded-full
       bg-gradient-to-r from-orange-500 to-red-500
