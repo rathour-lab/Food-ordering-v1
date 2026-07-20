@@ -1,12 +1,19 @@
 const Reservation=require("../models/reservationModel");
+ const sendMail =require("./mailSMTPController")
 
 
 // get Reservation data
 
 async function getReservation(req,res) {
-    const data = await Reservation.find();
+    let {page} = req.query;
+    let limit = 12
+    const data = await Reservation.find().skip((page-1)*limit).limit(limit);
     let count =await Reservation.countDocuments()
-    res.json({data,count});
+    res.json({
+      data,
+      count,
+      totalPages: Math.ceil(count/limit)
+    });
 };
 
 // post Reservation data
@@ -32,6 +39,18 @@ async function updateReservation(req, res) {
         {state},
         {new:true}
     );
+   console.log("Before sendMail");
+console.log(reservation);
+console.log("EMAIL:", reservation.email);
+console.log("STATE:", reservation.state);
+    await sendMail(
+      reservation.email,
+      reservation.fullName,
+      reservation.state,
+      reservation.date,
+      reservation.time
+    );
+
     res.json({
   message: "Reservation Updated",
   reservation

@@ -54,17 +54,19 @@ const AdminOrders = () => {
 
   const [order, setOrder] = useState([]);
   const [orderCount, setOrderCount] = useState(0)
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1)
 
 
 
   useEffect(() => {
     try {
       const foodOrder = async () => {
-        let res = await fetch('http://localhost:3000/getAdminCartData');
+        let res = await fetch(`http://localhost:3000/getAdminCartData?page=${pageNumber}`);
         let data = await res.json();
         setOrder(data.data);
         setOrderCount(data.count)
-       
+        setTotalPages(data.totalPages)
       }
       foodOrder();
     } catch (error) {
@@ -114,7 +116,7 @@ const AdminOrders = () => {
   return (
     <>
       <section className="bg-[#fff8dd] px-4 sm:px-6 py-6">
-       <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-orange-100 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white rounded-2xl p-4 sm:p-6 shadow-md border border-orange-100 mb-6">
 
           {/* Icon */}
           <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-100">
@@ -131,7 +133,7 @@ const AdminOrders = () => {
               Order History
             </h1>
 
-           <p className="text-sm sm:text-base text-gray-500 mt-1">
+            <p className="text-sm sm:text-base text-gray-500 mt-1">
               View, track, and manage all customer orders in one place.
             </p>
           </div>
@@ -183,14 +185,14 @@ const AdminOrders = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 py-6 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6 gap-5">
           {order && order.map((food) => {
             return <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5 h-full flex flex-col">
 
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-200">
-               <h2 className="text-base sm:text-lg font-bold text-gray-800 break-all">
-                   Order #{food._id.slice(-6)}
+                <h2 className="text-base sm:text-lg font-bold text-gray-800 break-all">
+                  Order #{food._id.slice(-6)}
                 </h2>
 
                 <span className={`${statusStyle(food.orderStatus)} whitespace-nowrap text-xs font-semibold px-3 py-1 rounded-full`} >
@@ -203,7 +205,7 @@ const AdminOrders = () => {
 
                 {food.cartItems.map((item) => {
                   return <div className="flex justify-between items-center gap-3">
-                   <p className="flex items-center gap-2 text-sm break-words"><img src={item.image} className='size-6  rounded-full' alt="" /> {item.name}</p>
+                    <p className="flex items-center gap-2 text-sm break-words"><img src={item.image} className='size-6  rounded-full' alt="" /> {item.name}</p>
                     <span className="font-semibold">×{item.quantity}</span>
                   </div>
                 })}
@@ -236,7 +238,7 @@ const AdminOrders = () => {
                     Total
                   </span>
 
-                 <span className="text-xl sm:text-2xl font-bold text-orange-500">
+                  <span className="text-xl sm:text-2xl font-bold text-orange-500">
                     ₹{food.grandTotal}
                   </span>
                 </div>
@@ -262,6 +264,76 @@ const AdminOrders = () => {
             </div>
           })}
         </div>
+               <div className="flex justify-center items-center gap-6 mt-12 pb-6">
+
+  {/* Previous */}
+  <button
+    disabled={pageNumber === 1}
+    onClick={() => setPageNumber(pageNumber - 1)}
+    className="
+      px-6 py-3 rounded-full
+      bg-gradient-to-r from-orange-500 to-red-500
+      text-white font-semibold
+      shadow-lg
+      transition-all duration-300
+      hover:scale-105 hover:shadow-orange-400/40
+      active:scale-95
+      disabled:bg-gray-300
+      disabled:shadow-none
+      disabled:cursor-not-allowed
+      disabled:hover:scale-100
+    "
+    title='Previous'
+  >
+    ← 
+  </button>
+
+  {/* Page Number */}
+  <div
+    className="
+      min-w-[130px]
+      px-6 py-3
+      rounded-full
+      bg-white
+      border border-orange-200
+      shadow-md
+      text-lg
+      font-bold
+      text-orange-600
+      flex justify-center items-center
+      transition-all duration-300
+      hover:shadow-lg hover:scale-105
+    "
+    
+  >
+     {pageNumber}
+    <span className="mx-2 text-gray-400">/</span>
+    {totalPages}
+  </div>
+
+  {/* Next */}
+  <button
+    disabled={pageNumber === totalPages}
+    onClick={() => setPageNumber(pageNumber + 1)}
+    className="
+      px-6 py-3 rounded-full
+      bg-gradient-to-r from-orange-500 to-red-500
+      text-white font-semibold
+      shadow-lg
+      transition-all duration-300
+      hover:scale-105 hover:shadow-orange-400/40
+      active:scale-95
+      disabled:bg-gray-300
+      disabled:shadow-none
+      disabled:cursor-not-allowed
+      disabled:hover:scale-100
+    "
+    title='Next'
+  >
+     →
+  </button>
+
+</div>
       </section>
     </>
   )

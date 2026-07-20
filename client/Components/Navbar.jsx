@@ -56,7 +56,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
         const cart = ATC_data.find(i => i._id === id);
 
-      if (cart.item.quantity === 1) return;
+        if (cart.item.quantity === 1) return;
 
         await fetch(`http://localhost:3000/cart/${id}`, {
             method: "PATCH",
@@ -110,12 +110,12 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
         setATC_data(data);
 
     }
-    
-   socket.current.onmessage=(event)=>{
-     if (event.data==='CartItem_ADD') {
-        getCartItem();
-     }
-     
+
+    socket.current.onmessage = (event) => {
+        if (event.data === 'CartItem_ADD') {
+            getCartItem();
+        }
+
     }
 
     return (
@@ -400,11 +400,48 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                             />
                             {!sidebar ? (<></>) : (<>
 
-                                <div className="bg-white absolute top-14 h-145 w-2xs -right-4  transition-all  duration-300 rounded-s-3xl px-3 py-2  flex flex-col  ">
-                                    <div className="flex justify-between items-center border-b-2 border-gray-600 ">
-                                        <p className="py-3 font-bold text-xl text-center ">HUNGER TOWN </p>
-                                        <img className="size-8 cursor-pointer" src="https://img.icons8.com/?size=100&id=gykZ2Zai2dlQ&format=png&color=FD7E14" alt="" onClick={() => setSidebar(!sidebar)} />
-                                    </div>
+                                <div className="bg-white absolute top-14 h-125 w-2xs -right-4  transition-all  duration-300 rounded-s-3xl px-3 pb-4 pt-2 flex flex-col  ">
+                                    <div className="relative mb-6">
+
+  {/* Logo */}
+  <div className="flex items-center gap-3">
+
+    <div className="ps-2">
+      <h2 className="text-2xl font-extrabold text-gray-800 tracking-wide">
+        Hunger
+        <span className="text-orange-500">Town</span>
+      </h2>
+
+      <p className="text-xs text-gray-400">
+        Fresh • Fast • Delicious
+      </p>
+    </div>
+
+    {/* Close Button */}
+    <button
+      onClick={() => setSidebar(false)}
+      className="
+        ml-auto
+        w-10 h-10
+        rounded-xl
+        bg-gray-100
+        flex justify-center items-center
+        text-gray-600
+        hover:bg-orange-500
+        hover:text-white
+        hover:rotate-90
+        transition-all duration-300
+      "
+    >
+      ✕
+    </button>
+
+  </div>
+
+  {/* Divider */}
+  <div className="mt-5 h-[2px] w-full bg-gradient-to-r from-orange-500 via-orange-200 to-transparent rounded-full"></div>
+
+</div>
                                     <ul className="  text-lg font-semibold pt-5   *:space-y-4 flex-1">
 
                                         <NavLink
@@ -414,20 +451,11 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                                                 }`
                                             }
                                         >
-                                            <li className="py-2  transition-transform duration-300">
+                                            <li
+                                                className=" py-3 px-1 rounded-xl hover:bg-orange-50 hover:text-orange-500 transition-all duration-300 hover:translate-x-2"
+                                            >
                                                 Home
                                             </li>
-
-                                            <span
-                                                className="
-              absolute left-0 -bottom-1
-              h-[3px] w-0
-              bg-[#ff8800]
-              rounded-full
-              transition-all duration-300
-              group-hover:w-full
-            "
-                                            ></span>
                                         </NavLink>
 
                                         <NavLink
@@ -437,20 +465,11 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                                                 }`
                                             }
                                         >
-                                            <li className="py-2  transition-transform duration-300">
+                                            <li
+                                                className=" py-3 px-1 rounded-xl hover:bg-orange-50 hover:text-orange-500 transition-all duration-300 hover:translate-x-2"
+                                            >
                                                 Menu
                                             </li>
-
-                                            <span
-                                                className="
-              absolute left-0 -bottom-1
-              h-[3px] w-0
-              bg-[#ff8800]
-              rounded-full
-              transition-all duration-300
-              group-hover:w-full
-            "
-                                            ></span>
                                         </NavLink>
 
                                         <NavLink
@@ -460,27 +479,26 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                                                 }`
                                             }
                                         >
-                                            <li className="py-2 transition-transform duration-300  ">
-                                                Reservations
+                                            <li
+                                                className=" py-3 px-1 rounded-xl hover:bg-orange-50 hover:text-orange-500 transition-all duration-300 hover:translate-x-2"
+                                            >
+                                                Resevation
                                             </li>
-
-                                            <span
-                                                className="
-              absolute left-0 -bottom-1
-              h-[3px] w-0
-              bg-[#ff8800]
-              rounded-full
-              transition-all duration-300
-              group-hover:w-full
-            "
-                                            ></span>
                                         </NavLink>
+
                                     </ul>
-                                    <Link to='/menu'>
-                                        <div className="  rounded-2xl py-2 text-white font-bold bg-linear-to-r from-orange-500 to-amber-500  flex justify-center items-center hover:cursor-pointer shadow-lg shadow-orange-400/30 transition-all duration-300 hover:shadow-xl ">
-                                            <button className="hover:cursor-pointer">Order Now</button>
-                                        </div>
-                                    </Link>
+
+
+                                    <div >
+                                        <button
+                                            onClick={() => setadminlogin(!adminlogin)}
+                                            className="  w-full  py-3  rounded-xl  bg-gradient-to-r from-orange-500 to-amber-500  text-white  font-bold  flex items-center justify-center gap-2  shadow-lg  hover:shadow-orange-400/40  hover:scale-105  transition-all duration-300"
+                                        >
+                                            <FaUserShield />
+                                            Admin Panel
+                                        </button>
+                                    </div>
+
                                 </div>
                             </>)}
                         </div>

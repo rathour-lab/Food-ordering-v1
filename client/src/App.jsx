@@ -78,7 +78,7 @@ function App() {
         <Route path="/" element={<HomeSection socket={socket}/>} />
         <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack}/>} />
           
-        <Route path="/Menu" element={<Menupage />} />
+        <Route path="/Menu" element={<Menupage socket={socket}/>} />
         <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />
 
 
@@ -86,8 +86,8 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu}/>} />
-          <Route path="orders" element={<AdminOrders />} />
-          <Route path="reservation" element={<AdminReservation  />} />
+          <Route path="orders" element={<AdminOrders />}  />
+          <Route path="reservation" element={<AdminReservation  />}/>
         </Route>
       </Routes>
       {!isAdmin && <Footer />}

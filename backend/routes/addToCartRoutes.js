@@ -7,7 +7,7 @@ ATC_Route.post('/get-order',getATC);
 ATC_Route.get('/get-cartItem/:userId',getCartItem);
 ATC_Route.delete('/delete-cartItem/:id',deleteCartItem);
 
-ATC_Route.get('/getAdminCartData/',getAdminCartdata); 
+ATC_Route.get('/getAdminCartData/:page',getAdminCartdata); 
 ATC_Route.post('/postAdminCartData',AdminCartdata);
 ATC_Route.patch("/cart/:id", updateCartQuantity);
 

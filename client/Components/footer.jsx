@@ -28,7 +28,7 @@ export default function Footer() {
         <div className="bg-linear-to-r from-orange-500 via-[#ff8800] to-amber-500 rounded-[30px] shadow-[0_25px_60px_rgba(0,0,0,.35)] px-8 py-8 lg:px-14 lg:pt-20 lg:pb-10">
 
           <div className="relative flex flex-col lg:flex-row justify-between items-center gap-8">
-                <div className=" absolute -top-42">
+                <div className=" absolute -top-42 hidden md:block">
                     <img className="h-52" src={`${pizza}`} alt="" />
                 </div>
             <div>
@@ -234,11 +234,7 @@ export default function Footer() {
               © {new Date().getFullYear()} <span className="text-orange-400 font-semibold">Hunger Town</span>. All Rights Reserved.
             </p>
 
-            <p className="text-gray-500 text-center">
-              Crafted with
-              <span className="text-red-500 mx-2 text-lg">❤</span>
-              for Food Lovers
-            </p>
+            
 
           </div>
 

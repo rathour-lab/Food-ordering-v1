@@ -49,10 +49,7 @@ console.log("isToken:", isToken);
       alt="Admin"
       className="w-11 h-11 rounded-full"
     />
-
-    {/* Online Dot */}
-    {/* <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span> */}
-  </div>
+ </div>
 
   <div className="leading-tight">
     <h3 className="font-semibold text-gray-800">

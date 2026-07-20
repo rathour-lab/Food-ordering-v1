@@ -14,16 +14,19 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
   const [editData, setEditData] = useState(null)
   const [countCategory, setCountCategory] = useState(0);
   const [search, setSearch] = useState("")
+  const [pageNumber,setPageNumber]=useState(1);
+  const [totalPages,setTotalPages]=useState(1)
 
   useEffect(() => {
     const getMenu = async () => {
       try {
         console.log();
 
-        let res = await fetch('http://localhost:3000/menu');
+        let res = await fetch(`http://localhost:3000/menu?page=${pageNumber}`);
         let data = await res.json();
         setMenu(data.data);
         setMenuCount(data.count);
+        setTotalPages(data.totalPages)
       }
       catch (error) {
         console.log(error);
@@ -31,7 +34,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
     }
     getMenu()
 
-  }, [])
+  }, [pageNumber])
 
   useEffect(() => {
     categoryData()
@@ -212,7 +215,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
 
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 py-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-5">
           {find.map((food) => {
             return <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
 
@@ -295,6 +298,76 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
             </div>
           })}
         </div>
+              <div className="flex justify-center items-center gap-6 mt-12 pb-6">
+
+  {/* Previous */}
+  <button
+    disabled={pageNumber === 1}
+    onClick={() => setPageNumber(pageNumber - 1)}
+    className="
+      px-6 py-3 rounded-full
+      bg-gradient-to-r from-orange-500 to-red-500
+      text-white font-semibold
+      shadow-lg
+      transition-all duration-300
+      hover:scale-105 hover:shadow-orange-400/40
+      active:scale-95
+      disabled:bg-gray-300
+      disabled:shadow-none
+      disabled:cursor-not-allowed
+      disabled:hover:scale-100
+    "
+    title='Previous'
+  >
+    ← 
+  </button>
+
+  {/* Page Number */}
+  <div
+    className="
+      min-w-[130px]
+      px-6 py-3
+      rounded-full
+      bg-white
+      border border-orange-200
+      shadow-md
+      text-lg
+      font-bold
+      text-orange-600
+      flex justify-center items-center
+      transition-all duration-300
+      hover:shadow-lg hover:scale-105
+    "
+    
+  >
+     {pageNumber}
+    <span className="mx-2 text-gray-400">/</span>
+    {totalPages}
+  </div>
+
+  {/* Next */}
+  <button
+    disabled={pageNumber === totalPages}
+    onClick={() => setPageNumber(pageNumber + 1)}
+    className="
+      px-6 py-3 rounded-full
+      bg-gradient-to-r from-orange-500 to-red-500
+      text-white font-semibold
+      shadow-lg
+      transition-all duration-300
+      hover:scale-105 hover:shadow-orange-400/40
+      active:scale-95
+      disabled:bg-gray-300
+      disabled:shadow-none
+      disabled:cursor-not-allowed
+      disabled:hover:scale-100
+    "
+    title='Next'
+  >
+     →
+  </button>
+
+</div>  
       </section>
     </>
   )

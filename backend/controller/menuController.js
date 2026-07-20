@@ -2,17 +2,22 @@ const Menu = require("../models/MenuModel");
 
 // get Menu items (for frontend to show all cards)
 async function getMenu(req,res) {
-    const data = await Menu.find();
+    const {page}=req.query
+    let limit=12;
+    const data = await Menu.find().skip((page-1)*limit).limit(limit);
     let count = await Menu.countDocuments()
-    res.json({data,count});
+    res.json({
+        data,
+        count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+    });
 };
 
 async function addItem(req,res) {
     try {
         const data = await Menu.create(req.body);
-        res.json(data)
-        
-        
+        res.json(data)    
     } catch (error) {
         res.json({message:error.message})
     }

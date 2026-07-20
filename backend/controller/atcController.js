@@ -153,11 +153,16 @@ async function AdminCartdata(req, res) { //post cart data to the orders schema
 }
 async function getAdminCartdata(req, res) {
     try {
-        
-        const data = await OrderModel.find().sort({ createdAt: -1 });
+        let {page} = req.query;
+        let limit = 12;
+        const data = await OrderModel.find().sort({ createdAt: -1 }).skip((page-1)*limit).limit(limit);
         let count=data.length;
-
-        res.json({data,count});
+        res.json({
+        data,
+        count,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+    });
     } catch (err) {
         res.status(500).json({
             message: err.message,
