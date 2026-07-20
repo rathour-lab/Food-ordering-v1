@@ -32,7 +32,8 @@ wss.on('connection',(ws)=>{
     
       ws.on("message", (message) => {
     const msg = JSON.parse(message.toString());
-
+        console.log(msg);
+        
     wss.clients.forEach((client) => {
         if (client.readyState === websocket.OPEN) {
             client.send(JSON.stringify(msg));

@@ -11,9 +11,9 @@ const Adminpage = ({bell,setBell}) => {
 
   const isToken = document.cookie.includes("token=");
 
-  // if (!isToken) {
-  //   return <Navigate to="/" replace />;
-  // }
+  if (!isToken) {
+    return <Navigate to="/" replace />;
+  }
   
 
   return (

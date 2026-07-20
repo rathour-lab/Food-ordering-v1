@@ -37,6 +37,7 @@ const statusStyles = {
     useEffect(() => {
         setCart(false);
         setStatus(false);
+        getCartItem();
     }, [location.pathname]);
 
     const totalQuantity = ATC_data.reduce((total, cart) => {
