@@ -20,7 +20,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
   useEffect(() => {
     const getMenu = async () => {
       try {
-        console.log();
+      
 
         let res = await fetch(`http://localhost:3000/menu?page=${pageNumber}`);
         let data = await res.json();

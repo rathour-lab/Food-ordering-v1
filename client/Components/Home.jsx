@@ -7,19 +7,8 @@ import burger from '../src/assets/burgericon.png'
 import pizza from '../src/assets/pizza.png'
 
 const Home = () => {
-  console.log('home render');
-  
-  // Reservation Form State
-  const [resData, setResData] = useState({
-    date: '',
-    time: '',
-    guests: '2 Guests'
-  });
+ 
 
-  const handleReservation = (e) => {
-    e.preventDefault();
-    alert(`Table reserved for ${resData.guests} on ${resData.date} at ${resData.time}!`);
-  };
 
   return (
     <>
@@ -39,7 +28,7 @@ const Home = () => {
 
               <div className="flex flex-wrap items-center gap-4">
                 {/* Primary Button */}
-                <button className="group flex items-center gap-3 bg-black text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-black/20 transition-all duration-300 hover:bg-neutral-900 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-black/20 cursor-pointer">
+                <button  className="group flex items-center gap-3 bg-black text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-black/20 transition-all duration-300 hover:bg-neutral-900 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-black/20 cursor-pointer">
                   Grab Your Order
                   <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                 </button>

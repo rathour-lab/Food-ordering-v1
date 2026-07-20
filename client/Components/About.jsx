@@ -19,10 +19,10 @@ const About = () => {
 
             
             <div
-              className=" relative shadow-white shadow-2xl w-64 h-90 sm:w-74 sm:h-[430px] lg:w-84 lg:h-[500px] rounded-full group bg-gradient-to-r from-orange-500 to-amber-500"
+              className=" relative shadow-white shadow-2xl w-64 h-90 sm:w-74 sm:h-[430px] lg:w-84 lg:h-[500px] rounded-full  bg-gradient-to-r from-orange-500 to-amber-500"
              
             >
-              <img className="absolute   h-90 sm:h-110 scale-150  lg:w-84 lg:h-125 transform -rotate-6 group-hover:scale-160 group-hover:rotate-3 transition-all duration-500" src={`${bgimg}`} alt="" />
+              <img className="absolute   h-90 sm:h-110 scale-150  lg:w-84 lg:h-125 transform -rotate-6  transition-all duration-500" src={`${bgimg}`} alt="" />
             </div>
 
             

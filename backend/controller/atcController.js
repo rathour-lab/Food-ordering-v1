@@ -96,12 +96,13 @@ async function updateCartQuantity(req, res) {
             req.params.id,
              {
                 "item.quantity": quantity,
+               
             },
             { new: true }
         );
 
         res.json({
-            message: "Quantity Updated",
+            message: "cart Updated",
             data: updatedItem,
         });
 
@@ -116,7 +117,9 @@ async function updateCartQuantity(req, res) {
 async function AdminCartdata(req, res) { //post cart data to the orders schema
     try {
           
-        const {userId}=req.body;
+        const {userId,PaymentDetails}=req.body;
+
+  console.log(PaymentDetails);
   
     
         const cartItems = await CartModel.find({userId});
@@ -134,6 +137,7 @@ async function AdminCartdata(req, res) { //post cart data to the orders schema
         await OrderModel.create({
             userId,
             cartItems:orderItems,
+            PaymentDetails:PaymentDetails,
             grandTotal,
         });
 
@@ -169,6 +173,22 @@ async function getAdminCartdata(req, res) {
         });
     }
 }
+async function showStatusOrders(req, res) {
+    try {
+        const {userId}=req.params;
+      
+        
+        const data = await OrderModel.find({userId}).sort({ createdAt: -1 });
+        
+        
+
+        res.json({data});
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+        });
+    }
+}
 
 // update oreder status
 
@@ -180,7 +200,7 @@ async function updateOrderStatus(req,res) {
         const data = await OrderModel.findByIdAndUpdate(
             id,
             {orderStatus},
-            {new : true}
+            {returnDocument : "after"}
         );
         res.json(data)
         
@@ -196,5 +216,6 @@ module.exports = {
     AdminCartdata,
     getAdminCartdata,
     updateCartQuantity,
+    showStatusOrders,
     updateOrderStatus
 };

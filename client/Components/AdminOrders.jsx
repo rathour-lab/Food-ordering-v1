@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Swal from "sweetalert2";
 
-const AdminOrders = () => {
+const AdminOrders = ({socket}) => {
 
   const statusOptions = [
     {
@@ -77,8 +77,7 @@ const AdminOrders = () => {
 
 
   const updateOrderStatus = async (id, status) => {
-    console.log(id);
-    console.log(status);
+    
     try {
       let res = await fetch(`http://localhost:3000/order-status/${id}`, {
         method: 'PUT',
@@ -89,6 +88,10 @@ const AdminOrders = () => {
           orderStatus: status
         })
       });
+      
+   socket.current.send(JSON.stringify({
+    type:'Order_added'
+   }))
       if (res.ok) {
         setOrder((prev) => {
           return prev.map((item) => item._id === id ? { ...item, orderStatus: status } : item)
@@ -102,6 +105,7 @@ const AdminOrders = () => {
         timer: 1500,
         showConfirmButton: false,
       });
+     
     } catch (error) {
       console.log(error);
 

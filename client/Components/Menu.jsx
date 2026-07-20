@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 
-const Menu = ({ socket }) => {
-  console.log('menu render');
-
+const Menu = ({socket}) => {
+  
+  
   const [item, setItem] = useState([])
   const [addedItems, setAddedItems] = useState([]);
   const [showCard, setShowCard] = useState(4)
@@ -43,9 +43,8 @@ const Menu = ({ socket }) => {
     return () => window.removeEventListener("resize", updateCards);
   }, [])
 
-  const handleAddToCart = async (item) => {
-    let msg = 'CartItem_ADD'
-    socket.current.send(JSON.stringify(msg));
+  const  handleAddToCart =async (item) => {
+    
 
     setAddedItems(prev => [...prev, item._id]);
     setTimeout(() => {
@@ -67,7 +66,10 @@ const Menu = ({ socket }) => {
 
     })
 
-  };
+socket.current.send(JSON.stringify({
+    type:'CartItem_ADD'
+   }))
+  }
   return (
     <>
       <div className='bg-[#fff8dd]  transition-all duration-500'>
