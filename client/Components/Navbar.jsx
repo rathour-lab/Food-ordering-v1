@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCar, FaCheck, FaClock, FaRegCalendar, FaRegCalendarAlt, FaRegCalendarPlus, FaRegCalendarTimes, FaRoad, FaUserShield } from "react-icons/fa";
+import { FaCar, FaCheck, FaChevronDown, FaClock, FaDropbox, FaRegCalendar, FaRegCalendarAlt, FaRegCalendarPlus, FaRegCalendarTimes, FaRoad, FaUserShield } from "react-icons/fa";
 import { Link, NavLink, useFetcher } from "react-router-dom";
 
 import logo from "../src/assets/logo.png";
@@ -18,6 +18,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
     const [orderStatus, setOrderStatus] = useState([])
     const [sidebar, setSidebar] = useState(false);
     const [ATC_data, setATC_data] = useState([]);
+   const [expandedOrder, setExpandedOrder] = useState(null);
 
 const statusStyles = {
   "Order Placed": "bg-orange-100 text-orange-700",
@@ -38,6 +39,7 @@ const statusStyles = {
         setCart(false);
         setStatus(false);
         getCartItem();
+        Status();
     }, [location.pathname]);
 
     const totalQuantity = ATC_data.reduce((total, cart) => {
@@ -100,7 +102,12 @@ const statusStyles = {
             let data = await res.json();
             setOrderStatus(data.data)
 
-
+                // console.log(orderStatus.map((cart)=>{
+                //       return cart.cartItems.map((item)=>{
+                //     return item
+                // })
+                // }));
+                
             // console.log(orderStatus.data.map((item)=>{
             //     return item._id,item.orderStatus
             // }));
@@ -253,14 +260,10 @@ const statusStyles = {
                     >
                         <FaClipboardCheck />
                         Status
-
-                        <span
-                            className={`absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500 ${orderStatus.length > 0 ? "animate-ping" : "animate-none"
-                                }`}
-                        ></span>
-                        <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-orange-500"></span>
-                        <div className={`${status==false ? 'hidden' : 'block'} absolute w-60  text-black top-15 py-5 px-5 flex flex-col justify-center right-0`}>
-                            <div className="bg-white rounded-2xl shadow-lg p-6 w-140 ">
+</button>
+                    
+                        <div className={`${status==false ? 'hidden' : 'block'} absolute  text-black  py-5 px-5 flex flex-col justify-center top-25 right-90 `}>
+                            <div className="bg-white rounded-2xl shadow-lg p-6 w-140 h-120 overflow-y-auto scrollbar-thin">
                                 <h2 className="text-xl font-bold mb-6 text-gray-800">
                                     Order Status
                                 </h2>
@@ -278,7 +281,7 @@ const statusStyles = {
 
     <Link
       to="/Menu"
-      onClick={() => setStatus(false)}
+      
       className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium transition"
     >
       🍔 Browse Menu
@@ -287,50 +290,129 @@ const statusStyles = {
                                 :
                                 
 
-                                    orderStatus.map((orders) => {
-                                        return (
-                                            <div
-                                            key={orders._id}
-                                            className="flex items-center justify-between p-4 mb-3 rounded-xl border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all duration-300"
->
-  {/* Left */}
-  <div className="flex flex-col gap-1">
-    <p className="text-xs text-gray-400">
-      Order ID
-    </p>
+                                    orderStatus.map((order) => (
+  <div
+    key={order._id}
+    className="mb-5 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-lg"
+  >
+    {/* Header */}
+    <div className="flex items-center justify-between p-5">
+      <div>
+        <p className="text-xs uppercase tracking-wider text-gray-400">
+          Order ID
+        </p>
 
-    <p className="font-semibold text-gray-800 text-sm truncate max-w-52">
-      {orders._id}
-    </p>
+        <h2 className="font-semibold text-gray-800">
+          #{order._id.slice(-6)}
+        </h2>
 
-    <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
-      <span>
-        📅 {new Date(orders.createdAt).toLocaleDateString("en-IN")}
-      </span>
+        <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
+          <span>
+            📅 {new Date(order.createdAt).toLocaleDateString("en-IN")}
+          </span>
 
-      <span>
-        🕒 {new Date(orders.createdAt).toLocaleTimeString("en-IN")}
-      </span>
+          <span>
+            🕒 {new Date(order.createdAt).toLocaleTimeString("en-IN")}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex flex-col items-end gap-3">
+        <span
+          className={`rounded-full px-4 py-1 text-xs font-semibold ${
+            statusStyles[order.orderStatus]
+          }`}
+        >
+          {order.orderStatus}
+        </span>
+
+        <button
+          onClick={() =>
+            setExpandedOrder(
+              expandedOrder === order._id ? null : order._id
+            )
+          }
+          className="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-600 transition hover:bg-orange-100"
+        >
+          {expandedOrder === order._id ? "Hide Items" : "View Items"}
+
+          <FaChevronDown
+            className={`transition-transform duration-300 ${
+              expandedOrder === order._id ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+      </div>
     </div>
-  </div>
 
-  {/* Right */}
- <span
-  className={`px-3 py-1 rounded-full text-xs font-semibold ${
-      statusStyles[orders.orderStatus]
-      }`}
->
-  {orders.orderStatus}
-</span>
-</div>
-                                    )
-                                })}
+    {/* Body */}
+    {expandedOrder === order._id && (
+      <div className="border-t bg-gray-50 p-5">
+        <div className="space-y-4">
+          {order.cartItems.map((item) => (
+            <div
+              key={item._id}
+              className="flex items-center justify-between rounded-xl bg-white p-4 shadow-sm"
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="h-16 w-16 rounded-lg object-cover"
+                />
+
+                <div>
+                  <h3 className="font-semibold text-gray-800">
+                    {item.name}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-right">
+                <p className="text-sm text-gray-500">
+                  Qty
+                </p>
+
+                <p className="font-bold text-orange-600">
+                  × {item.quantity}
+                </p>
+
+                <p className="mt-2 font-semibold text-gray-800">
+                  ₹{item.price}
+                </p>
+
+                <p className="text-sm font-bold text-green-600">
+                  ₹{item.price * item.quantity}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 flex items-center justify-between border-t pt-4">
+          <span className="text-lg font-semibold text-gray-700">
+            Grand Total
+          </span>
+
+          <span className="text-2xl font-bold text-orange-600">
+            ₹{order.grandTotal}
+          </span>
+        </div>
+      </div>
+    )}
+  </div>
+))}
+                                
                             
 
 
                             </div>
                         </div>
-                    </button>
+                    
                 </ul>
 
                 <div className="flex items-center gap-3 sm:gap-4 md:gap-5">

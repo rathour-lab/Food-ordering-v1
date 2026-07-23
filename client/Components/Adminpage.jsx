@@ -1,5 +1,6 @@
-import { NavLink, Outlet ,useLocation,Navigate} from "react-router-dom";
+import { NavLink, Outlet ,useLocation,Navigate,useNavigate} from "react-router-dom";
 import logo from "../src/assets/logo.png";
+import { useEffect } from "react";
 
 const Adminpage = ({bell,setBell}) => {
   const navStyle = ({ isActive }) =>
@@ -9,11 +10,21 @@ const Adminpage = ({bell,setBell}) => {
         : "text-gray-700 hover:bg-gray-100 hover:text-orange-500"
     }`;
 
-  const isToken = document.cookie.includes("token=");
+  const navigate = useNavigate();
 
-  if (!isToken) {
-    return <Navigate to="/" replace />;
+useEffect(() => {
+  if (!document.cookie.includes("token=")) {
+    const timer = setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }
+}, [navigate]);
+
+if (!document.cookie.includes("token=")) {
+  return <h2>Session expired. Redirecting to home...</h2>;
+}
   
 
   return (

@@ -2,7 +2,7 @@ const JWT=require('jsonwebtoken')
 async function controlLogin(req,res) {
 
 
-const {name,email,password}=req.body;
+const {email,password}=req.body;
 const {EMAIL,PASSWORD}=process.env
     
     let token=JWT.sign(
@@ -11,7 +11,7 @@ const {EMAIL,PASSWORD}=process.env
         {expiresIn:"10m"}
     )
     if (email==EMAIL && password==PASSWORD) {
-                res.json(name)
+               
             res.status(200).json({
             message:"login succesfull",
             token})

@@ -67,7 +67,7 @@ const AdminDashboard = () => {
 </div>
 
 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">
-      <div className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
+      <div onClick={()=>navigate('/Admin/orders')} className="cursor-pointer px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=ySRi3OLgoOJX&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
           <h1 className="font-bold text-sm md:text-base text-gray-700">Total Orders</h1>
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
 <p className="font-bold text-sm text-gray-700"> All customer orders received</p>
         </div>
       </div>
-       <div className="px-4 py-5 flex flex-row sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
+       <div  className=" px-4 py-5 flex flex-row sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div  className='self-center'><img width="52" height="52" className='' src="https://img.icons8.com/?size=100&id=68426&format=png&color=FD7E14" alt="data-pending"/></div>
         <div>
           <h1 className="font-bold text-sm md:text-base text-gray-700">Total Revenue</h1>
@@ -83,7 +83,7 @@ const AdminDashboard = () => {
           <p className='font-bold text-sm text-gray-700'>Total earnings from  orders.</p>
         </div>
       </div>
-       <div className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
+       <div onClick={()=>navigate('/Admin/menu')} className="cursor-pointer px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=QiAIVvJZ1woO&format=png&color=FD7E14" alt="ticket-confirmed"/></div>
         <div>
           <h1 className="font-bold text-sm md:text-base text-gray-700"> Menu Items</h1>
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
           <p className='font-bold text-sm text-gray-700'>Currently available dishes</p>
         </div>
       </div>
-       <div className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
+       <div onClick={()=>navigate('/Admin/reservation')} className="px-4 py-5 flex flex-row sm:flex-row items-center sm:justify-evenly gap-4 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
         <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=qXfHicSrtSY4&format=png&color=FD7E14" alt="checked-truck"/></div>
         <div>
           <h1 className="font-bold text-sm md:text-base text-gray-700"> Reservations</h1>

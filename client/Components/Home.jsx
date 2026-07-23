@@ -30,7 +30,7 @@ const navigate = useNavigate()
               <div className="flex flex-wrap items-center gap-4">
                 {/* Primary Button */}
                 <button  className="group flex items-center gap-3 bg-black text-white px-7 py-3 rounded-full font-semibold tracking-wide shadow-lg shadow-black/20 transition-all duration-300 hover:bg-neutral-900 hover:shadow-2xl hover:-translate-y-1 active:scale-95 focus:outline-none focus:ring-4 focus:ring-black/20 cursor-pointer" onClick={()=>window.scroll(0,2370)}>
-                  Grab Your Order
+                  About Us
                   <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 

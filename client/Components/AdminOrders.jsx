@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Swal from "sweetalert2";
-
+import { FaUserCircle } from 'react-icons/fa';
 const AdminOrders = ({socket}) => {
 
   const statusOptions = [
@@ -53,10 +53,19 @@ const AdminOrders = ({socket}) => {
   }
 
   const [order, setOrder] = useState([]);
-  const [orderCount, setOrderCount] = useState(0)
+  const [orderCount, setOrderCount] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectorvalue,setSelectorvalue]=useState('All');
 
+  const selector=order.filter((item)=>{if (selectorvalue=='All') {
+    return order
+  }else if (item.orderStatus===`${selectorvalue}`) {
+    return item
+  }
+});
+  
+  
 
 
   useEffect(() => {
@@ -68,19 +77,19 @@ const AdminOrders = ({socket}) => {
     return ()=> clearInterval(interval)
   }, [pageNumber])
 
+  const foodOrder = async () => {
   try {
-      const foodOrder = async () => {
         let res = await fetch(`http://localhost:3000/getAdminCartData?page=${pageNumber}`);
         let data = await res.json();
         setOrder(data.data);
         setOrderCount(data.count)
         setTotalPages(data.totalPages)
       }
-    } catch (error) {
+     catch (error) {
       console.log(error);
       
     }
-
+  }
   const updateOrderStatus = async (id, status) => {
     
     try {
@@ -151,32 +160,32 @@ const AdminOrders = ({socket}) => {
 
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">
-          <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          <div onClick={()=>setSelectorvalue('All')} className=' px-1 cursor-pointer py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
             <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/pastel-glyph/64/FD7E14/paper-bag--v2.png" alt="paper-bag--v2" /></div>
-            <div>
+            <div >
               <h1 className='font-bold
            text-sm text-gray-700'>Total Orders</h1>
               <p className='text-xl sm:text-2xl font-extrabold'>{orderCount}</p>
               <p className='font-bold text-sm text-gray-700'>All time orders</p>
             </div>
           </div>
-          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          <div onClick={()=>setSelectorvalue('Order Placed')} className=' px-1 cursor-pointer py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
             <div className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/parakeet-line/48/FD7E14/data-pending.png" alt="data-pending" /></div>
-            <div>
+            <div >
               <h1 className='font-bold text-sm text-gray-700'>Placed Orders </h1>
               <p className='text-xl sm:text-2xl font-extrabold'>{orderPlaced}</p>
               <p className='font-bold text-sm text-gray-700'>Need atention</p>
             </div>
           </div>
-          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          <div onClick={()=>setSelectorvalue('Delivered')} className=' px-1 cursor-pointer py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
             <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/ios/50/FD7E14/checked-truck.png" alt="checked-truck" /></div>
-            <div>
+            <div >
               <h1 className='font-bold text-sm text-gray-700'>Delivered Orders</h1>
               <p className='text-xl sm:text-2xl font-extrabold'>{orderDelivered}</p>
               <p className='font-bold text-sm text-gray-700'>Successfully delivered</p>
             </div>
           </div>
-          <div className="px-1 py-4 w-full flex justify-evenly bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
+          <div onClick={()=>setSelectorvalue('Ready for Pickup')} className="px-1 cursor-pointer py-4 w-full flex justify-evenly bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
             <div className="self-center">
               <img
                 width="48"
@@ -186,7 +195,7 @@ const AdminOrders = ({socket}) => {
               />
             </div>
 
-            <div>
+            <div >
               <h1 className="font-bold text-sm text-gray-700">Ready for Pickup</h1>
               <p className="text-xl sm:text-2xl font-extrabold"> {readyToPickup} </p>
               <p className="font-bold text-sm text-gray-700">Waiting for customer </p>
@@ -194,85 +203,199 @@ const AdminOrders = ({socket}) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-6 gap-5">
-          {order && order.map((food) => {
-            return <div className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 p-5 h-full flex flex-col">
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6 py-6">
+  {selector.map((food) => {
 
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-200">
-                <h2 className="text-base sm:text-lg font-bold text-gray-800 break-all">
-                  Order #{food._id.slice(-6)}
-                </h2>
+    const details = food.PaymentDetails?.[0];
 
-                <span className={`${statusStyle(food.orderStatus)} whitespace-nowrap text-xs font-semibold px-3 py-1 rounded-full`} >
-                  {food.orderStatus}
-                </span>
-              </div>
-
-              {/* Items */}
-              <div className="py-4 space-y-3 border-b border-gray-200 h-32 overflow-y-auto scrollbar-thin">
-
-                {food.cartItems.map((item) => {
-                  return <div className="flex justify-between items-center gap-3">
-                    <p className="flex items-center gap-2 text-sm break-words"><img src={item.image} className='size-6  rounded-full' alt="" /> {item.name}</p>
-                    <span className="font-semibold">×{item.quantity}</span>
-                  </div>
-                })}
-
-              </div>
-
-              {/* Payment */}
-              <div className="py-4 border-b border-gray-200 space-y-3">
-
-                <div className="flex justify-between items-center">
-
-                  <span className="text-gray-600 font-medium">
-                    Payment
-                  </span>
-
-                  <div className="flex flex-wrap gap-2 justify-end">
-                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                      Paid
-                    </span>
-
-                    <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                      UPI
-                    </span>
-                  </div>
-
-                </div>
-
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-700">
-                    Total
-                  </span>
-
-                  <span className="text-xl sm:text-2xl font-bold text-orange-500">
-                    ₹{food.grandTotal}
-                  </span>
-                </div>
-
-              </div>
-
-              {/* Date */}
-              <div className="flex flex-col sm:flex-row justify-between gap-2 py-4 text-sm text-gray-500 font-medium">
-                <span>📅 {new Date(food.createdAt).toLocaleDateString("en-IN")}</span>
-                <span>🕒 {new Date(food.createdAt).toLocaleTimeString("en-IN")}</span>
-              </div>
-
-              {/* Status */}
-              <select className="w-full rounded-xl border-2 border-orange-300 py-3 px-4 text-sm sm:text-base font-semibold text-orange-600 outline-none focus:border-orange-500 bg-orange-50 text-center" value={food.orderStatus} onChange={(e) => updateOrderStatus(food._id, e.target.value)}>
-
-                {statusOptions.map((icon) => {
-                  return <option key={icon.title} value={icon.title}>{icon.title}</option>
-                })}
-
-
-              </select>
-
+    return (
+      <div
+        key={food._id}
+        className="bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 overflow-hidden"
+      >
+        {/* Customer Info */}
+        <div className="p-5 border-b border-gray-200">
+          <div className="flex items-start gap-4">
+            <div className="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center">
+              <FaUserCircle className="text-5xl text-orange-500" />
             </div>
-          })}
+
+            <div className="flex-1">
+              <h2 className="text-lg font-bold text-gray-800">
+                {details?.name}
+              </h2>
+
+              <p className="text-sm text-gray-500 mt-1">
+                📞 {details?.phone}
+              </p>
+
+              <p className="text-sm text-gray-500 mt-1 break-words w-32 truncate">
+                📍 {details?.address}, {details?.city} - {details?.pincode}
+              </p>
+            </div>
+
+            <span
+              className={`${statusStyle(
+                food.orderStatus
+              )} text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap`}
+            >
+              {food.orderStatus}
+            </span>
+          </div>
         </div>
+
+        {/* Order Details */}
+        <div className="p-5 border-b border-gray-200">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-500 text-sm">
+              Order ID
+            </span>
+
+            <span className="font-semibold">
+              #{food._id.slice(-6)}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center mt-3">
+            <span className="text-gray-500 text-sm">
+              Date
+            </span>
+
+            <span className="font-medium">
+              {new Date(food.createdAt).toLocaleDateString("en-IN")}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center mt-2">
+            <span className="text-gray-500 text-sm">
+              Time
+            </span>
+
+            <span className="font-medium">
+              {new Date(food.createdAt).toLocaleTimeString("en-IN")}
+            </span>
+          </div>
+        </div>
+
+        {/* Ordered Items */}
+        <div className="p-5 border-b border-gray-200">
+          <h3 className="font-semibold text-gray-700 mb-3">
+            Ordered Items
+          </h3>
+
+          <div className="space-y-3 h-44 overflow-y-auto">
+            {food.cartItems.map((item) => (
+              <div
+                key={item._id}
+                className="flex justify-between items-center"
+              >
+                <div className="flex items-center gap-3">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-12 rounded-xl object-cover border"
+                  />
+
+                  <div>
+                    <p className="font-medium text-gray-800">
+                      {item.name}
+                    </p>
+
+                    <p className="text-xs text-gray-500">
+                      ₹{item.price}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <p className="font-bold text-orange-500">
+                    × {item.quantity}
+                  </p>
+
+                  <p className="text-sm font-semibold">
+                    ₹{item.price * item.quantity}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Payment */}
+        <div className="p-5 border-b border-gray-200 space-y-4">
+          <div className="flex justify-between">
+            <span className="text-gray-600">
+              Delivery
+            </span>
+
+            <span className="font-semibold text-orange-500">
+              {details?.delivery}
+            </span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="text-gray-600">
+              Payment
+            </span>
+
+            <span className="font-semibold">
+              {details?.payment}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">
+              Payment Status
+            </span>
+
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                details?.payment === "Cash on Delivery"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-green-100 text-green-700"
+              }`}
+            >
+              {details?.payment === "Cash on Delivery"
+                ? "Pending"
+                : "Paid"}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center pt-2 border-t">
+            <span className="font-semibold text-gray-700">
+              Grand Total
+            </span>
+
+            <span className="text-2xl font-bold text-orange-500">
+              ₹{food.grandTotal}
+            </span>
+          </div>
+        </div>
+
+        {/* Update Status */}
+        <div className="p-5">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Update Order Status
+          </label>
+
+          <select
+            value={food.orderStatus}
+            onChange={(e) =>
+              updateOrderStatus(food._id, e.target.value)
+            }
+            className="w-full rounded-xl border-2 border-orange-300 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-600 outline-none focus:border-orange-500"
+          >
+            {statusOptions.map((status) => (
+              <option key={status.title} value={status.title}>
+                {status.title}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    );
+  })}
+</div>
                <div className="flex justify-center items-center gap-6 mt-12 pb-6">
 
   {/* Previous */}

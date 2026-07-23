@@ -37,9 +37,7 @@ function Menupage({ socket }) {
 
   const handleAddToCart = async (food) => {
 
-    let msg = "CartItem_ADD";
-
-    socket.current.send(JSON.stringify(msg));
+   
 
     setAddedItems((prev) => [...prev, food._id]);
 
@@ -61,6 +59,9 @@ function Menupage({ socket }) {
     } catch (err) {
       console.log(err);
     }
+    socket.current.send(JSON.stringify({
+    type:'CartItem_ADD'
+   }))
   };
 
   const find = item.filter((item) => item.name.toLowerCase().includes(search.toLowerCase()) || item.category.toLowerCase().includes(search.toLowerCase()))

@@ -19,27 +19,28 @@ import AdminReservation from '../Components/AdminReservation';
 import Cart from '../Components/cart'
 import LoginPage from '../Pages/loginPage'
 import CheckoutModal from '../Components/CheckOutPage'
+import NotFound from '../Components/NotFound'
 function App() {
   const myId = useRef(crypto.randomUUID());
   window.scrollTo(0, 0);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const [adminlogin,setAdminlogin]=useState(false)
-  const [statusTrack,setStatus]=useState({
-    orderPlaced:false,
-    Confirmed:false,
-    Preparing:false,
-    ReadyForPickup:false,
-    OutForDilivery:false,
-    Deliverd:false
+  const [adminlogin, setAdminlogin] = useState(false)
+  const [statusTrack, setStatus] = useState({
+    orderPlaced: false,
+    Confirmed: false,
+    Preparing: false,
+    ReadyForPickup: false,
+    OutForDilivery: false,
+    Deliverd: false
 
   });
-  const [form,setForm]=useState(false);
-  const [bell,setBell]=useState(false);
-  const [categoryMenu,setCategoryMenu]=useState(false);
+  const [form, setForm] = useState(false);
+  const [bell, setBell] = useState(false);
+  const [categoryMenu, setCategoryMenu] = useState(false);
   const isAdmin = location.pathname.startsWith("/Admin");
 
-  const socket=useRef()
+  const socket = useRef()
 
   useEffect(() => {
 
@@ -49,15 +50,15 @@ function App() {
 
     }, 1000);
     socket.current = new WebSocket('ws://localhost:3000')
-    socket.current.onopen=()=>{
-        console.log('ws connected');
+    socket.current.onopen = () => {
+      console.log('ws connected');
     }
     let userId = localStorage.getItem("userId");
 
-  if (!userId) {
-    userId = crypto.randomUUID();
-    localStorage.setItem("userId", userId);
-  }
+    if (!userId) {
+      userId = crypto.randomUUID();
+      localStorage.setItem("userId", userId);
+    }
     return () => clearTimeout(timer);
 
   }, []);
@@ -67,38 +68,39 @@ function App() {
   }
 
   if (adminlogin) {
-    return <LoginPage setadminlogin={setAdminlogin} adminlogin={adminlogin}/>
+    return <LoginPage setadminlogin={setAdminlogin} adminlogin={adminlogin} />
   }
 
-  return ( 
+  return (
     <>
       {!isAdmin && <Navbar
-    statusTrack={statusTrack}
-    setadminlogin={setAdminlogin}
-    adminlogin={adminlogin}
-    socket={socket}
-/>}
+        statusTrack={statusTrack}
+        setadminlogin={setAdminlogin}
+        adminlogin={adminlogin}
+        socket={socket}
+      />}
       <Routes >
-        <Route path="/" element={<HomeSection socket={socket}/>} />
+        <Route path="/" element={<HomeSection socket={socket} />} />
         <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack} />} />
-        <Route path="/Checkout" element={<CheckoutModal setBell={setBell}/>} />
-          
-        <Route path="/Menu" element={<Menupage socket={socket}/>} />
-        <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell}/>} />
+        <Route path="/Checkout" element={<CheckoutModal setBell={setBell} />} />
+
+        <Route path="/Menu" element={<Menupage socket={socket} />} />
+        <Route path="/Reservations" element={<Reservation bell={bell} setBell={setBell} />} />
 
 
         <Route path="/Admin" element={<Adminpage bell={bell} setBell={setBell} />}>
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu}/>} />
-          <Route path="orders" element={<AdminOrders socket={socket}/>} />
-          <Route path="reservation" element={<AdminReservation  />} />
+          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} />} />
+          <Route path="orders" element={<AdminOrders socket={socket} />} />
+          <Route path="reservation" element={<AdminReservation />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!isAdmin && <Footer />}
 
     </>
-    
+
   )
 }
 

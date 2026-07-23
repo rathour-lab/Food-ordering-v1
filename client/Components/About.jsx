@@ -39,9 +39,9 @@ const About = () => {
         
         <div className="space-y-6 text-center lg:text-left">
 
-          <div className="uppercase tracking-[5px] text-[#ff8800]  font-semibold  ">
+          <div className="uppercase tracking-[5px] text-[#ff8800]  font-semibold  flex flex-col justify-center items-center lg:items-start">
             About Us
-           <div className="w-29 h-1 bg-orange-500  rounded-full mt-2 "></div>
+           <div className=" w-29 h-1 bg-orange-500  rounded-full mt-2 "></div>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">

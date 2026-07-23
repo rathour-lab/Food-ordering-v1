@@ -4,7 +4,7 @@ const CartModel = require("../models/cartModel");
 async function getATC(req, res) {
     try {
         const {userId,item} = req.body;
-        console.log(userId,item);
+        
         
         
 
