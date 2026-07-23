@@ -3,8 +3,10 @@ import Admin from './AdminMenuForm';
 import { useState } from 'react';
 import { FaHeart, FaPlus } from 'react-icons/fa';
 import AdminCategories from './AdminCategories';
+import confirmationModel from './confirmationModel'
+import ConfirmationModel from './confirmationModel';
 
-const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
+const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,setType ,confirm,setConfirm}) => {
 
   const [menu, setMenu] = useState([]);
   const [menuCount, setMenuCount] = useState(0);
@@ -20,8 +22,6 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
   useEffect(() => {
     const getMenu = async () => {
       try {
-      
-
         let res = await fetch(`http://localhost:3000/menu?page=${pageNumber}`);
         let data = await res.json();
         setMenu(data.data);
@@ -84,6 +84,9 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
     return <AdminCategories categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} categoryData={categoryData} />
   }
 
+  if (confirm) {
+    return <ConfirmationModel type={type} setConfirm={setConfirm}/>
+  }
 
   const Available = menu.filter(item => item.isAvailable === true).length
   const unavailable = menu.filter(item => item.isAvailable === false).length
@@ -280,13 +283,18 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu }) => {
                 <div className="flex flex-col sm:flex-row gap-3">
 
                   <button className="w-full sm:flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
-                    onClick={() => edit(food)}
+                    onClick={() => {
+                      edit(food)
+                    }}
                   >
                     ✏️ Edit
                   </button>
 
                   <button className="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
-                    onClick={() => deleteItem(food._id)}
+                    onClick={() => {setConfirm(true)
+                      setType('dlt')
+                      // deleteItem(food._id)
+                    }}
                   >
                     🗑 Delete
                   </button>
