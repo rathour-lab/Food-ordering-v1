@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react'
+import ConfirmationModel from './confirmationModel';
 
-const AdminReservation = () => {
+const AdminReservation = ({confirm,Cancel,setConfirm,socket,setType,type}) => {
 
   const [reservationData, setReservationData] = useState([])
   const [reservationCount, setReservationCount] = useState(0)
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [id,setId]=useState(null);
+  const [cancelId,setCancelId]=useState(null);
+  // const [type,setType]=useState('')
 
   useEffect(() => {
     showReservation();
-    
-    let interval = setInterval(() => {
-      showReservation();
-      
-    },5000);
-    return ()=> clearInterval(interval)
+    socket.current.onmessage=(event)=>{
+     const data =  JSON.parse(event.data)
+
+      if (event.data.type === "RESERVATION STATUS UPDATE") {
+        showReservation()
+      }
+    }
   }, [pageNumber]);
 
   const showReservation = async () => {
@@ -31,7 +36,7 @@ const AdminReservation = () => {
 
     }
 
-  const confirm = async (id) => {
+  const confirmStatus = async (id) => {
     try {
       let res = await fetch(`http://localhost:3000/Reservation/${id}`,
         {
@@ -55,12 +60,15 @@ const AdminReservation = () => {
           )
         );
       }
+      socket.current.send(JSON.stringify({
+        type:'RESERVATION STATUS UPDATE'
+      }))
     } catch (error) {
       console.log(err);
     }
   };
 
-  const Cancel = async (id) => {
+  const CancelStatus = async (id) => {
     try {
       const res = await fetch(`http://localhost:3000/Reservation/${id}`,
         {
@@ -84,10 +92,19 @@ const AdminReservation = () => {
         );
 
       }
+       socket.current.send(JSON.stringify({
+        type:'RESERVATION STATUS UPDATE'
+      }))
     } catch (err) {
       console.log(err);
     }
   };
+
+if(confirm){
+  return <ConfirmationModel id={id} cancelId={cancelId} confirmStatus={confirmStatus} confirm={confirm} setConfirm={setConfirm} type={type} CancelStatus={CancelStatus}/>
+}
+
+
 
   const confirmedCount = reservationData.filter(item => item.state === "Confirmed").length
   const canceledCount = reservationData.filter(item => item.state === "Cancelled").length
@@ -238,18 +255,26 @@ const AdminReservation = () => {
 
               {(customer.state === "Pending") ? (
                 <>
-                  <button
-                    className="w-full sm:flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition"
-                    onClick={() => confirm(customer._id)}
-                  >
-                    ✓ Confirm
-                  </button>
 
                   <button
                     className="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
-                    onClick={() => Cancel(customer._id)}
+                    onClick={() => {setConfirm(true)
+                      setCancelId(customer._id)
+                      setType('cancel')
+                    }}
                   >
                     ✕ Cancel
+                  </button>
+
+                  <button
+                    className="w-full sm:flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition"
+                    // onClick={() => confirm(customer._id)}
+                    onClick={() => {setConfirm(true)
+                      setId(customer._id)
+                      setType('confirm')
+                    }}
+                  >
+                    ✓ Confirm
                   </button>
                 </>
               ) : (

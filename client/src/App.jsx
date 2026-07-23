@@ -39,6 +39,8 @@ function App() {
   const [bell, setBell] = useState(false);
   const [categoryMenu, setCategoryMenu] = useState(false);
   const isAdmin = location.pathname.startsWith("/Admin");
+  const [confirm,setConfirm]=useState(false);
+  const [type,setType]=useState('')
 
   const socket = useRef()
 
@@ -66,6 +68,7 @@ function App() {
   if (loading) {
     return <Loader />
   }
+  console.log(confirm);
 
   if (adminlogin) {
     return <LoginPage setadminlogin={setAdminlogin} adminlogin={adminlogin} />
@@ -91,9 +94,9 @@ function App() {
         <Route path="/Admin" element={<Adminpage bell={bell} setBell={setBell} />}>
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} />} />
-          <Route path="orders" element={<AdminOrders socket={socket} />} />
-          <Route path="reservation" element={<AdminReservation />} />
+          <Route path="menu" element={<AdminMenusection form={form} setForm={setForm} categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} type={type} setType={setType} confirm={confirm} setConfirm={setConfirm} />} />
+          <Route path="orders" element={<AdminOrders socket={socket}/>} />
+          <Route path="reservation" element={<AdminReservation socket={socket} confirm={confirm} setConfirm={setConfirm}  type={type} setType={setType}/>} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
