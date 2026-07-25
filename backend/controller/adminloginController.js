@@ -11,10 +11,17 @@ const {EMAIL,PASSWORD}=process.env
         {expiresIn:"10m"}
     )
     if (email==EMAIL && password==PASSWORD) {
+               console.log(token);
                
             res.status(200).json({
             message:"login succesfull",
             token})
+           res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 10 * 60 * 1000, // 10 minutes
+    sameSite: "lax",
+    path: "/",
+  });
         
     }else{
         res.status(401).json({

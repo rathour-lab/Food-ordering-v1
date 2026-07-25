@@ -89,7 +89,7 @@ if (!document.cookie.includes("token=")) {
             Dashboard
           </NavLink>
 
-          <NavLink to="menu" className={navStyle}>
+          <NavLink to="menu" className={navStyle}> 
             Menu
           </NavLink>
 

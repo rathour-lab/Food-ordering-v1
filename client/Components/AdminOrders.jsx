@@ -60,7 +60,7 @@ const AdminOrders = ({socket}) => {
 
   const selector=order.filter((item)=>{if (selectorvalue=='All') {
     return order
-  }else if (item.orderStatus===`${selectorvalue}`) {
+  }else if (item.orderStatus===selectorvalue) {
     return item
   }
 });
