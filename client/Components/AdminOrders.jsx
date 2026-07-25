@@ -386,9 +386,17 @@ const AdminOrders = ({socket}) => {
             className="w-full rounded-xl border-2 border-orange-300 bg-orange-50 px-4 py-3 text-sm font-semibold text-orange-600 outline-none focus:border-orange-500"
           >
             {statusOptions.map((status) => (
-              <option key={status.title} value={status.title}>
-                {status.title}
-              </option>
+              <option
+  key={status.title}
+  value={status.title}
+  disabled={
+    status.title === "Update Status" ||
+    statusOptions.findIndex((item) => item.title === status.title) <
+      statusOptions.findIndex((item) => item.title === food.orderStatus)
+  }
+>
+  {status.title}
+</option>
             ))}
           </select>
         </div>

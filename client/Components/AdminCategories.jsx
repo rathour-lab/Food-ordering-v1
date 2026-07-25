@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
+import ConfirmationModel from './confirmationModel'
 
-function AdminCategories({categoryMenu,setCategoryMenu,categoryData}) {
+function AdminCategories({categoryMenu,setCategoryMenu,categoryData,confirm,setConfirm,type,setType}) {
 
     const [category,setCategory]=useState('')
     const [getCategory,setGetCategory]=useState([])
+    const [itemId,setItemId]=useState(null)
     
 
 useEffect(()=>{
@@ -83,7 +85,12 @@ const dltCategory = async(id) =>{
         </span>
 
         <button className="text-red-500 hover:text-red-600">
-          <FaTrash className='cursor-pointer' onClick={()=>dltCategory(item._id)}/>
+          {/* <FaTrash className='cursor-pointer' onClick={()=>dltCategory(item._id)}/> */}
+          <FaTrash className='cursor-pointer'
+           onClick={()=>{setConfirm(true)
+                setType('category')
+                setItemId(item._id)
+          }}/>
         </button> 
       </li>
     ))}
@@ -98,6 +105,7 @@ const dltCategory = async(id) =>{
     </div>
     </div>
 </div>
+{confirm && (<ConfirmationModel confirm={confirm} setConfirm={setConfirm} dltCategory={dltCategory} type={type} setType={setType} setItemId={setItemId} itemId={itemId}/>)}
     </>
   )
 }

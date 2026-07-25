@@ -36,9 +36,6 @@ function Menupage({ socket }) {
   }, [pageNumber]);
 
   const handleAddToCart = async (food) => {
-
-   
-
     setAddedItems((prev) => [...prev, food._id]);
 
     setTimeout(() => {
@@ -224,6 +221,7 @@ function Menupage({ socket }) {
 
         <div className='py-12 pb-10 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3  lg:grid-cols-4  gap-18 md:gap-10 md:pb-5 px-6  lg:px-22 lg:pb-12 '>
           {find.map((food) => {
+            
             return (
               <div
                 key={food._id}
@@ -287,7 +285,7 @@ function Menupage({ socket }) {
                   </div>
 
                   {/* Button */}
-                  <button
+                 {food.isAvailable === true ?  <button
                     onClick={() => handleAddToCart(food)}
                     disabled={addedItems.includes(food._id)}
                     className={`w-full mt-6 py-3 rounded-full font-bold transition-all duration-300 ${addedItems.includes(food._id)
@@ -299,6 +297,13 @@ function Menupage({ socket }) {
                       ? "✓ Added to Cart"
                       : "🛒 Add to Cart"}
                   </button>
+                  : <button
+  disabled
+  className="w-full mt-6 py-3 rounded-full font-bold bg-gradient-to-r from-gray-400 to-gray-500 text-white cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
+>
+  <span>🚫</span>
+  <span>Currently Unavailable</span>
+</button>}
                 </div>
               </div>
             );

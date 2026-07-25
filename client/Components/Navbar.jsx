@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCar, FaCheck, FaChevronDown, FaClock, FaDropbox, FaRegCalendar, FaRegCalendarAlt, FaRegCalendarPlus, FaRegCalendarTimes, FaRoad, FaUserShield } from "react-icons/fa";
+import { FaCar, FaCheck, FaChevronDown, FaClock, FaDropbox, FaRegCalendar, FaRegCalendarAlt, FaRegCalendarPlus, FaRegCalendarTimes, FaRoad, FaTimes, FaUserShield } from "react-icons/fa";
 import { Link, NavLink, useFetcher } from "react-router-dom";
 
 import logo from "../src/assets/logo.png";
@@ -18,21 +18,21 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
     const [orderStatus, setOrderStatus] = useState([])
     const [sidebar, setSidebar] = useState(false);
     const [ATC_data, setATC_data] = useState([]);
-   const [expandedOrder, setExpandedOrder] = useState(null);
+    const [expandedOrder, setExpandedOrder] = useState(null);
 
-const statusStyles = {
-  "Order Placed": "bg-orange-100 text-orange-700",
-  "Confirmed": "bg-blue-100 text-blue-700",
-  "Preparing": "bg-yellow-100 text-yellow-700",
-  "Ready for Pickup": "bg-purple-100 text-purple-700",
-  "Out for Delivery": "bg-indigo-100 text-indigo-700",
-  "Delivered": "bg-green-100 text-green-700",
-};
+    const statusStyles = {
+        "Order Placed": "bg-orange-100 text-orange-700",
+        "Confirmed": "bg-blue-100 text-blue-700",
+        "Preparing": "bg-yellow-100 text-yellow-700",
+        "Ready for Pickup": "bg-purple-100 text-purple-700",
+        "Out for Delivery": "bg-indigo-100 text-indigo-700",
+        "Delivered": "bg-green-100 text-green-700",
+    };
 
     const totalPrice = ATC_data.reduce((total, cart) => {
         return total + cart.item.price * cart.item.quantity;
     }, 0);
-   
+
     const location = useLocation();
     let navigator = useNavigate()
     useEffect(() => {
@@ -94,27 +94,27 @@ const statusStyles = {
     }, []);
     // orders status                      ////////////////////////////////
     async function Status() {
-            const userId = localStorage.getItem("userId");
+        const userId = localStorage.getItem("userId");
 
-            let res = await fetch(
-                `http://localhost:3000/showStatusOrders/${userId}`
-            );
-            let data = await res.json();
-            setOrderStatus(data.data)
+        let res = await fetch(
+            `http://localhost:3000/showStatusOrders/${userId}`
+        );
+        let data = await res.json();
+        setOrderStatus(data.data)
 
-                // console.log(orderStatus.map((cart)=>{
-                //       return cart.cartItems.map((item)=>{
-                //     return item
-                // })
-                // }));
-                
-            // console.log(orderStatus.data.map((item)=>{
-            //     return item._id,item.orderStatus
-            // }));
+        // console.log(orderStatus.map((cart)=>{
+        //       return cart.cartItems.map((item)=>{
+        //     return item
+        // })
+        // }));
 
-        }
+        // console.log(orderStatus.data.map((item)=>{
+        //     return item._id,item.orderStatus
+        // }));
+
+    }
     useEffect(() => {
-        
+
         Status();
     }, [])
 
@@ -126,26 +126,26 @@ const statusStyles = {
         setATC_data(data);
 
     }
-    
-  socket.current.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-            console.log(data.type);
-            
-    switch (data.type) {
-        case "CartItem_ADD":
-            getCartItem();
-            break;
 
-        case "Order_added":
-            Status();
-            break;
+    socket.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log(data.type);
 
-        default:
-            break;
-    }
-};
-     
-    
+        switch (data.type) {
+            case "CartItem_ADD":
+                getCartItem();
+                break;
+
+            case "Order_added":
+                Status();
+                break;
+
+            default:
+                break;
+        }
+    };
+
+
 
     return (
         <div
@@ -241,9 +241,9 @@ const statusStyles = {
 
 
                     <button onClick={() => {
-    setStatus(prev => !prev);
-    setCart(false);
-}}
+                        setStatus(prev => !prev);
+                        setCart(false);
+                    }}
                         className="relative
                         flex items-center
                         gap-2
@@ -260,166 +260,163 @@ const statusStyles = {
                     >
                         <FaClipboardCheck />
                         Status
-</button>
-                    
-                        <div className={`${status==false ? 'hidden' : 'block'} absolute  text-black  py-5 px-5 flex flex-col justify-center top-25 right-90 `}>
-                            <div className="bg-white rounded-2xl shadow-lg p-6 w-140 h-120 overflow-y-auto scrollbar-thin">
-                                <h2 className="text-xl font-bold mb-6 text-gray-800">
-                                    Order Status
-                                </h2>
-                                {orderStatus.length===0 ? (<><div className="flex flex-col items-center justify-center py-12 px-6 text-center">
-    <div className="text-6xl mb-4">📦</div>
+                    </button>
 
-    <h2 className="text-xl font-bold text-gray-800">
-      No Orders Yet
-    </h2>
-
-    <p className="text-gray-500 mt-2 max-w-xs">
-      Looks like you haven't placed any orders yet.
-      Once you order something, its status will appear here.
-    </p>
-
-    <Link
-      to="/Menu"
-      
-      className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium transition"
-    >
-      🍔 Browse Menu
-    </Link>
-  </div></>)
-                                :
-                                
-
-                                    orderStatus.map((order) => (
-  <div
-    key={order._id}
-    className="mb-5 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-lg"
-  >
-    {/* Header */}
-    <div className="flex items-center justify-between p-5">
-      <div>
-        <p className="text-xs uppercase tracking-wider text-gray-400">
-          Order ID
-        </p>
-
-        <h2 className="font-semibold text-gray-800">
-          #{order._id.slice(-6)}
-        </h2>
-
-        <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
-          <span>
-            📅 {new Date(order.createdAt).toLocaleDateString("en-IN")}
-          </span>
-
-          <span>
-            🕒 {new Date(order.createdAt).toLocaleTimeString("en-IN")}
-          </span>
-        </div>
-      </div>
-
-      <div className="flex flex-col items-end gap-3">
-        <span
-          className={`rounded-full px-4 py-1 text-xs font-semibold ${
-            statusStyles[order.orderStatus]
-          }`}
-        >
-          {order.orderStatus}
-        </span>
-
-        <button
-          onClick={() =>
-            setExpandedOrder(
-              expandedOrder === order._id ? null : order._id
-            )
-          }
-          className="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-600 transition hover:bg-orange-100"
-        >
-          {expandedOrder === order._id ? "Hide Items" : "View Items"}
-
-          <FaChevronDown
-            className={`transition-transform duration-300 ${
-              expandedOrder === order._id ? "rotate-180" : ""
-            }`}
-          />
-        </button>
-      </div>
-    </div>
-
-    {/* Body */}
-    {expandedOrder === order._id && (
-      <div className="border-t bg-gray-50 p-5">
-        <div className="space-y-4">
-          {order.cartItems.map((item) => (
-            <div
-              key={item._id}
-              className="flex items-center justify-between rounded-xl bg-white p-4 shadow-sm"
-            >
-              <div className="flex items-center gap-4">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="h-16 w-16 rounded-lg object-cover"
-                />
-
-                <div>
-                  <h3 className="font-semibold text-gray-800">
-                    {item.name}
-                  </h3>
-
-                  <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-right">
-                <p className="text-sm text-gray-500">
-                  Qty
-                </p>
-
-                <p className="font-bold text-orange-600">
-                  × {item.quantity}
-                </p>
-
-                <p className="mt-2 font-semibold text-gray-800">
-                  ₹{item.price}
-                </p>
-
-                <p className="text-sm font-bold text-green-600">
-                  ₹{item.price * item.quantity}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 flex items-center justify-between border-t pt-4">
-          <span className="text-lg font-semibold text-gray-700">
-            Grand Total
-          </span>
-
-          <span className="text-2xl font-bold text-orange-600">
-            ₹{order.grandTotal}
-          </span>
-        </div>
-      </div>
-    )}
-  </div>
-))}
-                                
-                            
-
-
+                    <div className={`${status == false ? 'hidden' : 'block'} absolute  text-black  py-5 px-5 flex flex-col justify-center top-25 right-90 `}>
+                        <div className="bg-white rounded-2xl shadow-lg p-6 w-140 h-120 overflow-y-auto scrollbar-thin">
+                            <div className="flex ">
+                                <h2 className="flex-1 text-xl font-bold mb-6 text-gray-800">
+                                Order Status
+                            </h2>
+                            <div onClick={()=>{setStatus(false)}}><FaTimes className="self-center size-6 cursor-pointer"/></div>
                             </div>
+                            {orderStatus.length === 0 ? (<><div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+                                <div className="text-6xl mb-4">📦</div>
+
+                                <h2 className="text-xl font-bold text-gray-800">
+                                    No Orders Yet
+                                </h2>
+
+                                <p className="text-gray-500 mt-2 max-w-xs">
+                                    Looks like you haven't placed any orders yet.
+                                    Once you order something, its status will appear here.
+                                </p>
+
+                                <Link
+                                    to="/Menu"
+
+                                    className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium transition"
+                                >
+                                    🍔 Browse Menu
+                                </Link>
+                            </div></>)
+                                :
+
+
+                                orderStatus.map((order) => (
+                                    <div
+                                        key={order._id}
+                                        className="mb-5 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-lg"
+                                    >
+                                        {/* Header */}
+                                        <div className="flex items-center justify-between p-5">
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wider text-gray-400">
+                                                    Order ID
+                                                </p>
+
+                                                <h2 className="font-semibold text-gray-800">
+                                                    #{order._id.slice(-6)}
+                                                </h2>
+
+                                                <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500">
+                                                    <span>
+                                                        📅 {new Date(order.createdAt).toLocaleDateString("en-IN")}
+                                                    </span>
+
+                                                    <span>
+                                                        🕒 {new Date(order.createdAt).toLocaleTimeString("en-IN")}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-col items-end gap-3">
+                                                <span
+                                                    className={`rounded-full px-4 py-1 text-xs font-semibold ${statusStyles[order.orderStatus]
+                                                        }`}
+                                                >
+                                                    {order.orderStatus}
+                                                </span>
+
+                                                <button
+                                                    onClick={() =>
+                                                        setExpandedOrder(
+                                                            expandedOrder === order._id ? null : order._id
+                                                        )
+                                                    }
+                                                    className="flex items-center gap-2 rounded-lg border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-600 transition hover:bg-orange-100"
+                                                >
+                                                    {expandedOrder === order._id ? "Hide Items" : "View Items"}
+
+                                                    <FaChevronDown
+                                                        className={`transition-transform duration-300 ${expandedOrder === order._id ? "rotate-180" : ""
+                                                            }`}
+                                                    />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Body */}
+                                        {expandedOrder === order._id && (
+                                            <div className="border-t bg-gray-50 p-5">
+                                                <div className="space-y-4">
+                                                    {order.cartItems.map((item) => (
+                                                        <div
+                                                            key={item._id}
+                                                            className="flex items-center justify-between rounded-xl bg-white p-4 shadow-sm"
+                                                        >
+                                                            <div className="flex items-center gap-4">
+                                                                <img
+                                                                    src={item.image}
+                                                                    alt={item.name}
+                                                                    className="h-16 w-16 rounded-lg object-cover"
+                                                                />
+
+                                                                <div>
+                                                                    <h3 className="font-semibold text-gray-800">
+                                                                        {item.name}
+                                                                    </h3>
+
+                                                                    <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                                                                        {item.description}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="text-right">
+                                                                <p className="text-sm text-gray-500">
+                                                                    Qty
+                                                                </p>
+
+                                                                <p className="font-bold text-orange-600">
+                                                                    × {item.quantity}
+                                                                </p>
+
+                                                                <p className="mt-2 font-semibold text-gray-800">
+                                                                    ₹{item.price}
+                                                                </p>
+
+                                                                <p className="text-sm font-bold text-green-600">
+                                                                    ₹{item.price * item.quantity}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                                <div className="mt-6 flex items-center justify-between border-t pt-4">
+                                                    <span className="text-lg font-semibold text-gray-700">
+                                                        Grand Total
+                                                    </span>
+
+                                                    <span className="text-2xl font-bold text-orange-600">
+                                                        ₹{order.grandTotal}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
                         </div>
-                    
+                    </div>
+
                 </ul>
 
                 <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
 
                     <div className="flex items-center gap-3 md:gap-4">
-                        <div className={`relative ${location.pathname=='/Cart'?'hidden':'block'
-                        }`} >
+                        <div className={`relative ${location.pathname == '/Cart' ? 'hidden' : 'block'
+                            }`} >
 
                             <div className="absolute z-10 -top-2 -right-2 h-5 w-5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold flex items-center justify-center">
                                 {totalQuantity}
@@ -472,7 +469,7 @@ const statusStyles = {
                                             🛒 Your Cart
                                         </h3>
                                         <p className="text-sm text-gray-500">
-                                            {totalQuantity} { totalQuantity > 1 ? "items":'item'} 
+                                            {totalQuantity} {totalQuantity > 1 ? "items" : 'item'}
                                         </p>
                                     </div>
 
@@ -531,9 +528,9 @@ const statusStyles = {
 
                                         <Link to="/Cart">
                                             <button
-                                                
 
-                                                
+
+
                                                 className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-300"
                                             >
                                                 Go to Cart →
@@ -547,9 +544,9 @@ const statusStyles = {
 
                             <img
                                 onClick={() => {
-    setCart(prev => !prev);
-    setStatus(false);
-}}
+                                    setCart(prev => !prev);
+                                    setStatus(false);
+                                }}
                                 className="h-7 sm:h-8 cursor-pointer hover:scale-110 transition duration-300"
                                 src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
                                 alt="cart"
@@ -568,24 +565,24 @@ const statusStyles = {
                                 <div className="bg-white absolute top-14 h-125 w-2xs -right-4  transition-all  duration-300 rounded-s-3xl px-3 pb-4 pt-2 flex flex-col  ">
                                     <div className="relative mb-6">
 
-  {/* Logo */}
-  <div className="flex items-center gap-3">
+                                        {/* Logo */}
+                                        <div className="flex items-center gap-3">
 
-    <div className="ps-2">
-      <h2 className="text-2xl font-extrabold text-gray-800 tracking-wide">
-        Hunger
-        <span className="text-orange-500">Town</span>
-      </h2>
+                                            <div className="ps-2">
+                                                <h2 className="text-2xl font-extrabold text-gray-800 tracking-wide">
+                                                    Hunger
+                                                    <span className="text-orange-500">Town</span>
+                                                </h2>
 
-      <p className="text-xs text-gray-400">
-        Fresh • Fast • Delicious
-      </p>
-    </div>
+                                                <p className="text-xs text-gray-400">
+                                                    Fresh • Fast • Delicious
+                                                </p>
+                                            </div>
 
-    {/* Close Button */}
-    <button
-      onClick={() => setSidebar(false)}
-      className="
+                                            {/* Close Button */}
+                                            <button
+                                                onClick={() => setSidebar(false)}
+                                                className="
         ml-auto
         w-10 h-10
         rounded-xl
@@ -597,16 +594,16 @@ const statusStyles = {
         hover:rotate-90
         transition-all duration-300
       "
-    >
-      ✕
-    </button>
+                                            >
+                                                ✕
+                                            </button>
 
-  </div>
+                                        </div>
 
-  {/* Divider */}
-  <div className="mt-5 h-[2px] w-full bg-gradient-to-r from-orange-500 via-orange-200 to-transparent rounded-full"></div>
+                                        {/* Divider */}
+                                        <div className="mt-5 h-[2px] w-full bg-gradient-to-r from-orange-500 via-orange-200 to-transparent rounded-full"></div>
 
-</div>
+                                    </div>
                                     <ul className="  text-lg font-semibold pt-5   *:space-y-4 flex-1">
 
                                         <NavLink

@@ -1,10 +1,19 @@
 import React from 'react'
 
-function ConfirmationModel({id,confirmStatus, setConfirm,confirm,type,CancelStatus,cancelId}) {
+function ConfirmationModel(
+  {id,confirmStatus, setConfirm,confirm,CancelStatus,cancelId,dltId,deleteItem, dltCategory,type,setType,setItemId,itemId,placeOrder}) {
 
   console.log(type);
   const modalContent = () => {
   switch (type) {
+    case "edit":
+  return {
+    title: "Edit Menu Item",
+    subtitle: "Please review your changes before updating.",
+    message: "Are you sure you want to update this menu item?",
+    warning: "The changes will be saved immediately."
+  };
+
     case "dlt":
       return {
         title: "Delete Menu Item",
@@ -29,6 +38,22 @@ function ConfirmationModel({id,confirmStatus, setConfirm,confirm,type,CancelStat
         warning: "This action cannot be undone."
       };
 
+      case "category":
+  return {
+    title: "Delete Category",
+    subtitle: "Please confirm before deleting this category.",
+    message: "Are you sure you want to delete this category?",
+    warning: "This action cannot be undone. All menu items linked to this category may be affected."
+  };
+
+  case "Order":
+  return {
+    title: "Place Your Order",
+    subtitle: "Ready to enjoy your meal?",
+    message: "Do you want to place this order now?",
+    warning: "After confirmation, the restaurant will start preparing your order."
+  };
+
     default:
       return {
         title: "",
@@ -42,6 +67,34 @@ function ConfirmationModel({id,confirmStatus, setConfirm,confirm,type,CancelStat
 };
 
 const content = modalContent();
+
+const handleConfirm  = () => {
+  switch (type) {
+    case 'category':
+         dltCategory(itemId);
+      break; 
+   
+      case 'dlt':
+         deleteItem(dltId);
+      break; 
+      
+      case 'cancel':
+        CancelStatus(cancelId)
+      break;
+
+       case 'confirm':
+        confirmStatus(id)
+      break;
+
+       case 'Order':
+        placeOrder()
+      break;  
+
+    default:
+      break;
+  }
+}
+
 
   return (
     <>
@@ -86,28 +139,20 @@ const content = modalContent();
 
       <button
         className="rounded-lg border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-100 cursor-pointer"
-        onClick={()=> setConfirm(!confirm)}
+        onClick={()=>setConfirm(false)}
       >
         Cancel
       </button>
 
-      {type === "confirm" ?<button
+       <button
         className="rounded-lg bg-orange-500 px-5 py-2.5 font-medium text-white transition hover:bg-orange-600 cursor-pointer"
-      onClick={()=>{confirmStatus(id)
-         setConfirm(!confirm)
+      onClick={()=>{handleConfirm()
+         setConfirm(false)
+         
       }}
      >
         Confirm
       </button>
-        :
-      <button
-        className="rounded-lg bg-orange-500 px-5 py-2.5 font-medium text-white transition hover:bg-orange-600 cursor-pointer"
-      onClick={()=>{CancelStatus(cancelId)
-         setConfirm(!confirm)
-      }}
-     >
-        Confirm
-      </button>}
 
     </div>
 

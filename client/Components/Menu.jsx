@@ -155,7 +155,7 @@ socket.current.send(JSON.stringify({
                   </div>
 
                   {/* Button */}
-                  <button
+                  {food.isAvailable === true ?  <button
                     onClick={() => handleAddToCart(food)}
                     disabled={addedItems.includes(food._id)}
                     className={`w-full mt-6 py-3 rounded-full font-bold transition-all duration-300 ${addedItems.includes(food._id)
@@ -167,6 +167,13 @@ socket.current.send(JSON.stringify({
                       ? "✓ Added to Cart"
                       : "🛒 Add to Cart"}
                   </button>
+                  : <button
+  disabled
+  className="w-full mt-6 py-3 rounded-full font-bold bg-gradient-to-r from-gray-400 to-gray-500 text-white cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
+>
+  <span>🚫</span>
+  <span>Currently Unavailable</span>
+</button>}
                 </div>
               </div>
             );

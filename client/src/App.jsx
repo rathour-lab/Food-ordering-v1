@@ -84,7 +84,7 @@ function App() {
       />}
       <Routes >
         <Route path="/" element={<HomeSection socket={socket} />} />
-        <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack} />} />
+        <Route path="/Cart" element={<Cart userId={myId} setStatus={setStatus} statusTrack={statusTrack} confirm={confirm} setConfirm={setConfirm}  type={type} setType={setType}  />} />
         <Route path="/Checkout" element={<CheckoutModal setBell={setBell} />} />
 
         <Route path="/Menu" element={<Menupage socket={socket} />} />

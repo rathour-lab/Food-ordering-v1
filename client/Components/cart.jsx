@@ -4,7 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import swal from 'sweetalert2';
 import CheckoutModal from './CheckOutPage';
 
-const Cart = ({ setStatus, statusTrack }) => {
+const Cart = ({ setStatus, statusTrack ,confirm,
+  setConfirm,
+  type,
+  setType}) => {
   const [CartItem, setCartItem] = useState([])
 
 
@@ -181,7 +184,7 @@ const Cart = ({ setStatus, statusTrack }) => {
   const [open, setOpen] = useState(false);
   if (open) {
     return (
-      <CheckoutModal open={open} setOpen={setOpen} handelCheckout={handelCheckout} grandTotal={grandTotal} />
+      <CheckoutModal open={open} setOpen={setOpen} handelCheckout={handelCheckout} grandTotal={grandTotal} confirm={confirm} setConfirm={setConfirm} type={type} setType={setType} />
     )
   }
   return (

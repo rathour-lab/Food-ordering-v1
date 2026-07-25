@@ -10,13 +10,18 @@ import {
 import { MdDeliveryDining } from "react-icons/md";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import ConfirmationModel from "./confirmationModel";
 
 export default function CheckoutModal({
   open,
   setOpen,
   handelCheckout,
   grandTotal,
-  setBell
+  setBell,
+  confirm,
+  setConfirm,
+  type,
+  setType
 }) {
   const deliveryCharge =
     grandTotal >= 500 ? 0 : 40;
@@ -60,6 +65,13 @@ export default function CheckoutModal({
 
   const placeOrder = () => {
 
+    handelCheckout(form);
+
+    setOpen(false);
+  };
+
+  const alert = ()=>{
+
     if (
       !form.name ||
       !form.phone ||
@@ -83,11 +95,7 @@ export default function CheckoutModal({
       });
       return;
     }
-
-    handelCheckout(form);
-
-    setOpen(false);
-  };
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/50 backdrop-blur-sm p-4">
@@ -139,15 +147,18 @@ export default function CheckoutModal({
                 value={form.name}
                 onChange={handleChange}
                 className="border rounded-xl p-4"
+                required
               />
 
               <input
-                type="number"
+                type="tel"
                 placeholder="Phone Number"
                 name="phone"
                 value={form.phone}
+                maxLength={10}
                 onChange={handleChange}
                 className="border rounded-xl p-4"
+                 required
               />
 
               <input
@@ -157,6 +168,7 @@ export default function CheckoutModal({
                 value={form.email}
                 onChange={handleChange}
                 className="border rounded-xl p-4 md:col-span-2"
+                 required
               />
 
             </div>
@@ -182,6 +194,7 @@ export default function CheckoutModal({
               value={form.address}
               onChange={handleChange}
               className="border rounded-xl w-full p-4"
+               required
             />
 
             <div className="grid md:grid-cols-2 gap-4 mt-4">
@@ -193,15 +206,18 @@ export default function CheckoutModal({
                 value={form.city}
                 onChange={handleChange}
                 className="border rounded-xl p-4"
+                 required
               />
 
               <input
-                type="number"
+                type="tel"
                 placeholder="Pincode"
                 name="pincode"
                 value={form.pincode}
+                maxLength={6}
                 onChange={handleChange}
                 className="border rounded-xl p-4"
+                 required
               />
 
             </div>
@@ -473,7 +489,17 @@ export default function CheckoutModal({
           </div>
 
           <button
-            onClick={placeOrder}
+            // onClick={placeOrder}
+            onClick={()=>{if ( !form.name ||
+      !form.phone ||
+      !form.address ||
+      !form.city ||
+      !form.pincode) {
+              return alert()
+            } 
+            else{setConfirm(true)
+              setType('Order')
+            }}}
             className="bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-105 duration-300 text-white px-12 py-4 rounded-full text-lg font-semibold shadow-lg"
           >
             🍽️ Place Order
@@ -482,7 +508,7 @@ export default function CheckoutModal({
         </div>
 
       </div>
-
+      {confirm === true && (<ConfirmationModel placeOrder={placeOrder} type={type} setType={setType} confirm={confirm} setConfirm={setConfirm}  />)}
     </div>
   );
 }

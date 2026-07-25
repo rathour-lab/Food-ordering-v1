@@ -5,6 +5,7 @@ import { FaHeart, FaPlus } from 'react-icons/fa';
 import AdminCategories from './AdminCategories';
 import confirmationModel from './confirmationModel'
 import ConfirmationModel from './confirmationModel';
+import { Link } from 'react-router-dom';
 
 const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,setType ,confirm,setConfirm}) => {
 
@@ -17,7 +18,17 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
   const [countCategory, setCountCategory] = useState(0);
   const [search, setSearch] = useState("")
   const [pageNumber,setPageNumber]=useState(1);
-  const [totalPages,setTotalPages]=useState(1)
+  const [totalPages,setTotalPages]=useState(1);
+  const [dltId,setDltId]=useState(null)
+  const [status,setStatus]=useState(null)
+
+  const show = menu.filter((item)=>{if (status === null) {
+    return menu
+  }
+else if (item.isAvailable === status) {
+  return item
+}
+})
 
   useEffect(() => {
     const getMenu = async () => {
@@ -74,18 +85,15 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
     setEditData(food)
   }
 
+
   const find = menu.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase()) || item.category.toLowerCase().includes(search.toLowerCase()))
 
 
   if (form) {
-    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} updateId={updateId} setUpdateId={setUpdateId} />
+    return <Admin form={form} setForm={setForm} editData={editData} setEditData={setEditData} updateId={updateId} setUpdateId={setUpdateId} confirm={confirm} setConfirm={setConfirm}/>
   }
   if (categoryMenu) {
-    return <AdminCategories categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} categoryData={categoryData} />
-  }
-
-  if (confirm) {
-    return <ConfirmationModel type={type} setConfirm={setConfirm}/>
+    return <AdminCategories categoryMenu={categoryMenu} setCategoryMenu={setCategoryMenu} categoryData={categoryData} type={type} setType={setType} confirm={confirm}  setConfirm={setConfirm} />
   }
 
   const Available = menu.filter(item => item.isAvailable === true).length
@@ -183,7 +191,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 *:bg-white *:rounded-2xl">
-          <div className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          <div onClick={()=>setStatus(null)} className=' px-1 py-4 w-full flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 cursor-pointer'>
             <div className='self-center'> <img width="48" height="48" src="https://img.icons8.com/?size=100&id=24555&format=png&color=FD7E14" alt="ticket-confirmed" /></div>
             <div>
               <h1 className="font-bold text-sm text-gray-700">  Total Menu Item</h1>
@@ -191,7 +199,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
               <p className="font-bold text-sm text-gray-700"> Available on Menu</p>
             </div>
           </div>
-          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          <div onClick={()=>setStatus(true)} className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 cursor-pointer'>
             <div className='self-center'><img width="48" height="48" className='' src="https://img.icons8.com/?size=100&id=bmIB2pcxPHgU&format=png&color=FD7E14" alt="data-pending" /></div>
             <div>
               <h1 className='font-bold text-sm text-gray-700'>Available Items</h1>
@@ -199,7 +207,8 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
               <p className='font-bold text-sm text-gray-700'>Ready to order</p>
             </div>
           </div>
-          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          
+          <div  className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 '>
             <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=2828&format=png&color=FD7E14" alt="ticket-confirmed" /></div>
             <div>
               <h1 className='font-bold text-sm text-gray-700'> Categories</h1>
@@ -207,7 +216,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
               <p className='font-bold text-sm text-gray-700'>Food categories</p>
             </div>
           </div>
-          <div className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100'>
+          <div onClick={()=>setStatus(false)} className=' px-1 py-4 w-full  flex justify-evenly "bg-white rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 cursor-pointer'>
             <div className='self-center'><img width="48" height="48" src="https://img.icons8.com/?size=100&id=Zg39Op7xYb6E&format=png&color=FD7E14" alt="checked-truck" /></div>
             <div>
               <h1 className='font-bold text-sm text-gray-700'>Out of Stock</h1>
@@ -219,8 +228,8 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-5">
-          {find.map((food) => {
-            return <div className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
+          {show.map((food) => {
+            return <div key={find._id} className="bg-white rounded-3xl border border-orange-100 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden ">
 
               {/* Food Image */}
               <div className="relative">
@@ -282,7 +291,7 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3">
 
-                  <button className="w-full sm:flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+                  <button className="w-full sm:flex-1 hover:cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
                     onClick={() => {
                       edit(food)
                     }}
@@ -290,10 +299,11 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
                     ✏️ Edit
                   </button>
 
-                  <button className="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
-                    onClick={() => {setConfirm(true)
+                  <button className="w-full sm:flex-1 hover:cursor-pointer bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold transition"
+                    onClick={() => {
+                      setConfirm(true)
+                      setDltId(food._id)
                       setType('dlt')
-                      // deleteItem(food._id)
                     }}
                   >
                     🗑 Delete
@@ -377,6 +387,8 @@ const AdminMenusection = ({ form, setForm, categoryMenu, setCategoryMenu, type,s
 
 </div>  
       </section>
+       {confirm && ( <ConfirmationModel type={type} setConfirm={setConfirm} dltId={dltId} setDltId={setDltId} deleteItem={deleteItem} />
+  )}
     </>
   )
 }

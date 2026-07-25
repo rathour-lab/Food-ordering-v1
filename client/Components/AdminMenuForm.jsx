@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FaCross, FaTimes } from 'react-icons/fa';
 
-function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
+function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId,confirm,setConfirm }) {
 
   const [getCategory,setGetCategory]=useState([])
   const [foodDetail, setFoodDetail] = useState({
@@ -198,10 +198,10 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId }) {
             </label>    </div>
 
           <button
-            onClick={()=>{updateId===null ?addFoodItem(): editFoodItem()}}
+            onClick={()=>{updateId===null ?addFoodItem() : editFoodItem() }}
             className="w-full mt-8 bg-[#39364b] text-white py-4 rounded-xl text-lg font-semibold border-2 border-[#39364b] hover:bg-white hover:text-orange-500 hover:border-orange-500 transition-all duration-300"
           >
-            {updateId===null ?'🍔 Add Food Item ': '📝 edit Food Item'}
+            {updateId===null ?'🍔 Add Food Item ': `📝 edit Food Item`}
             
           </button>
 

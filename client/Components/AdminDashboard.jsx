@@ -145,18 +145,18 @@ const AdminDashboard = () => {
           return <tr className="border-b hover:bg-gray-50 transition">
           <td className="px-5 py-4 font-medium">#{item._id.slice(-6)}</td>
           {item.cartItems.map((data) => (
-      <span
+      <p
         key={data._id}
         className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs "
       >
         {data.name}
-      </span>
+      </p>
     ))}
           <td className="px-5 py-4 font-semibold text-green-600">₹{item.grandTotal}</td>
           <td className="px-5 py-4 text-center">
-            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+            <p className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
               {item.orderStatus}
-            </span>
+            </p>
           </td>
         </tr>
         })}
@@ -203,9 +203,9 @@ const AdminDashboard = () => {
           <td className="px-5 py-4">{new Date(info.date).toLocaleDateString("en-IN")}</td>
           <td className="px-5 py-4 hidden md:block">{info.time}</td>
           <td className="px-5 py-4 text-center">
-            <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+            <p className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
               {info.state}
-            </span>
+            </p>
           </td>
         </tr>
        })}
