@@ -3,8 +3,8 @@ import reservation from "../src/assets/ReservationHero.png";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-const Reservation = ({bell,setBell}) => {
-  let navigator=useNavigate()
+const Reservation = ({ bell, setBell }) => {
+  let navigator = useNavigate()
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -13,46 +13,49 @@ const Reservation = ({bell,setBell}) => {
     date: '',
     time: '',
     occasion: '',
-    state:'Pending'
+    state: 'Pending'
   });
+  const today = new Date().toISOString().split("T")[0]
+  console.log(today);
+
 
   const submit = async (e) => {
     e.preventDefault()
     try {
       let res = await fetch('http://localhost:3000/add-Reservation', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    });
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
 
-     if (res.ok) {
-      Swal.fire({
-  icon: "success",
-  title: "🍽️ Table Reserved!",
-  html: `
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "🍽️ Table Reserved!",
+          html: `
     <p>Thank you for your reservation.</p>
     <p>We look forward to serving you!</p>
   `,
-  confirmButtonText: "Awesome!",
-  confirmButtonColor: "#ff8800",
-  timer:"3000"
-});
-setForm({
-  fullName: '',
-    email: '',
-    phone: '',
-    guests: '',
-    date: '',
-    time: '',
-    occasion: ''
-})
-}
-setBell(true)
+          confirmButtonText: "Awesome!",
+          confirmButtonColor: "#ff8800",
+          timer: "3000"
+        });
+        setForm({
+          fullName: '',
+          email: '',
+          phone: '',
+          guests: '',
+          date: '',
+          time: '',
+          occasion: ''
+        })
+      }
+      setBell(true)
     } catch (error) {
       console.log(error);
-      
+
     }
   }
   return (
@@ -85,11 +88,11 @@ setBell(true)
             {/* Buttons */}
             <div className="flex gap-5 mt-10">
 
-              <button onClick={()=>window.scroll(0,640)} className="bg-[#ff8800] hover:bg-orange-600 duration-300 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-orange-300">
+              <button onClick={() => window.scroll(0, 640)} className="bg-[#ff8800] hover:bg-orange-600 duration-300 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-orange-300">
                 🍽️ Book Now
               </button>
 
-              <button onClick={()=>navigator('/Menu')} className="border-2 border-[#ff8800] text-[#ff8800] hover:bg-[#ff8800] hover:text-white duration-300 px-8 py-4 rounded-full font-semibold">
+              <button onClick={() => navigator('/Menu')} className="border-2 border-[#ff8800] text-[#ff8800] hover:bg-[#ff8800] hover:text-white duration-300 px-8 py-4 rounded-full font-semibold">
                 📖 View Menu
               </button>
 
@@ -149,149 +152,152 @@ setBell(true)
         </div>
       </section>
 
-        <div className="bg-[#fff8dd]  py-8 px-5 sm:px-1.5 lg:px-26">
-      <form
-        onSubmit={submit}
-        className="max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl p-8 md:p-12 mb-24 border border-orange-100"
-      >
-        <h2 className="text-4xl font-bold text-center text-[#ff8800] mb-3">
-          Book Your Table
-        </h2>
-
-        <p className="text-center text-gray-500 mb-10">
-          Fill in your details and reserve your table in just a few seconds.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          <div>
-            <label className="block mb-2 font-semibold text-gray-700">
-              Full Name
-            </label>
-            <input
-              type="text"
-              required
-              value={form.fullName}
-              onChange={(e) =>
-                setForm({ ...form, fullName: e.target.value })
-              }
-              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-              placeholder="Enter your name"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 font-semibold text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              required
-              value={form.email}
-              onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
-              }
-              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-              placeholder="example@gmail.com"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 font-semibold text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              required
-              maxLength={10}
-              value={form.phone}
-              onChange={(e) =>
-                setForm({ ...form, phone: e.target.value })
-              }
-              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-              placeholder="9876543210"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 font-semibold text-gray-700">
-              Guests
-            </label>
-            <input
-              type="number"
-              required
-              min="1"
-              value={form.guests}
-              onChange={(e) =>
-                setForm({ ...form, guests: e.target.value })
-              }
-              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-              placeholder="Number of guests"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 font-semibold text-gray-700">
-              Reservation Date
-            </label>
-            <input
-              type="date"
-              required
-              value={form.date}
-              onChange={(e) =>
-                setForm({ ...form, date: e.target.value })
-              }
-              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-            />
-          </div>
-
-
-          <div>
-            <label className="block mb-2 font-semibold text-gray-700">
-              Reservation Time
-            </label>
-            <input
-              type="time"
-              required
-              value={form.time}
-              onChange={(e) =>
-                setForm({ ...form, time: e.target.value })
-              }
-              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-            />
-          </div>
-
-        </div>
-
-        <div className="mt-6">
-          <label className="block mb-2 font-semibold text-gray-700">
-            Occasion
-          </label>
-
-          <select
-            value={form.occasion}
-            onChange={(e) =>
-              setForm({ ...form, occasion: e.target.value })
-            }
-            className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
-          >
-            <option value="">Select Occasion</option>
-            <option>Birthday</option>
-            <option>Anniversary</option>
-            <option>Family Dinner</option>
-            <option>Business Meeting</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full mt-10 bg-[#ff8800] hover:bg-orange-600 text-white py-4 rounded-xl text-lg font-bold transition duration-300 shadow-lg hover:shadow-orange-300"
+      <div className="bg-[#fff8dd]  py-8 px-5 sm:px-1.5 lg:px-26">
+        <form
+          onSubmit={submit}
+          className="max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl p-8 md:p-12 mb-24 border border-orange-100"
         >
-          🍽️ Reserve Now
-        </button>
-      </form>
+          <h2 className="text-4xl font-bold text-center text-[#ff8800] mb-3">
+            Book Your Table
+          </h2>
+
+          <p className="text-center text-gray-500 mb-10">
+            Fill in your details and reserve your table in just a few seconds.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Full Name
+              </label>
+              <input
+                type="text"
+                required
+                value={form.fullName}
+                onChange={(e) =>
+                  setForm({ ...form, fullName: e.target.value })
+                }
+                className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+                placeholder="Enter your name"
+              />
             </div>
+
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) =>
+                  setForm({ ...form, email: e.target.value })
+                }
+                className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+                placeholder="example@gmail.com"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                required
+                maxLength={10}
+                value={form.phone}
+                onChange={(e) =>
+                  setForm({ ...form, phone: e.target.value })
+                }
+                className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+                placeholder="9876543210"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Guests
+              </label>
+              <input
+                type="number"
+                required
+                min="1"
+                value={form.guests}
+                onChange={(e) =>
+                  setForm({ ...form, guests: e.target.value })
+                }
+                className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+                placeholder="Number of guests"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Reservation Date
+              </label>
+              <input
+                type="date"
+                required
+                value={form.date}
+                min={today}
+                onChange={(e) =>
+                  setForm({ ...form, date: e.target.value })
+                }
+                className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+              />
+            </div>
+
+
+            <div>
+              <label className="block mb-2 font-semibold text-gray-700">
+                Reservation Time
+              </label>
+              <input
+                type="time"
+                required
+                min="09:00"
+                max="23:00"
+                value={form.time}
+                onChange={(e) =>
+                  setForm({ ...form, time: e.target.value })
+                }
+                className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+              />
+            </div>
+
+          </div>
+
+          <div className="mt-6">
+            <label className="block mb-2 font-semibold text-gray-700">
+              Occasion
+            </label>
+
+            <select
+              value={form.occasion}
+              onChange={(e) =>
+                setForm({ ...form, occasion: e.target.value })
+              }
+              className="w-full border border-orange-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#ff8800]"
+            >
+              <option value="">Select Occasion</option>
+              <option>Birthday</option>
+              <option>Anniversary</option>
+              <option>Family Dinner</option>
+              <option>Business Meeting</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full mt-10 bg-[#ff8800] hover:bg-orange-600 text-white py-4 rounded-xl text-lg font-bold transition duration-300 shadow-lg hover:shadow-orange-300"
+          >
+            🍽️ Reserve Now
+          </button>
+        </form>
+      </div>
 
       <section id="contact" className="bg-[#fff8dd] pt-20 pb-32 py-8 px-5 sm:px-1.5 lg:px-26">
         <div className="w-8xl mx-auto grid lg:grid-cols-2 gap-22 items-center pb-20">
@@ -382,8 +388,8 @@ setBell(true)
               </div>
 
             </div>
-            </div>
-             </div>
+          </div>
+        </div>
       </section>
     </>
   );
