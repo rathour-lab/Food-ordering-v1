@@ -30,10 +30,11 @@ const LoginPage = ({ setadminlogin, adminlogin }) => {
     });
 
     const data = await response.json();
-
+    
     if (data.token) {
-      document.cookie = `token=${data.token}; max-age=600; path=/`;
-
+      
+     document.cookie = `token=${data.token}; max-age=600; path=/`;
+console.log(document.cookie);
       swal.fire({
         title: "Access Granted ✅",
         text: "Redirecting to the Admin Dashboard...",
