@@ -33,7 +33,7 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId,confir
 
 
   async function addFoodItem() {
-    let response = await fetch('http://localhost:3000/addMenu', {
+    let response = await fetch(`${import.meta.env.VITE_API_URL}/addMenu`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -46,7 +46,7 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId,confir
     setForm(!form)
   }
    const editFoodItem = async()=>{
-    let res= await fetch(`http://localhost:3000/updateMenu/${updateId}`,{
+    let res= await fetch(`${import.meta.env.VITE_API_URL}/updateMenu/${updateId}`,{
       method:'PUT',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify(foodDetail)
@@ -63,7 +63,7 @@ function Admin({ form, setForm, editData,setEditData,updateId,setUpdateId,confir
 
  const getcategoryName = async() =>{
   try {
-    let res = await fetch('http://localhost:3000/get-category');
+    let res = await fetch(`${import.meta.env.VITE_API_URL}/get-category`);
     let data = await res.json();
     setGetCategory(data.data)
   } catch (error) {

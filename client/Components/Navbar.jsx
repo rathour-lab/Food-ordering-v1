@@ -49,7 +49,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
         const cart = ATC_data.find(i => i._id === id);
 
-        await fetch(`http://localhost:3000/cart/${id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/cart/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
         if (cart.item.quantity === 1) return;
 
-        await fetch(`http://localhost:3000/cart/${id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/cart/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -82,6 +82,9 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
     }
     useEffect(() => {
+        const api=import.meta.env.VITE_API_URL;
+        console.log(api);
+        
         const handleScroll = () => {
             setScrolled(window.scrollY > 30);
         };
@@ -97,7 +100,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
         const userId = localStorage.getItem("userId");
 
         let res = await fetch(
-            `http://localhost:3000/showStatusOrders/${userId}`
+            `${import.meta.env.VITE_API_URL}/showStatusOrders/${userId}`
         );
         let data = await res.json();
         setOrderStatus(data.data)
@@ -120,7 +123,7 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
 
     async function getCartItem() {
         let userId = localStorage.getItem('userId')
-        const response = await fetch(`http://localhost:3000/get-cartItem/${userId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/get-cartItem/${userId}`);
         const data = await response.json();
 
         setATC_data(data);

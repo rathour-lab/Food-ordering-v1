@@ -22,7 +22,7 @@ const Reservation = ({ bell, setBell }) => {
   const submit = async (e) => {
     e.preventDefault()
     try {
-      let res = await fetch('http://localhost:3000/add-Reservation', {
+      let res = await fetch(`${import.meta.env.VITE_API_URL}/add-Reservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

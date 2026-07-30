@@ -33,7 +33,7 @@ else if (item.isAvailable === status) {
   useEffect(() => {
     const getMenu = async () => {
       try {
-        let res = await fetch(`http://localhost:3000/menu?page=${pageNumber}`);
+        let res = await fetch(`${import.meta.env.VITE_API_URL}/menu?page=${pageNumber}`);
         let data = await res.json();
         setMenu(data.data);
         setMenuCount(data.count);
@@ -53,7 +53,7 @@ else if (item.isAvailable === status) {
 
   const categoryData = async () => {
     try {
-      let res = await fetch('http://localhost:3000/get-category');
+      let res = await fetch(`${import.meta.env.VITE_API_URL}/get-category`);
       let data = await res.json()
       setCountCategory(data.count)
     } catch (error) {
@@ -67,7 +67,7 @@ else if (item.isAvailable === status) {
       return prev.filter(item => item._id !== id)
     })
     try {
-      let res = await fetch(`http://localhost:3000/removerMenu/${id}`, {
+      let res = await fetch(`${import.meta.env.VITE_API_URL}/removerMenu/${id}`, {
         method: 'DELETE'
       });
 

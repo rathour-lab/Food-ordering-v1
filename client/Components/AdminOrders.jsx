@@ -79,7 +79,7 @@ const AdminOrders = ({socket}) => {
 
   const foodOrder = async () => {
   try {
-        let res = await fetch(`http://localhost:3000/getAdminCartData?page=${pageNumber}`);
+        let res = await fetch(`${import.meta.env.VITE_API_URL}/getAdminCartData?page=${pageNumber}`);
         let data = await res.json();
         setOrder(data.data);
         setOrderCount(data.count)
@@ -93,7 +93,7 @@ const AdminOrders = ({socket}) => {
   const updateOrderStatus = async (id, status) => {
     
     try {
-      let res = await fetch(`http://localhost:3000/order-status/${id}`, {
+      let res = await fetch(`${import.meta.env.VITE_API_URL}/order-status/${id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

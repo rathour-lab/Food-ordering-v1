@@ -33,7 +33,7 @@ const Menu = ({socket}) => {
     
 
     async function getMenu() {
-      let response = await fetch('http://localhost:3000/menu');
+      let response = await fetch(`${import.meta.env.VITE_API_URL}/menu`);
       let data = await response.json();
       setItem(data.data);
 
@@ -52,7 +52,7 @@ const Menu = ({socket}) => {
     }, 3000)
 
 
-    let res = await fetch('http://localhost:3000/get-order', {
+    let res = await fetch(`${import.meta.env.VITE_API_URL}/get-order`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'

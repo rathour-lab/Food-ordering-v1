@@ -31,7 +31,7 @@ const Cart = ({ setStatus, statusTrack ,confirm,
 
     const cart = CartItem.find(i => i._id === id);
 
-    const res = await fetch(`http://localhost:3000/cart/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/cart/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const Cart = ({ setStatus, statusTrack ,confirm,
 
     if (cart.item.quantity === 1) return;
 
-    const res = await fetch(`http://localhost:3000/cart/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/cart/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const Cart = ({ setStatus, statusTrack ,confirm,
       const userId = localStorage.getItem("userId");
 
       const response = await fetch(
-        `http://localhost:3000/get-cartItem/${userId}`
+        `${import.meta.env.VITE_API_URL}/get-cartItem/${userId}`
       );
       const data = await response.json();
 
@@ -121,7 +121,7 @@ const Cart = ({ setStatus, statusTrack ,confirm,
 
   async function deleteItem(id) {
 
-    let response = await fetch(`http://localhost:3000/delete-cartItem/${id}`, {
+    let response = await fetch(`${import.meta.env.VITE_API_URL}/delete-cartItem/${id}`, {
       method: 'DELETE'
     })
     if (response.ok) {
@@ -141,7 +141,7 @@ const Cart = ({ setStatus, statusTrack ,confirm,
 
 
       let res = await fetch(
-        "http://localhost:3000/postAdminCartData",
+        `${import.meta.env.VITE_API_URL}/postAdminCartData`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
