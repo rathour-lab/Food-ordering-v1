@@ -163,11 +163,11 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                     : "rounded-2xl shadow-lg"
                     } px-4 sm:px-6 md:px-8 lg:px-16`}
             >
-                <div>
+                <div className="flex-shrink-0">
   <img
     src={logo}
     alt="logo"
-    className="w-28 h-28 border-4 border-red-500"
+    className="h-16 w-16 md:h-20 md:w-20 rounded-full object-contain"
   />
 </div>
 
