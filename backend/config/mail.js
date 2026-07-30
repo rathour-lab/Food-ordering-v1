@@ -10,13 +10,4 @@ const GmailSMTP = nodemailer.createTransport({
   },
 });
 
-// 👇 EH ADD KAR
-// GmailSMTP.verify((error, success) => {
-//   if (error) {
-//     console.log("SMTP Error:", error);
-//   } else {
-//     console.log("SMTP Ready");
-//   }
-// });
-
 module.exports = GmailSMTP;

@@ -15,7 +15,7 @@ useEffect(()=>{
 
 const categoryDataGet = async() =>{
     try {
-        let res = await fetch('http://localhost:3000/get-category');
+        let res = await fetch(`${import.meta.env.VITE_API_URL}/get-category`);
         let data = await res.json()
         setGetCategory(data.data);
     } catch (error) {
@@ -25,7 +25,7 @@ const categoryDataGet = async() =>{
 
 const addCategory = async() =>{
     try {
-        let res = await fetch("http://localhost:3000/add-category",{
+        let res = await fetch(`${import.meta.env.VITE_API_URL}/add-category`,{
             method:"POST",
             headers:{
             'Content-type':'application/json'
@@ -43,7 +43,7 @@ const addCategory = async() =>{
 
 const dltCategory = async(id) =>{
     try {
-        let res = await fetch(`http://localhost:3000/remove-category/${id}`,{
+        let res = await fetch(`${import.meta.env.VITE_API_URL}/remove-category/${id}`,{
             method:'DELETE'
         })
         categoryDataGet()

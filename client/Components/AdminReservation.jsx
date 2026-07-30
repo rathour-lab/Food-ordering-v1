@@ -33,7 +33,7 @@ const AdminReservation = ({ confirm, Cancel, setConfirm, socket, setType, type }
 
   const showReservation = async () => {
     try {
-      let res = await fetch(`http://localhost:3000/get-Reservation?page=${pageNumber}`);
+      let res = await fetch(`${import.meta.env.VITE_API_URL}/get-Reservation?page=${pageNumber}`);
       let data = await res.json();
       setReservationData(data.data);
       setReservationCount(data.count);
@@ -47,7 +47,7 @@ const AdminReservation = ({ confirm, Cancel, setConfirm, socket, setType, type }
 
   const confirmStatus = async (id) => {
     try {
-      let res = await fetch(`http://localhost:3000/Reservation/${id}`,
+      let res = await fetch(`${import.meta.env.VITE_API_URL}/Reservation/${id}`,
         {
           method: "PUT",
           headers: {
@@ -79,7 +79,7 @@ const AdminReservation = ({ confirm, Cancel, setConfirm, socket, setType, type }
 
   const CancelStatus = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/Reservation/${id}`,
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/Reservation/${id}`,
         {
           method: "PUT",
           headers: {

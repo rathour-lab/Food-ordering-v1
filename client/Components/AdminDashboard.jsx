@@ -18,20 +18,20 @@ const AdminDashboard = () => {
 }, []);
 
   const getDashboard = async() =>{
-    let res = await fetch("http://localhost:3000/dashboard");
+    let res = await fetch(`${import.meta.env.VITE_API_URL}/dashboard`);
     let data = await res.json();
     setDashboard(data)
   }
 
   const getOrder = async() =>{
 
-    let res = await fetch(`http://localhost:3000/getAdminCartData`);
+    let res = await fetch(`${import.meta.env.VITE_API_URL}/getAdminCartData`);
     let data = await res.json();
     setOrder(data.data)
   }
 
   const getReservation = async() =>{
-    let res = await fetch('http://localhost:3000/get-Reservation');
+    let res = await fetch(`${import.meta.env.VITE_API_URL}/get-Reservation`);
     let data = await res.json();
     setReservation(data.data)
   }
