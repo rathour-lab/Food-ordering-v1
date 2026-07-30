@@ -163,13 +163,13 @@ const Navbar = ({ setadminlogin, adminlogin, socket, statusTrack }) => {
                     : "rounded-2xl shadow-lg"
                     } px-4 sm:px-6 md:px-8 lg:px-16`}
             >
-                <div className="-ml-2 sm:-ml-4 md:-ml-7">
-                    <img
-                        className="h-14 sm:h-16 md:h-20 w-auto rounded-full"
-                        src={logo}
-                        alt="logo"
-                    />
-                </div>
+                <div>
+  <img
+    src={logo}
+    alt="logo"
+    className="w-28 h-28 border-4 border-red-500"
+  />
+</div>
 
                 <ul className="hidden md:flex items-center gap-5 lg:gap-8 text-lg font-semibold">
 
