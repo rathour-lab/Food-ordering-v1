@@ -10,7 +10,7 @@ import Reservation from '../Components/Reservation'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/footer'
 import Menupage from '../Pages/MenuPage'
-import Adminpage from '../Components/adminpage'
+import Adminpage from '../Components/Adminpage'
 import Loader from "../Components/Loader";
 import AdminDashboard from '../Components/AdminDashboard';
 import AdminMenusection from '../Components/AdminMenusection';
