@@ -392,6 +392,7 @@ const Reservation = ({ bell, setBell }) => {
         </div>
       </section>
     </>
+    
   );
 };
 
