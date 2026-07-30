@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import reservation from "../src/assets/ReservationHero.png";
+import reservation from "../src/assets/reservationHero.png";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -392,7 +392,7 @@ const Reservation = ({ bell, setBell }) => {
         </div>
       </section>
     </>
-    
+
   );
 };
 
