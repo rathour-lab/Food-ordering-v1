@@ -1,0 +1,35 @@
+name: React CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      TEST_SECRET: ${{ secrets.TEST_SECRET }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Client Dependencies
+        working-directory: ./client
+        run: npm install
+
+      - name: Build React App
+        working-directory: ./client
+        run: npm run build
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Print Secret
+        run: echo $TEST_SECRET 
