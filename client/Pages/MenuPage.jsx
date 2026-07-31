@@ -22,7 +22,7 @@ function Menupage({ socket }) {
   
   async function getMenu() {
     try {
-      const response = await fetch(`http://localhost:3000/menu?page=${pageNumber}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/menu?page=${pageNumber}`);
       const data = await response.json();
       setItem(data.data);
       setTotalPages(data.totalPages)
@@ -43,7 +43,7 @@ function Menupage({ socket }) {
     }, 3000);
 
     try {
-      await fetch("http://localhost:3000/get-order", {
+      await fetch(`${import.meta.env.VITE_API_URL}/get-order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
