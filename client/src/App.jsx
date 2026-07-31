@@ -51,7 +51,7 @@ function App() {
       setLoading(false);
 
     }, 1000);
-    socket.current = new WebSocket('ws://localhost:3000')
+    socket.current = new WebSocket(`ws://${import.meta.env.VITE_API_URL}`)
     socket.current.onopen = () => {
       console.log('ws connected');
     }
