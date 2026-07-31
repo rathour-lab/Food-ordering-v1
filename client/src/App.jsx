@@ -41,7 +41,9 @@ function App() {
   const isAdmin = location.pathname.startsWith("/Admin");
   const [confirm,setConfirm]=useState(false);
   const [type,setType]=useState('')
-
+   const wsUrl = import.meta.env.VITE_API_URL
+  .replace("https://", "wss://")
+  .replace("http://", "ws://");
   const socket = useRef()
 
   useEffect(() => {
@@ -51,7 +53,8 @@ function App() {
       setLoading(false);
 
     }, 1000);
-    socket.current = new WebSocket(`ws://${import.meta.env.VITE_API_URL}`)
+
+socket.current = new WebSocket(wsUrl);
     socket.current.onopen = () => {
       console.log('ws connected');
     }
